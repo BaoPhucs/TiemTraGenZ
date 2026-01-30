@@ -60,15 +60,23 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         isPaused = true;
-        if (pausePanel != null) pausePanel.SetActive(true); // Hiện bảng Pause
-        Time.timeScale = 0; // ĐÓNG BĂNG THỜI GIAN
+        if (pausePanel != null) pausePanel.SetActive(true);
+        Time.timeScale = 0;
+
+        // --- THÊM ĐOẠN NÀY ĐỂ HIỆN CHUỘT ---
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void ResumeGame()
     {
         isPaused = false;
-        if (pausePanel != null) pausePanel.SetActive(false); // Ẩn bảng Pause
-        Time.timeScale = 1; // Thời gian chạy lại
+        if (pausePanel != null) pausePanel.SetActive(false);
+        Time.timeScale = 1;
+
+        // --- THÊM ĐOẠN NÀY ĐỂ GIẤU CHUỘT LẠI ---
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void RestartLevel()
