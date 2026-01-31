@@ -1,98 +1,141 @@
 ﻿using UnityEngine;
-using UnityEngine.AI; // Bắt buộc để dùng NavMesh
+using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class NPC_DiBo_Pro : MonoBehaviour
 {
-    [Header("--- Cấu Hình Đường Đi ---")]
-    public Transform[] waypoints; // Danh sách điểm P1 -> P7
-    public bool loop = true;      // Đi vòng tròn vô tận
+    [Header("--- Cấu Hình Đi Thẳng ---")]
+    public float lookAheadDist = 8f;   // Giảm xuống chút để đỡ tìm điểm quá xa
+    public float sideWander = 3f;      // Tăng lên để nó biết lách rộng hơn
 
     [Header("--- Cấu Hình NPC ---")]
-    public float moveSpeed = 1.5f; // Tốc độ đi bộ (chậm hơn xe)
+    public float moveSpeed = 1.5f;
 
-    [Header("--- Cảm Biến Khẩn Cấp (Tùy chọn) ---")]
-    // NavMeshAgent đã tự né rồi, nhưng thêm cái này để dừng hẳn nếu gặp xe tông
+    [Header("--- Cảm Biến Khẩn Cấp ---")]
     public float rayDistance = 1.0f;
-    public LayerMask layerNguyHiem; // Chọn layer Car/Obstacle
-    public bool isStopping = false;
+    public float rayHeight = 0.15f;
+    public LayerMask layerNguyHiem;
+
+    // --- BIẾN MỚI: XỬ LÝ KẸT ---
+    private float stuckTimer = 0f;     // Đếm thời gian bị đứng im
+    private bool isRecovering = false; // Đang trong chế độ "gỡ kẹt"
 
     private NavMeshAgent agent;
-    private int currentPoint = 0;
+    private Animator anim;
+    private bool isStopping = false;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
 
-        // Cài đặt thông số cho Agent
         agent.speed = moveSpeed;
-        agent.autoBraking = false; // Để đi qua các điểm mượt mà không khựng lại
-        agent.radius = 0.25f;      // Thu nhỏ người lại để dễ lách
+        agent.autoBraking = false;
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance; // Né nhau xịn hơn
 
-        // Bắt đầu đi tới điểm đầu tiên
-        if (waypoints.Length > 0)
-        {
-            agent.SetDestination(waypoints[0].position);
-        }
+        DiTiep();
     }
 
     void Update()
     {
-        if (waypoints.Length == 0) return;
+        UpdateAnimation();
 
-        // 1. CẢM BIẾN (Dừng lại nếu có vật nguy hiểm sát mặt)
+        // 1. CẢM BIẾN (Logic cũ)
         CheckObstacle();
-
         if (isStopping)
         {
-            agent.isStopped = true; // Dừng lại
+            agent.isStopped = true;
+            stuckTimer = 0; // Đang dừng chủ động thì không tính là kẹt
             return;
         }
         else
         {
-            agent.isStopped = false; // Đi tiếp
+            agent.isStopped = false;
         }
 
-        // 2. KIỂM TRA ĐÍCH ĐẾN
-        // Nếu còn cách đích dưới 0.5m và không đang tính toán đường
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        // 2. KIỂM TRA CÓ BỊ KẸT KHÔNG? (Logic Mới)
+        // Nếu vận tốc thực tế < 0.1m/s dù đang không bị lệnh dừng
+        if (agent.velocity.magnitude < 0.1f && !agent.pathPending)
         {
-            GoToNextPoint();
+            stuckTimer += Time.deltaTime;
+
+            // Nếu đứng im quá 0.01 giây -> Kích hoạt gỡ kẹt
+            if (stuckTimer > 0.01f)
+            {
+                GoKet();
+            }
         }
+        else
+        {
+            stuckTimer = 0; // Nếu đi được thì reset bộ đếm
+        }
+
+        // 3. LOGIC ĐI TIẾP
+        // Nếu đã đến điểm gỡ kẹt hoặc điểm đến bình thường
+        if (!agent.pathPending && agent.remainingDistance < 1.5f)
+        {
+            isRecovering = false; // Hết chế độ gỡ kẹt
+            DiTiep();             // Quay lại đi thẳng
+        }
+    }
+
+    void DiTiep()
+    {
+        // Tính điểm phía trước
+        Vector3 duongDiThang = transform.position + transform.forward * lookAheadDist;
+
+        // Random sang hai bên
+        float lechTraiPhai = Random.Range(-sideWander, sideWander);
+        duongDiThang += transform.right * lechTraiPhai;
+
+        NavMeshHit hit;
+        // Kiểm tra xem điểm đó có nằm trên NavMesh không (trong bán kính 5m)
+        if (NavMesh.SamplePosition(duongDiThang, out hit, 5.0f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
+        else
+        {
+            // Nếu điểm phía trước bị lỗi (do rơi xuống vực/hết đường), gọi hàm Gỡ Kẹt ngay
+            GoKet();
+        }
+    }
+
+    // Hàm mới: Tìm đại một điểm gần đó để đi (để thoát khỏi mép tường)
+    void GoKet()
+    {
+        isRecovering = true;
+        stuckTimer = 0;
+
+        // Tìm một điểm ngẫu nhiên trong bán kính 5m (kể cả phía sau lưng)
+        Vector3 randomPoint = transform.position + Random.insideUnitSphere * 5f;
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPoint, out hit, 5f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+            // Debug.Log("Đang gỡ kẹt..."); // Bật cái này nếu muốn test
+        }
+    }
+
+    void UpdateAnimation()
+    {
+        if (anim == null) return;
+        // Lấy vận tốc từ Agent cho chính xác
+        bool dangDiChuyen = agent.velocity.magnitude > 0.1f;
+        anim.SetBool("IsMoving", dangDiChuyen);
     }
 
     void CheckObstacle()
     {
-        // Bắn tia từ bụng NPC ra phía trước
-        Vector3 sensorStart = transform.position + Vector3.up * 0.8f;
-
-        // Vẽ tia đỏ trong Scene để bạn dễ nhìn
-        Debug.DrawRay(sensorStart, transform.forward * rayDistance, Color.red);
-
+        Vector3 sensorStart = transform.position + Vector3.up * rayHeight;
         if (Physics.Raycast(sensorStart, transform.forward, out RaycastHit hit, rayDistance, layerNguyHiem))
         {
             isStopping = true;
-            // (Tùy chọn) Có thể thêm animation sợ hãi tại đây
         }
         else
         {
             isStopping = false;
         }
-    }
-
-    void GoToNextPoint()
-    {
-        // Chuyển sang điểm tiếp theo
-        currentPoint++;
-
-        // Xử lý vòng lặp
-        if (currentPoint >= waypoints.Length)
-        {
-            if (loop) currentPoint = 0; // Quay về P1
-            else return; // Đứng im tại chỗ
-        }
-
-        // Ra lệnh đi
-        agent.SetDestination(waypoints[currentPoint].position);
     }
 }
