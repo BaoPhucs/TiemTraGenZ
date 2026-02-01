@@ -4,21 +4,21 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class NPC_DiBo_Pro : MonoBehaviour
 {
-    [Header("--- Cấu Hình Đi Thẳng ---")]
-    public float lookAheadDist = 8f;   // Giảm xuống chút để đỡ tìm điểm quá xa
-    public float sideWander = 3f;      // Tăng lên để nó biết lách rộng hơn
+    [Header("--- Cấu Hình Đi Lại ---")]
+    public float lookAheadDist = 10f;
+    public float sideWander = 5f;
 
     [Header("--- Cấu Hình NPC ---")]
     public float moveSpeed = 1.5f;
 
-    [Header("--- Cảm Biến Khẩn Cấp ---")]
-    public float rayDistance = 1.0f;
-    public float rayHeight = 0.15f;
-    public LayerMask layerNguyHiem;
+    [Header("--- Cảm Biến (Mắt) ---")]
+    public float rayDistance = 1.5f;   // Nhìn xa hơn chút
+    public float rayHeight = 0.5f;     // Nâng cao tầm mắt lên bụng (đỡ nhìn xuống vỉa hè)
+    public LayerMask layerNguyHiem;    // Chọn Everything
 
-    // --- BIẾN MỚI: XỬ LÝ KẸT ---
-    private float stuckTimer = 0f;     // Đếm thời gian bị đứng im
-    private bool isRecovering = false; // Đang trong chế độ "gỡ kẹt"
+    // --- BIẾN XỬ LÝ KẸT ---
+    private float stuckTimer = 0f;
+    private bool isRecovering = false;
 
     private NavMeshAgent agent;
     private Animator anim;
@@ -31,7 +31,7 @@ public class NPC_DiBo_Pro : MonoBehaviour
 
         agent.speed = moveSpeed;
         agent.autoBraking = false;
-        agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance; // Né nhau xịn hơn
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
 
         DiTiep();
     }
@@ -40,102 +40,115 @@ public class NPC_DiBo_Pro : MonoBehaviour
     {
         UpdateAnimation();
 
-        // 1. CẢM BIẾN (Logic cũ)
+        // 1. CẢM BIẾN THÔNG MINH
         CheckObstacle();
+
+        // Xử lý dừng/chạy
         if (isStopping)
         {
             agent.isStopped = true;
-            stuckTimer = 0; // Đang dừng chủ động thì không tính là kẹt
-            return;
+            agent.velocity = Vector3.zero; // Phanh gấp
         }
         else
         {
             agent.isStopped = false;
         }
 
-        // 2. KIỂM TRA CÓ BỊ KẸT KHÔNG? (Logic Mới)
-        // Nếu vận tốc thực tế < 0.1m/s dù đang không bị lệnh dừng
-        if (agent.velocity.magnitude < 0.1f && !agent.pathPending)
+        // 2. TỰ ĐỘNG GỠ KẸT (NẾU ĐỨNG IM QUÁ LÂU)
+        // Chỉ tính giờ kẹt khi KHÔNG bị lệnh dừng chủ động (tức là đang muốn đi mà không đi được)
+        if (!isStopping && agent.velocity.magnitude < 0.1f)
         {
             stuckTimer += Time.deltaTime;
-
-            // Nếu đứng im quá 0.01 giây -> Kích hoạt gỡ kẹt
-            if (stuckTimer > 0.01f)
+            if (stuckTimer > 2.0f) // Nếu đứng im 2 giây
             {
-                GoKet();
+                GoKet(); // Quay đầu đi chỗ khác
             }
         }
         else
         {
-            stuckTimer = 0; // Nếu đi được thì reset bộ đếm
+            stuckTimer = 0;
         }
 
-        // 3. LOGIC ĐI TIẾP
-        // Nếu đã đến điểm gỡ kẹt hoặc điểm đến bình thường
-        if (!agent.pathPending && agent.remainingDistance < 1.5f)
+        // 3. LOGIC ĐẾN ĐÍCH
+        if (!agent.pathPending && agent.remainingDistance < 1.0f)
         {
-            isRecovering = false; // Hết chế độ gỡ kẹt
-            DiTiep();             // Quay lại đi thẳng
+            isRecovering = false;
+            DiTiep();
         }
     }
 
     void DiTiep()
     {
-        // Tính điểm phía trước
+        // Chọn điểm ngẫu nhiên phía trước
         Vector3 duongDiThang = transform.position + transform.forward * lookAheadDist;
-
-        // Random sang hai bên
         float lechTraiPhai = Random.Range(-sideWander, sideWander);
         duongDiThang += transform.right * lechTraiPhai;
 
+        SetDestinationSafe(duongDiThang);
+    }
+
+    void GoKet()
+    {
+        isRecovering = true;
+        stuckTimer = 0;
+        // Tìm điểm ngẫu nhiên xung quanh để thoát thân
+        Vector3 randomPoint = transform.position + Random.insideUnitSphere * 6f;
+        SetDestinationSafe(randomPoint);
+    }
+
+    void SetDestinationSafe(Vector3 target)
+    {
         NavMeshHit hit;
-        // Kiểm tra xem điểm đó có nằm trên NavMesh không (trong bán kính 5m)
-        if (NavMesh.SamplePosition(duongDiThang, out hit, 5.0f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(target, out hit, 5.0f, NavMesh.AllAreas))
         {
             agent.SetDestination(hit.position);
         }
         else
         {
-            // Nếu điểm phía trước bị lỗi (do rơi xuống vực/hết đường), gọi hàm Gỡ Kẹt ngay
+            // Nếu điểm đến bị lỗi, thử lại điểm khác ngay
             GoKet();
         }
     }
 
-    // Hàm mới: Tìm đại một điểm gần đó để đi (để thoát khỏi mép tường)
-    void GoKet()
+    void CheckObstacle()
     {
-        isRecovering = true;
-        stuckTimer = 0;
+        Vector3 sensorStart = transform.position + Vector3.up * rayHeight;
+        RaycastHit hit;
 
-        // Tìm một điểm ngẫu nhiên trong bán kính 5m (kể cả phía sau lưng)
-        Vector3 randomPoint = transform.position + Random.insideUnitSphere * 5f;
+        // Vẽ tia đỏ debug
+        Debug.DrawRay(sensorStart, transform.forward * rayDistance, Color.red);
 
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomPoint, out hit, 5f, NavMesh.AllAreas))
+        if (Physics.Raycast(sensorStart, transform.forward, out hit, rayDistance, layerNguyHiem))
         {
-            agent.SetDestination(hit.position);
-            // Debug.Log("Đang gỡ kẹt..."); // Bật cái này nếu muốn test
+            // --- LOGIC QUAN TRỌNG: CHỈ DỪNG KHI GẶP XE ---
+            // Nếu vật cản có Tag là "Car" hoặc "Vehicle" thì mới dừng
+            if (hit.collider.CompareTag("Car") || hit.collider.CompareTag("Vehicle"))
+            {
+                isStopping = true;
+            }
+            else
+            {
+                // Gặp cây, tường, người... -> KHÔNG DỪNG.
+                // Để NavMeshAgent tự lách qua.
+                isStopping = false;
+
+                // Nếu vật cản quá gần (dưới 0.3m) mà Agent vẫn đang đâm đầu vào -> Gọi gỡ kẹt ngay
+                if (hit.distance < 0.3f)
+                {
+                    stuckTimer += Time.deltaTime * 5; // Tăng tốc độ đếm kẹt
+                }
+            }
+        }
+        else
+        {
+            isStopping = false;
         }
     }
 
     void UpdateAnimation()
     {
         if (anim == null) return;
-        // Lấy vận tốc từ Agent cho chính xác
         bool dangDiChuyen = agent.velocity.magnitude > 0.1f;
         anim.SetBool("IsMoving", dangDiChuyen);
-    }
-
-    void CheckObstacle()
-    {
-        Vector3 sensorStart = transform.position + Vector3.up * rayHeight;
-        if (Physics.Raycast(sensorStart, transform.forward, out RaycastHit hit, rayDistance, layerNguyHiem))
-        {
-            isStopping = true;
-        }
-        else
-        {
-            isStopping = false;
-        }
     }
 }
