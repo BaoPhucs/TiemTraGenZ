@@ -1,473 +1,218 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [Header("Interact")]
-    public KeyCode interactKey = KeyCode.E;
-    public float interactRange = 1.2f;
+    [Header("Cấu hình Tương tác")]
+    public KeyCode interactKey = KeyCode.F;
+    public float interactRange = 1.5f;
     public LayerMask pushableMask = ~0;
 
-    [Header("Pushing")]
-    public float pushSpeed = 2.0f;
-    public float pushTurnSpeed = 8f;
-    public float directionSmoothTime = 0.08f;
+    [Header("Cấu hình Đẩy")]
+    public float pushSpeed = 4.0f; // Tốc độ đẩy
+    public float pushTurnSpeed = 120f; // Tốc độ xoay
     public string pushParam = "IsPushing";
-    public string startPushTrigger = "StartPush";
-    public string stopPushTrigger = "StopPush";
-    public float standBackOffset = 0.6f;
-    public LayerMask groundMask = ~0;
-    public float groundSnapDistance = 3f;
-    public bool autoStopOnRelease = false;
-    public bool ignoreCartCollision = false;
+    public bool ignoreCartCollision = true;
+
+    [Header("Chống Xuyên Tường")]
+    public LayerMask wallLayer; // Chọn layer Default, Building... (những thứ muốn chặn xe)
+    public float collisionCheckDist = 0.5f; // Khoảng cách check va chạm phía trước xe
 
     private PlayerMovement movement;
     private Animator animator;
+    private CharacterController characterController;
     private PushableCart currentCart;
     private bool isPushing;
-    private bool hasPushParam;
-    private bool hasStartPushTrigger;
-    private bool hasStopPushTrigger;
-    private CharacterController characterController;
-    private readonly List<Collider> ignoredColliders = new List<Collider>();
-    private bool pushAnimStarted;
-    private Vector3 smoothedPushDir;
-    private Vector3 smoothedPushDirVelocity;
 
     private void Awake()
     {
         movement = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
-        if (animator == null)
-        {
-            animator = GetComponentInChildren<Animator>();
-        }
-        if (animator != null)
-        {
-            animator.applyRootMotion = false;
-        }
+        if (animator == null) animator = GetComponentInChildren<Animator>();
         characterController = GetComponent<CharacterController>();
-        if (animator != null)
-        {
-            foreach (var param in animator.parameters)
-            {
-                if (param.name == pushParam)
-                {
-                    hasPushParam = true;
-                }
-                else if (param.name == startPushTrigger)
-                {
-                    hasStartPushTrigger = true;
-                }
-                else if (param.name == stopPushTrigger)
-                {
-                    hasStopPushTrigger = true;
-                }
-            }
-        }
+        if (animator != null) animator.applyRootMotion = false;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(interactKey))
         {
-            if (isPushing)
-            {
-                StopPush();
-            }
-            else
-            {
-                TryStartPush();
-            }
+            if (isPushing) StopPush();
+            else TryStartPush();
+        }
+
+        if (isPushing && currentCart != null)
+        {
+            UpdatePushingPhysics();
         }
     }
 
-    private void LateUpdate()
+    private void UpdatePushingPhysics()
     {
-        if (!isPushing || currentCart == null)
-        {
-            return;
-        }
+        float hor = Input.GetAxis("Horizontal");
+        float ver = Input.GetAxis("Vertical");
 
-        Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        Vector3 pushDir = GetPushDirection(input);
-        smoothedPushDir = Vector3.SmoothDamp(smoothedPushDir, pushDir, ref smoothedPushDirVelocity, directionSmoothTime);
-        if (pushDir.sqrMagnitude > 0.000001f)
+        // 1. XỬ LÝ DI CHUYỂN
+        if (Mathf.Abs(ver) > 0.01f || Mathf.Abs(hor) > 0.01f)
         {
-            if (!pushAnimStarted && hasStartPushTrigger && animator != null)
+            // Hướng muốn di chuyển (Tiến/Lùi theo hướng xe)
+            Vector3 moveDir = currentCart.handle.forward * ver;
+
+            // --- CHECK XUYÊN TƯỜNG Ở ĐÂY ---
+            if (CanMove(moveDir))
             {
-                animator.ResetTrigger(stopPushTrigger);
-                animator.SetTrigger(startPushTrigger);
-                pushAnimStarted = true;
-                animator.speed = 1f;
+                // Nếu không vướng tường thì mới cho đi
+                currentCart.MoveBy(moveDir * pushSpeed * Time.deltaTime);
             }
 
-            float inputMag = Mathf.Clamp01(input.magnitude);
-            Vector3 delta = pushDir * inputMag * pushSpeed * Time.deltaTime;
-            currentCart.MoveBy(delta);
-            if (smoothedPushDir.sqrMagnitude > 0.000001f)
+            // Xoay xe
+            if (Mathf.Abs(hor) > 0.01f)
             {
-                currentCart.RotateTowards(smoothedPushDir, pushTurnSpeed);
-                RotatePlayerTowards(smoothedPushDir);
+                float turnAmount = hor * pushTurnSpeed * Time.deltaTime;
+                if (ver < -0.01f) turnAmount *= -1;
+                currentCart.transform.Rotate(0, turnAmount, 0);
             }
-        }
-        else if (pushAnimStarted)
-        {
-            if (autoStopOnRelease)
-            {
-                StopPush();
-                return;
-            }
-            if (hasStopPushTrigger && animator != null)
-            {
-                animator.ResetTrigger(startPushTrigger);
-                animator.SetTrigger(stopPushTrigger);
-            }
-            pushAnimStarted = false;
         }
 
-        Vector3 facing = smoothedPushDir.sqrMagnitude > 0.000001f ? smoothedPushDir : GetFlatForward(currentCart);
-        Vector3 targetPos = GetSafePushPosition(currentCart, facing);
-        Vector3 correction = targetPos - transform.position;
-        correction.y = 0f;
-        if (correction.sqrMagnitude > 0.000001f)
+        SnapPlayerToHandle();
+    }
+
+    // Hàm kiểm tra va chạm phía trước
+    bool CanMove(Vector3 direction)
+    {
+        if (currentCart == null) return false;
+
+        // Chỉ check khi đi tới (ver > 0) hoặc lùi (ver < 0)
+        if (direction.magnitude < 0.01f) return true;
+
+        // Bắn tia từ tâm xe hoặc từ BoxCollider của xe
+        // Lấy BoxCollider của xe để tính toán kích thước
+        BoxCollider cartCol = currentCart.GetComponentInChildren<BoxCollider>();
+        if (cartCol == null) return true; // Không có collider thì cứ đi
+
+        // Tâm check: Chính giữa xe
+        Vector3 center = currentCart.transform.TransformPoint(cartCol.center);
+        // Kích thước check: Bằng 1/2 kích thước xe (trừ đi 1 xíu để không dính sàn)
+        Vector3 size = Vector3.Scale(cartCol.size, currentCart.transform.localScale) / 2;
+        size.x -= 0.05f; size.y -= 0.05f; size.z -= 0.05f; // Thu nhỏ tí xíu
+
+        // Bắn hộp (BoxCast) về phía muốn đi
+        // Nếu chạm vào WallLayer -> Trả về False (Không được đi)
+        if (Physics.BoxCast(center, size, direction, Quaternion.identity, collisionCheckDist, wallLayer))
         {
-            if (characterController != null)
-            {
-                characterController.Move(correction);
-            }
-            else
-            {
-                transform.position += correction;
-            }
+            return false; // Đụng tường!
         }
+
+        return true; // Đường thoáng
+    }
+
+    private void SnapPlayerToHandle()
+    {
+        if (currentCart == null || currentCart.handle == null) return;
+        Vector3 targetPos = currentCart.handle.position;
+        if (characterController != null) characterController.enabled = false;
+        transform.position = targetPos;
+        transform.rotation = currentCart.handle.rotation;
+        if (characterController != null) characterController.enabled = true;
     }
 
     private void TryStartPush()
     {
-        PushableCart cart = FindNearestCart();
-        if (cart == null)
-        {
-            return;
-        }
-
-        StartPush(cart);
-    }
-
-    private PushableCart FindNearestCart()
-    {
+        // 1. Logic tìm xe gần nhất (GIỮ NGUYÊN KHÔNG ĐỔI)
         Collider[] hits = Physics.OverlapSphere(transform.position, interactRange, pushableMask, QueryTriggerInteraction.Ignore);
-        PushableCart nearest = null;
-        float bestDist = float.MaxValue;
+        float closestDist = Mathf.Infinity;
+        PushableCart bestCart = null;
 
         foreach (var hit in hits)
         {
             PushableCart cart = hit.GetComponentInParent<PushableCart>();
-            if (cart == null)
+            if (cart != null)
             {
-                continue;
-            }
-
-            Vector3 handlePos = cart.GetHandlePosition();
-            float d = Vector3.Distance(transform.position, handlePos);
-            if (d < bestDist)
-            {
-                bestDist = d;
-                nearest = cart;
+                float d = Vector3.Distance(transform.position, cart.GetHandlePosition());
+                if (d < closestDist)
+                {
+                    closestDist = d;
+                    bestCart = cart;
+                }
             }
         }
 
-        return nearest;
-    }
+        // 2. Logic Kiểm tra điều kiện Dọn Hàng (MỚI THÊM VÀO)
+        if (bestCart != null)
+        {
+            // Lấy script QuanLyKho trên cái xe tìm được
+            QuanLyKho kho = bestCart.GetComponent<QuanLyKho>();
 
+            // Nếu xe có gắn script quản lý kho, thì phải kiểm tra
+            if (kho != null)
+            {
+                if (kho.ConDoBenNgoai())
+                {
+                    Debug.Log("⛔ Cất hết bàn ghế, thùng đá vào xe rồi mới được đẩy về!");
+                    // Nếu bạn có UI thông báo, gọi hàm hiện thông báo ở đây
+                    return; // NGẮT LỆNH: Không cho thực hiện StartPush
+                }
+            }
+
+            // 3. Nếu mọi thứ ok (hoặc xe không có kho) -> Bắt đầu đẩy
+            StartPush(bestCart);
+        }
+    }
     private void StartPush(PushableCart cart)
     {
         currentCart = cart;
         isPushing = true;
-        pushAnimStarted = false;
-
         cart.BeginPush();
-
-        if (ignoreCartCollision)
-        {
-            SetCartCollisionIgnored(cart, true);
-        }
-
-        Vector3 forward = GetFlatForward(cart);
-        Vector3 targetPos = GetSafePushPosition(cart, forward);
-        if (movement != null)
-        {
-            movement.Teleport(targetPos);
-            movement.SetForwardLock(cart.transform, pushSpeed);
-            movement.SetMovementBlocked(true);
-        }
-
-        if (hasPushParam && animator != null)
-        {
-            animator.SetBool(pushParam, true);
-        }
-        if (animator != null)
-        {
-            animator.speed = 1f;
-        }
-
+        if (ignoreCartCollision) IgnoreCollisions(cart, true);
+        if (movement != null) movement.enabled = false;
+        if (animator != null) animator.SetBool(pushParam, true);
+        SnapPlayerToHandle();
     }
 
     private void StopPush()
     {
         isPushing = false;
-        pushAnimStarted = false;
-
-        if (movement != null)
-        {
-            movement.ClearForwardLock();
-            movement.SetMovementBlocked(false);
-        }
-
-        if (currentCart != null)
-        {
-            Vector3 forward = GetFlatForward(currentCart);
-            Vector3 targetPos = GetSafePushPosition(currentCart, forward);
-            if (movement != null)
-            {
-                movement.Teleport(targetPos);
-            }
-            else
-            {
-                transform.position = targetPos;
-            }
-        }
-
-        if (ignoreCartCollision)
-        {
-            SetCartCollisionIgnored(currentCart, false);
-        }
-
-        if (hasPushParam && animator != null)
-        {
-            animator.SetBool(pushParam, false);
-        }
-        if (hasStopPushTrigger && animator != null)
-        {
-            animator.ResetTrigger(startPushTrigger);
-            animator.SetTrigger(stopPushTrigger);
-        }
-        if (animator != null)
-        {
-            animator.speed = 1f;
-        }
-
-        if (currentCart != null)
-        {
-            currentCart.EndPush();
-        }
-
+        if (currentCart != null && ignoreCartCollision) IgnoreCollisions(currentCart, false);
+        if (currentCart != null) currentCart.EndPush();
+        if (movement != null) movement.enabled = true;
+        if (animator != null) animator.SetBool(pushParam, false);
         currentCart = null;
     }
 
-    private void SetCartCollisionIgnored(PushableCart cart, bool ignore)
+    private void IgnoreCollisions(PushableCart cart, bool ignore)
     {
-        if (characterController == null || cart == null)
+        if (characterController == null) return;
+        Collider[] cartColliders = cart.GetComponentsInChildren<Collider>();
+        foreach (var col in cartColliders)
         {
-            return;
-        }
-
-        if (ignore)
-        {
-            ignoredColliders.Clear();
-            Transform cartRoot = cart.cartRoot != null ? cart.cartRoot : cart.transform;
-            if (cartRoot == null)
-            {
-                return;
-            }
-
-            Collider[] colliders = cartRoot.GetComponentsInChildren<Collider>();
-            foreach (var collider in colliders)
-            {
-                if (collider == null || collider.isTrigger)
-                {
-                    continue;
-                }
-                Physics.IgnoreCollision(characterController, collider, true);
-                ignoredColliders.Add(collider);
-            }
-        }
-        else
-        {
-            foreach (var collider in ignoredColliders)
-            {
-                if (collider == null)
-                {
-                    continue;
-                }
-                Physics.IgnoreCollision(characterController, collider, false);
-            }
-            ignoredColliders.Clear();
+            if (col != null && !col.isTrigger)
+                Physics.IgnoreCollision(characterController, col, ignore);
         }
     }
 
-    private Vector3 GetFlatForward(PushableCart cart)
+    private void OnDrawGizmos()
     {
-        Vector3 forward = Vector3.zero;
-        Transform cartRoot = cart.cartRoot != null ? cart.cartRoot : cart.transform;
-        if (cartRoot != null)
-        {
-            Vector3 handlePos = cart.GetHandlePosition();
-            Vector3 toCenter = cartRoot.position - handlePos;
-            toCenter.y = 0f;
-            if (toCenter.sqrMagnitude > 0.001f)
-            {
-                forward = toCenter.normalized;
-            }
-        }
-
-        if (forward.sqrMagnitude < 0.001f)
-        {
-            forward = cart.GetForward();
-        }
-        forward.y = 0f;
-        if (forward.sqrMagnitude < 0.001f)
-        {
-            forward = cart.transform.forward;
-            forward.y = 0f;
-        }
-        if (forward.sqrMagnitude < 0.001f)
-        {
-            forward = Vector3.forward;
-        }
-        return forward.normalized;
-    }
-
-    private Vector3 GetSafePushPosition(PushableCart cart, Vector3 forward)
-    {
-        Vector3 targetPos = cart.GetHandlePosition() - forward * standBackOffset;
-        targetPos.y = transform.position.y;
-
-        Transform cartRoot = cart.cartRoot != null ? cart.cartRoot : cart.transform;
-        if (cartRoot == null)
-        {
-            return SnapToGround(targetPos);
-        }
-
-        Collider[] colliders = cartRoot.GetComponentsInChildren<Collider>();
-        bool hasBounds = false;
-        Bounds bounds = new Bounds();
-        foreach (var collider in colliders)
-        {
-            if (collider == null || collider.isTrigger)
-            {
-                continue;
-            }
-            if (!hasBounds)
-            {
-                bounds = collider.bounds;
-                hasBounds = true;
-            }
-            else
-            {
-                bounds.Encapsulate(collider.bounds);
-            }
-        }
-
-        if (!hasBounds)
-        {
-            return SnapToGround(targetPos);
-        }
-
-        float forwardExtent =
-            Mathf.Abs(forward.x) * bounds.extents.x +
-            Mathf.Abs(forward.y) * bounds.extents.y +
-            Mathf.Abs(forward.z) * bounds.extents.z;
-        float buffer = (characterController != null ? characterController.radius : 0.3f) + 0.05f;
-        targetPos = bounds.center - forward * (forwardExtent + buffer + standBackOffset);
-        targetPos.y = transform.position.y;
-
-        return SnapToGround(targetPos);
-    }
-
-    private Vector3 SnapToGround(Vector3 position)
-    {
-        float castHeight = groundSnapDistance;
-        Vector3 origin = position + Vector3.up * castHeight;
-        RaycastHit[] hits = Physics.RaycastAll(origin, Vector3.down, castHeight * 2f, groundMask, QueryTriggerInteraction.Ignore);
-        if (hits.Length > 0)
-        {
-            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
-            RaycastHit hit = default;
-            bool found = false;
-            foreach (var h in hits)
-            {
-                if (h.collider == null)
-                {
-                    continue;
-                }
-                if (ignoredColliders.Contains(h.collider))
-                {
-                    continue;
-                }
-                hit = h;
-                found = true;
-                break;
-            }
-
-            if (found)
-            {
-                if (characterController != null)
-                {
-                    position.y = hit.point.y - characterController.center.y + characterController.height * 0.5f;
-                }
-                else
-                {
-                    position.y = hit.point.y;
-                }
-            }
-        }
-        return position;
-    }
-
-    private Vector3 GetPushDirection(Vector2 input)
-    {
-        if (input.sqrMagnitude < 0.0001f)
-        {
-            return Vector3.zero;
-        }
-
-        if (movement != null && movement.cameraTransform != null)
-        {
-            Vector3 camForward = movement.cameraTransform.forward;
-            Vector3 camRight = movement.cameraTransform.right;
-            camForward.y = 0f;
-            camRight.y = 0f;
-            camForward.Normalize();
-            camRight.Normalize();
-            Vector3 dir = camForward * input.y + camRight * input.x;
-            if (dir.sqrMagnitude > 0.0001f)
-            {
-                return dir.normalized;
-            }
-        }
-
-        Vector3 fallback = new Vector3(input.x, 0f, input.y);
-        return fallback.sqrMagnitude > 0.0001f ? fallback.normalized : Vector3.zero;
-    }
-
-    private void RotatePlayerTowards(Vector3 direction)
-    {
-        direction.y = 0f;
-        if (direction.sqrMagnitude < 0.000001f)
-        {
-            return;
-        }
-
-        Quaternion target = Quaternion.LookRotation(direction.normalized, Vector3.up);
-        float t = Mathf.Clamp01(pushTurnSpeed * Time.deltaTime);
-        transform.rotation = Quaternion.Slerp(transform.rotation, target, t);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
+        // 1. Vẽ vùng tương tác F (Màu vàng)
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, interactRange);
-    }
 
+        // 2. Vẽ hộp check va chạm tường (Màu Đỏ) - CHỈ HIỆN KHI ĐANG ĐẨY XE
+        if (isPushing && currentCart != null)
+        {
+            Gizmos.color = Color.red;
+            BoxCollider cartCol = currentCart.GetComponentInChildren<BoxCollider>();
+            if (cartCol != null)
+            {
+                // Mô phỏng vị trí cái hộp check tường
+                Vector3 center = currentCart.transform.TransformPoint(cartCol.center);
+                Vector3 size = Vector3.Scale(cartCol.size, currentCart.transform.localScale);
+                size.x -= 0.1f; size.y -= 0.1f; size.z -= 0.1f;
+
+                // Vẽ cái hộp phía trước xe
+                Vector3 forwardPos = center + currentCart.transform.forward * collisionCheckDist;
+                Gizmos.matrix = Matrix4x4.TRS(forwardPos, currentCart.transform.rotation, size);
+                Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+            }
+        }
+    }
 }
