@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Cart
   - Chair
+  - Vehical
+  - Car
+  - Vehicle
   layers:
   - Default
   - TransparentFX
@@ -19,8 +22,8 @@ TagManager:
   - 'Interactable '
   - Cart
   - Buiding
-  - 
-  - 
+  - Car
+  - Vehicle
   - 
   - 
   - 

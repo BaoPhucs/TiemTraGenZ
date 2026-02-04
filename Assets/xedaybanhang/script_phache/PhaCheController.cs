@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PhaCheController : MonoBehaviour
 {
@@ -12,49 +12,119 @@ public class PhaCheController : MonoBehaviour
         None
     }
 
+    // Bỏ static, Unity sẽ tự nhớ giá trị này khi tắt/bật object
     public PhaCheState currentState = PhaCheState.ChuaCoLy;
 
+    [Header("Gán Object Ly Tương Ứng")]
     public GameObject lyTrong;
     public GameObject lyCoTra;
     public GameObject lyCoTraTac;
     public GameObject lyHoanThanh;
 
-    void Start()
+    // Chạy mỗi khi Object được Bật lên (Active) hoặc khi Game Start
+    void OnEnable()
     {
-        SetState(PhaCheState.ChuaCoLy);
+        // Mỗi khi bật lại (ví dụ tắt shop đi bật lại xe), 
+        // nó sẽ tự kiểm tra state đang là gì để hiển thị đúng cái ly đó.
+        UpdateVisual();
     }
 
-    void SetState(PhaCheState newState)
+    // Hàm cập nhật hình ảnh dựa trên State hiện tại
+    void UpdateVisual()
+    {
+        // Tắt hết trước cho sạch
+        if (lyTrong) lyTrong.SetActive(false);
+        if (lyCoTra) lyCoTra.SetActive(false);
+        if (lyCoTraTac) lyCoTraTac.SetActive(false);
+        if (lyHoanThanh) lyHoanThanh.SetActive(false);
+
+        // Bật cái cần thiết
+        switch (currentState)
+        {
+            case PhaCheState.CoLy:
+                if (lyTrong) lyTrong.SetActive(true);
+                break;
+            case PhaCheState.CoTra:
+                if (lyCoTra) lyCoTra.SetActive(true);
+                break;
+            case PhaCheState.CoTac:
+                if (lyCoTraTac) lyCoTraTac.SetActive(true);
+                break;
+            case PhaCheState.HoanThanh:
+                if (lyHoanThanh) lyHoanThanh.SetActive(true);
+                break;
+        }
+
+        Debug.Log($"[PhaChe] Đã cập nhật hình ảnh theo trạng thái: {currentState}");
+    }
+
+    public void SetState(PhaCheState newState)
     {
         currentState = newState;
-
-        lyTrong.SetActive(newState == PhaCheState.CoLy);
-        lyCoTra.SetActive(newState == PhaCheState.CoTra);
-        lyCoTraTac.SetActive(newState == PhaCheState.CoTac);
-        lyHoanThanh.SetActive(newState == PhaCheState.HoanThanh);
+        UpdateVisual();
     }
+
+    // --- CÁC HÀM GỌI TỪ NÚT BẤM (GIỮ NGUYÊN LOGIC CŨ) ---
 
     public void LayLy()
     {
         if (currentState == PhaCheState.ChuaCoLy)
-            SetState(PhaCheState.CoLy);
+        {
+            if (QuanLyKho.Instance.SuDungNguyenLieu("Ly"))
+            {
+                SetState(PhaCheState.CoLy);
+            }
+        }
     }
 
     public void DoTra()
     {
         if (currentState == PhaCheState.CoLy)
-            SetState(PhaCheState.CoTra);
+        {
+            if (QuanLyKho.Instance.SuDungNguyenLieu("Tra"))
+            {
+                SetState(PhaCheState.CoTra);
+            }
+        }
     }
 
     public void ThemTac()
     {
         if (currentState == PhaCheState.CoTra)
-            SetState(PhaCheState.CoTac);
+        {
+            if (QuanLyKho.Instance.SuDungNguyenLieu("Tac"))
+            {
+                SetState(PhaCheState.CoTac);
+            }
+        }
     }
 
     public void ThemDa()
     {
         if (currentState == PhaCheState.CoTac)
-            SetState(PhaCheState.HoanThanh);
+        {
+            if (QuanLyKho.Instance.SuDungNguyenLieu("Da"))
+            {
+                SetState(PhaCheState.HoanThanh);
+            }
+        }
+    }
+
+    public void ThuHoiLy()
+    {
+        if (currentState == PhaCheState.HoanThanh)
+        {
+            // --- LOGIC MỚI: BÁN HÀNG ---
+            // Gọi sang Kho để cộng tiền (Ví dụ bán 15.000đ/ly)
+            if (QuanLyKho.Instance != null)
+            {
+                int giaBan = 10000; // Bạn có thể chỉnh giá tùy ý
+                QuanLyKho.Instance.NhanTienBanNuoc(giaBan);
+                Debug.Log($"Đã bán 1 ly nước! +{giaBan}đ");
+            }
+
+            // --- LOGIC CŨ: RESET MÁY ---
+            SetState(PhaCheState.ChuaCoLy);
+        }
     }
 }

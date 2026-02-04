@@ -7,46 +7,55 @@ public class PhaCheClick : MonoBehaviour, IInteractable
         LayLy,
         DoTra,
         ThemTac,
-        ThemDa
+        ThemDa,
+        ThuHoi
     }
 
     public ActionType action;
-    public PhaCheController phaChe; // Kéo script PhaCheController của xe vào
+    public PhaCheController phaChe;
 
     void Start()
     {
-        if (phaChe == null)
-        {
-            // Tìm cái xe đẩy đang có trong màn hình
-            phaChe = FindObjectOfType<PhaCheController>();
-        }
+        // ƯU TIÊN 1: Tìm script ở ngay trên object cha hoặc chính nó (An toàn nhất)
+        if (phaChe == null) phaChe = GetComponentInParent<PhaCheController>();
+
+        // ƯU TIÊN 2: Nếu không thấy mới đi tìm lung tung
+        if (phaChe == null) phaChe = FindObjectOfType<PhaCheController>();
     }
 
     public void Interact()
     {
-        // Kiểm tra lại lần nữa cho chắc
+        // Check lại lần nữa cho chắc
+        if (phaChe == null) phaChe = GetComponentInParent<PhaCheController>();
         if (phaChe == null) phaChe = FindObjectOfType<PhaCheController>();
 
-        if (phaChe == null) return; // Nếu vẫn không tìm thấy thì thôi
-
-        switch (action)
+        if (phaChe != null)
         {
-            case ActionType.LayLy: phaChe.LayLy(); break;
-            case ActionType.DoTra: phaChe.DoTra(); break;
-            case ActionType.ThemTac: phaChe.ThemTac(); break;
-            case ActionType.ThemDa: phaChe.ThemDa(); break;
+            switch (action)
+            {
+                case ActionType.LayLy: phaChe.LayLy(); break;
+                case ActionType.DoTra: phaChe.DoTra(); break;
+                case ActionType.ThemTac: phaChe.ThemTac(); break;
+                case ActionType.ThemDa: phaChe.ThemDa(); break;
+                case ActionType.ThuHoi: phaChe.ThuHoiLy(); break;
+            }
+        }
+        else
+        {
+            Debug.LogError("Lỗi: Nút " + gameObject.name + " không tìm thấy Máy Pha Chế!");
         }
     }
 
     public string GetActionName()
     {
-        // Trả về tên hành động để hiện lên màn hình
+        // Hiển thị tên hành động kèm phím tắt
         switch (action)
         {
-            case ActionType.LayLy: return "Lấy Ly";
-            case ActionType.DoTra: return "Đổ Trà";
-            case ActionType.ThemTac: return "Thêm Tắc";
-            case ActionType.ThemDa: return "Thêm Đá";
+            case ActionType.LayLy: return "Lấy Ly (E)";
+            case ActionType.DoTra: return "Đổ Trà (E)";
+            case ActionType.ThemTac: return "Thêm Tắc (E)";
+            case ActionType.ThemDa: return "Thêm Đá (E)";
+            case ActionType.ThuHoi: return "Thu Hồi (E)";
             default: return "...";
         }
     }
