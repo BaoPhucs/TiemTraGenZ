@@ -4,13 +4,12 @@ using TMPro;
 public class ShopManager : MonoBehaviour
 {
     [Header("THAM CHIẾU")]
-    public QuanLyKho khoHang;
+    public QuanLyKho khoHang; // Kéo GameManager vào đây
     public GameObject shopPanel;
     public TextMeshProUGUI txtTien;
 
     [Header("TEXT SỐ LƯỢNG")]
     public TextMeshProUGUI txtSlTra;
-    public TextMeshProUGUI txtSlDuong;
     public TextMeshProUGUI txtSlTac;
     public TextMeshProUGUI txtSlDa;
     public TextMeshProUGUI txtSlLy;
@@ -60,21 +59,52 @@ public class ShopManager : MonoBehaviour
 
     void CapNhatGiaoDien()
     {
+        // Tự động tìm kho nếu lỡ quên kéo
+        if (khoHang == null) khoHang = QuanLyKho.Instance;
         if (khoHang == null) return;
 
         if (txtTien != null) txtTien.text = "Vốn: " + khoHang.TienHienCo.ToString("n0") + " đ";
 
         if (txtSlTra != null) txtSlTra.text = "Trà: " + khoHang.Tra;
-        if (txtSlDuong != null) txtSlDuong.text = "Đường: " + khoHang.Duong;
         if (txtSlTac != null) txtSlTac.text = "Tắc: " + khoHang.Tac;
         if (txtSlDa != null) txtSlDa.text = "Đá: " + khoHang.Da;
         if (txtSlLy != null) txtSlLy.text = "Ly: " + khoHang.LyNhua;
     }
 
-    // Các hàm mua hàng giữ nguyên
-    public void MuaTra() { if (khoHang != null) khoHang.MuaHang("Tra", 5, 2000); }
-    public void MuaDuong() { if (khoHang != null) khoHang.MuaHang("Duong", 2, 1000); }
-    public void MuaTac() { if (khoHang != null) khoHang.MuaHang("Tac", 5, 500); }
-    public void MuaDa() { if (khoHang != null) khoHang.MuaHang("Da", 1, 1000); }
-    public void MuaLy() { if (khoHang != null) khoHang.MuaHang("Ly", 50, 10000); }
+    // --- CÁC HÀM MUA HÀNG (ĐÃ CẬP NHẬT GIÁ & SỐ LƯỢNG CHUẨN) ---
+    // QuanLyKho sẽ tự tính toán giá thị trường dựa trên giá gốc này
+
+    public void MuaTra()
+    {
+        if (khoHang != null) khoHang.MuaHang("Tra", 10, 7000); // 10 gói, gốc 2k
+    }
+
+    public void MuaTac()
+    {
+        if (khoHang != null) khoHang.MuaHang("Tac", 10, 10000); // 10 quả, gốc 2k
+    }
+
+    public void MuaDa()
+    {
+        if (khoHang != null) khoHang.MuaHang("Da", 20, 5000); // 20 bao, gốc 2k
+    }
+
+    public void MuaLy()
+    {
+        if (khoHang != null) khoHang.MuaHang("Ly", 50, 15000); // 50 cái, gốc 10k
+    }
+
+    // --- CÁC HÀM NÂNG CẤP (MỚI - GẮN VÀO NÚT MUA BÀN/GHẾ) ---
+
+    public void MuaGheMoi()
+    {
+        // Mua thêm 1 cái ghế, giá 15.000đ
+        if (khoHang != null) khoHang.NangCapBanGhe("Ghe", 30000);
+    }
+
+    public void MuaBanMoi()
+    {
+        // Mua thêm 1 cái bàn, giá 50.000đ
+        if (khoHang != null) khoHang.NangCapBanGhe("Ban", 50000);
+    }
 }

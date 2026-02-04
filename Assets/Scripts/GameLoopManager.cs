@@ -31,7 +31,7 @@ public class GameLoopManager : MonoBehaviour
             // Cập nhật text
             if (txtDoanhThu) txtDoanhThu.text = "Doanh Thu: " + doanhThu.ToString("n0") + "đ";
             if (txtChiPhi) txtChiPhi.text = "Chi Phí: " + chiPhi.ToString("n0") + "đ";
-            if (txtLoiNhuan) txtLoiNhuan.text = "Lợi Nhuận: " + loiNhuan.ToString("n0") + "đ";
+            if (txtLoiNhuan) txtLoiNhuan.text = "Loi Nhuan: " + loiNhuan.ToString("n0") + "đ";
         }
 
         // Dừng game và hiện chuột
@@ -46,6 +46,8 @@ public class GameLoopManager : MonoBehaviour
         {
             QuanLyKho.Instance.DoanhThuNgay = 0;
             QuanLyKho.Instance.ChiPhiNgay = 0;
+
+            QuanLyKho.Instance.RandomGiaThiTruong();
         }
 
         if (bangKetToanPanel != null) bangKetToanPanel.SetActive(false);
