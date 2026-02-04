@@ -392,7 +392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4608905352161816528}
   m_Layer: 0
-  m_Name: 'XeDay_HoanChinh '
+  m_Name: XeDay_HoanChinhDraft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
