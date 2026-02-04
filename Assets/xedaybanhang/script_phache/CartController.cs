@@ -10,15 +10,12 @@ public class CartController : MonoBehaviour
 
     public CartState currentState;
 
-    // SỬA DÒNG NÀY: Thay vì 1 GameObject, ta dùng Mảng [] để chứa nhiều cái
     public GameObject[] cacMonBanGhe;
-
-    // Giữ nguyên cái này hoặc đổi thành mảng luôn nếu muốn xé lẻ nhóm Pha Chế
     public GameObject phaChe;
 
     void Start()
     {
-        // Mặc định vào game là Bày Hàng để test
+        // Mặc định vào game là Bày Hàng
         SetState(CartState.BanHang);
     }
 
@@ -27,7 +24,7 @@ public class CartController : MonoBehaviour
         currentState = newState;
         bool isBanHang = (newState == CartState.BanHang);
 
-        // VÒNG LẶP: Tắt/Bật từng món trong danh sách
+        // Bật/Tắt bàn ghế
         if (cacMonBanGhe != null)
         {
             foreach (GameObject mon in cacMonBanGhe)
@@ -36,15 +33,24 @@ public class CartController : MonoBehaviour
             }
         }
 
+        // Bật/Tắt nhóm pha chế (bao gồm cả ly trà đang pha dở)
         if (phaChe != null) phaChe.SetActive(isBanHang);
     }
 
-    // Giữ nguyên phần Update bên dưới...
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B)) SetState(CartState.BanHang);
-        if (Input.GetKeyDown(KeyCode.M)) SetState(CartState.DiChuyen);
+        // Bấm B để Bán Hàng (Bày ra)
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            SetState(CartState.BanHang);
+        }
+
+        // --- SỬA LỖI TẠI ĐÂY ---
+        // Đổi KeyCode.M thành KeyCode.C (hoặc phím khác tùy bạn)
+        // Để tránh xung đột với phím M mở Shop
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            SetState(CartState.DiChuyen);
+        }
     }
-
-
 }

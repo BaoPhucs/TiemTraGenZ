@@ -789,7 +789,7 @@ GameObject:
   - component: {fileID: 11323633}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex (12)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2498,7 +2498,7 @@ GameObject:
   - component: {fileID: 53706738}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex (4)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4539,7 +4539,7 @@ GameObject:
   - component: {fileID: 91271315}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (7)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8714,7 +8714,7 @@ GameObject:
   - component: {fileID: 159457473}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (7)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14743,7 +14743,7 @@ GameObject:
   - component: {fileID: 278499513}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (9)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15651,7 +15651,7 @@ GameObject:
   - component: {fileID: 291401382}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (13)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17708,7 +17708,7 @@ GameObject:
   - component: {fileID: 336038593}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (11)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18396,7 +18396,7 @@ GameObject:
   - component: {fileID: 356806789}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (6)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19258,7 +19258,7 @@ GameObject:
   - component: {fileID: 371011908}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (14)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19926,7 +19926,7 @@ GameObject:
   - component: {fileID: 379234072}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (4)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24482,7 +24482,7 @@ GameObject:
   - component: {fileID: 448677132}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex (10)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26596,7 +26596,7 @@ GameObject:
   - component: {fileID: 493615997}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (17)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27783,7 +27783,7 @@ GameObject:
   - component: {fileID: 525543889}
   m_Layer: 0
   m_Name: WhiteCar (3)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29037,7 +29037,7 @@ GameObject:
   - component: {fileID: 544300141}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (19)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32329,7 +32329,7 @@ GameObject:
   - component: {fileID: 605272620}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (13)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33482,7 +33482,7 @@ GameObject:
   - component: {fileID: 622913031}
   m_Layer: 0
   m_Name: GreenCar (1)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34087,7 +34087,7 @@ GameObject:
   - component: {fileID: 628984803}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (12)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34450,7 +34450,7 @@ Transform:
   m_GameObject: {fileID: 638375691}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.098, y: 0.0784, z: 0.956}
+  m_LocalPosition: {x: 0.044, y: 0.0784, z: 0.956}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34535,7 +34535,7 @@ GameObject:
   - component: {fileID: 648224384}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (15)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36365,7 +36365,7 @@ GameObject:
   - component: {fileID: 675706948}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (16)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36526,7 +36526,7 @@ GameObject:
   - component: {fileID: 679672701}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex (15)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36648,7 +36648,7 @@ GameObject:
   - component: {fileID: 681384271}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (3)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40410,7 +40410,7 @@ GameObject:
   - component: {fileID: 743520190}
   m_Layer: 0
   m_Name: BlueCar (1)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41704,7 +41704,7 @@ GameObject:
   - component: {fileID: 763914620}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex (14)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42720,7 +42720,7 @@ GameObject:
   - component: {fileID: 770276934}
   m_Layer: 0
   m_Name: Car
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43010,7 +43010,7 @@ GameObject:
   - component: {fileID: 771468291}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (8)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43793,7 +43793,7 @@ GameObject:
   - component: {fileID: 793640645}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (4)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45128,7 +45128,7 @@ GameObject:
   - component: {fileID: 829732785}
   m_Layer: 0
   m_Name: RedCar (3)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46260,7 +46260,7 @@ GameObject:
   - component: {fileID: 840412244}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex (11)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48012,7 +48012,7 @@ GameObject:
   - component: {fileID: 873521727}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48193,7 +48193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 505.8, y: 227}
+  m_AnchoredPosition: {x: -503, y: 227}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &873850395
@@ -49844,7 +49844,7 @@ GameObject:
   - component: {fileID: 916338399}
   m_Layer: 0
   m_Name: NPCCar (2)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56169,7 +56169,7 @@ GameObject:
   - component: {fileID: 1059358057}
   m_Layer: 0
   m_Name: Taxi_Driver
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -57505,7 +57505,7 @@ GameObject:
   - component: {fileID: 1078111297}
   m_Layer: 0
   m_Name: YellowCar
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58177,7 +58177,7 @@ GameObject:
   - component: {fileID: 1089054932}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (3)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59400,7 +59400,7 @@ GameObject:
   - component: {fileID: 1114090589}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (17)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62993,7 +62993,7 @@ GameObject:
   - component: {fileID: 1165834076}
   m_Layer: 0
   m_Name: WhiteCar
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63702,7 +63702,7 @@ GameObject:
   - component: {fileID: 1175925013}
   m_Layer: 0
   m_Name: NPCCar
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68884,7 +68884,7 @@ GameObject:
   - component: {fileID: 1279575405}
   m_Layer: 0
   m_Name: Car (1)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70933,7 +70933,7 @@ GameObject:
   - component: {fileID: 1308786094}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (14)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71532,7 +71532,7 @@ GameObject:
   - component: {fileID: 1317091621}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (6)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74228,7 +74228,7 @@ GameObject:
   - component: {fileID: 1372249552}
   m_Layer: 0
   m_Name: Taxi_Driver (2)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78238,7 +78238,7 @@ GameObject:
   - component: {fileID: 1374106830}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (18)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78519,7 +78519,7 @@ GameObject:
   - component: {fileID: 1378501266}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80324,7 +80324,7 @@ GameObject:
   - component: {fileID: 1414217187}
   m_Layer: 0
   m_Name: GreenCar
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80614,7 +80614,7 @@ GameObject:
   - component: {fileID: 1417889266}
   m_Layer: 0
   m_Name: NPCCar (5)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82626,7 +82626,7 @@ GameObject:
   - component: {fileID: 1460284247}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (16)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83261,7 +83261,7 @@ GameObject:
   - component: {fileID: 1467590429}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex (8)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87501,7 +87501,7 @@ GameObject:
   - component: {fileID: 1551713867}
   m_Layer: 0
   m_Name: Car (2)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89097,7 +89097,7 @@ GameObject:
   - component: {fileID: 1583783665}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (2)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90223,7 +90223,7 @@ GameObject:
   - component: {fileID: 1605539114}
   m_Layer: 0
   m_Name: Taxi_Driver (1)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90834,7 +90834,7 @@ GameObject:
   - component: {fileID: 1620037192}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex (7)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92859,7 +92859,7 @@ GameObject:
   - component: {fileID: 1648309494}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (10)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95790,7 +95790,7 @@ GameObject:
   - component: {fileID: 1697187902}
   m_Layer: 0
   m_Name: NPCCar (4)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97082,7 +97082,7 @@ GameObject:
   - component: {fileID: 1722256861}
   m_Layer: 0
   m_Name: WhiteCar (4)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98223,7 +98223,7 @@ Transform:
   m_GameObject: {fileID: 1738255931}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.041, z: 0}
+  m_LocalPosition: {x: 0.031, y: 0.041, z: 0.033}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -98688,7 +98688,7 @@ GameObject:
   - component: {fileID: 1744734545}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (1)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100308,7 +100308,7 @@ GameObject:
   - component: {fileID: 1778469081}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (11)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100659,7 +100659,7 @@ GameObject:
   - component: {fileID: 1783423096}
   m_Layer: 0
   m_Name: BlueCar
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100958,7 +100958,7 @@ GameObject:
   - component: {fileID: 1784066522}
   m_Layer: 0
   m_Name: NPCCar (1)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103310,7 +103310,7 @@ GameObject:
   - component: {fileID: 1832503588}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (9)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104989,7 +104989,7 @@ GameObject:
   - component: {fileID: 1853385420}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex (13)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105393,7 +105393,7 @@ GameObject:
   - component: {fileID: 1867586248}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex (5)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105528,7 +105528,7 @@ GameObject:
   - component: {fileID: 1868375228}
   m_Layer: 0
   m_Name: NPC_XeMay_Vision (12)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108299,7 +108299,7 @@ GameObject:
   - component: {fileID: 1905842074}
   m_Layer: 0
   m_Name: WhiteCar (2)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109407,7 +109407,7 @@ GameObject:
   - component: {fileID: 1917404670}
   m_Layer: 0
   m_Name: NPCCar (3)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109541,7 +109541,7 @@ GameObject:
   - component: {fileID: 1918429203}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (15)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110786,7 +110786,7 @@ GameObject:
   - component: {fileID: 1928731432}
   m_Layer: 0
   m_Name: RedCar
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111205,7 +111205,7 @@ GameObject:
   - component: {fileID: 1935836501}
   m_Layer: 0
   m_Name: NPC_XeMay_Ex (3)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115152,7 +115152,7 @@ GameObject:
   - component: {fileID: 1984392393}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119243,7 +119243,7 @@ GameObject:
   - component: {fileID: 2063498977}
   m_Layer: 0
   m_Name: NPC_XeMay_Wave (8)
-  m_TagString: Untagged
+  m_TagString: Vehical
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121374,7 +121374,7 @@ GameObject:
   - component: {fileID: 2099118320}
   m_Layer: 0
   m_Name: RedCar (2)
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124482,7 +124482,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -124555,7 +124555,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -124773,7 +124773,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6139169320170423775}
-  - component: {fileID: 7310121613815886380}
   m_Layer: 10
   m_Name: 'PhaChe '
   m_TagString: Untagged
@@ -124789,6 +124788,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1461856902398963631, guid: 771e090a320e409458c34500ca8a0a46, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3037659608528153462, guid: 771e090a320e409458c34500ca8a0a46, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -124873,6 +124876,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD_Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 8268279100461011561, guid: 771e090a320e409458c34500ca8a0a46, type: 3}
+      propertyPath: khoHang
+      value: 
+      objectReference: {fileID: 6236290089132781781}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -124976,7 +124983,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -125398,7 +125405,7 @@ MonoBehaviour:
   interactText: "[E] Th\xEAm T\u1EAFc"
   spawner: {fileID: 0}
   interactType: 2
-  phaChe: {fileID: 7310121613815886380}
+  phaChe: {fileID: 6236290089132781776}
 --- !u!23 &4680194992497278110
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -125409,7 +125416,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -125573,7 +125580,7 @@ MonoBehaviour:
   interactText: "[E] R\xF3t tr\xE0 "
   spawner: {fileID: 0}
   interactType: 1
-  phaChe: {fileID: 7310121613815886380}
+  phaChe: {fileID: 6236290089132781776}
 --- !u!1 &5544798075356377793
 GameObject:
   m_ObjectHideFlags: 0
@@ -125861,6 +125868,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df31e2631ec81c4ba90a524b8a6b407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TienHienCo: 50000
+  Tra: 10
+  Duong: 10
+  Tac: 10
+  Da: 20
+  LyNhua: 20
   soDoBenNgoai: 0
   maxGhe: 6
   maxBan: 2
@@ -126048,23 +126061,6 @@ Transform:
   - {fileID: 3169428498874159783}
   m_Father: {fileID: 6139169320170423775}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7310121613815886380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1775372750114937072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fe3bb0ebac2008419836d9981204904, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
-  lyTrong: {fileID: 6242496809704363565}
-  lyCoTra: {fileID: 1455392840403083394}
-  lyCoTraTac: {fileID: 6653249219558556773}
-  lyHoanThanh: {fileID: 8401141070980553884}
 --- !u!114 &7392208679664401077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126080,7 +126076,7 @@ MonoBehaviour:
   interactText: "[E] L\u1EA5y ly nh\u1EF1a "
   spawner: {fileID: 0}
   interactType: 0
-  phaChe: {fileID: 7310121613815886380}
+  phaChe: {fileID: 6236290089132781776}
 --- !u!1 &7558395056076638412
 GameObject:
   m_ObjectHideFlags: 0
@@ -126183,6 +126179,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9213531297745323558}
+  - component: {fileID: 9213531297745323560}
+  - component: {fileID: 9213531297745323559}
   m_Layer: 10
   m_Name: lytratachoanchinh
   m_TagString: Untagged
@@ -126355,6 +126353,41 @@ Transform:
   - {fileID: 4003167245665371895}
   m_Father: {fileID: 1738255932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &9213531297745323559
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8401141070980553884}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05067444, y: 0.016337251, z: 0.01260523}
+  m_Center: {x: 0.010346095, y: 0, z: 0.00037382048}
+--- !u!114 &9213531297745323560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8401141070980553884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c810a10dc4bde7d40a7d6660cc4d6762, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: 4
+  phaChe: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
