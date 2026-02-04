@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6149653716036666651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3037670367969285447}
+  - component: {fileID: 1269104131607425614}
+  - component: {fileID: 5082925790409079720}
+  m_Layer: 0
+  m_Name: _GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3037670367969285447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6149653716036666651}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.917595, y: -5.539871, z: 9.429421}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1269104131607425614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6149653716036666651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e94f98702dda0d4a83808d3651d45f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  khuVucNha: {fileID: 0}
+  cuaCuon: {fileID: 0}
+  tagGhe: Chair
+  panelDoanhThu: {fileID: 0}
+  panelCanhBao: {fileID: 0}
+  textLoi: {fileID: 0}
+  pausePanel: {fileID: 0}
+  volumeSlider: {fileID: 0}
+--- !u!114 &5082925790409079720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6149653716036666651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8879b829675fb44a37e2db1dac13e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gioHienTai: 6
+  tocDoThoiGian: 1
+  daHetGio: 0
+  dongHoHienThi: {fileID: 0}
+  matTroi: {fileID: 0}
