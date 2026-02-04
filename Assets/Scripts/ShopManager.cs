@@ -76,5 +76,5 @@ public class ShopManager : MonoBehaviour
     public void MuaDuong() { if (khoHang != null) khoHang.MuaHang("Duong", 2, 1000); }
     public void MuaTac() { if (khoHang != null) khoHang.MuaHang("Tac", 5, 500); }
     public void MuaDa() { if (khoHang != null) khoHang.MuaHang("Da", 1, 1000); }
-    public void MuaLy() { if (khoHang != null) khoHang.MuaHang("Ly", 50, 5000); }
+    public void MuaLy() { if (khoHang != null) khoHang.MuaHang("Ly", 50, 10000); }
 }

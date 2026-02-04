@@ -114,8 +114,17 @@ public class PhaCheController : MonoBehaviour
     {
         if (currentState == PhaCheState.HoanThanh)
         {
+            // --- LOGIC MỚI: BÁN HÀNG ---
+            // Gọi sang Kho để cộng tiền (Ví dụ bán 15.000đ/ly)
+            if (QuanLyKho.Instance != null)
+            {
+                int giaBan = 10000; // Bạn có thể chỉnh giá tùy ý
+                QuanLyKho.Instance.NhanTienBanNuoc(giaBan);
+                Debug.Log($"Đã bán 1 ly nước! +{giaBan}đ");
+            }
+
+            // --- LOGIC CŨ: RESET MÁY ---
             SetState(PhaCheState.ChuaCoLy);
-            Debug.Log("Đã thu hồi ly!");
         }
     }
 }
