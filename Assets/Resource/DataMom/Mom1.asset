@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: Mom1
+  m_EditorClassIdentifier: 
+  conversationID: mom day1
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "Con \u01A1i, m\u1EB9 g\u1ECDi xem con d\u1ECDn ch\u1ED7 \u1ED5n ch\u01B0a.
+      H\xF4m nay l\xE0 ng\xE0y \u0111\u1EA7u ti\xEAn ti\u1EC7m m\u1EDF m\xE0, m\u1EB9
+      h\u1ED3i h\u1ED9p l\u1EAFm."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "D\u1EA1 \u1ED5n r\u1ED3i m\u1EB9, con d\u1ECDn t\u1EEB s\xE1ng s\u1EDBm
+      r\u1ED3i. M\u1EB9 \u0111\u1EEBng lo."
+    typingSpeedMultiplier: 1
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "M\u1EB9 nh\u1EDB h\u1ED3i b\xE0 ngo\u1EA1i c\xF2n s\u1ED1ng, b\xE0
+      hay n\xF3i: mu\u1ED1n gi\u1EEF ngh\u1EC1 tr\xE0 th\xEC ph\u1EA3i gi\u1EEF c\xE1i
+      t\xE2m tr\u01B0\u1EDBc. Con nh\u1EDB kh\xF4ng?"
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "D\u1EA1 con nh\u1EDB. Con s\u1EBD c\u1ED1 gi\u1EEF \u0111\xFAng c\xE1i
+      h\u1ED3n c\u1EE7a ti\u1EC7m nh\u01B0 b\xE0 d\u1EA1y."
+    typingSpeedMultiplier: 1
+  - speakerName: "M\u1EB9 "
+    speakerAvatar: {fileID: 0}
+    content: "Th\xF4i con lo m\u1EDF h\xE0ng \u0111i, \u0111\u1EEBng \u0111\u1EC3
+      kh\xE1ch \u0111\u1EE9ng ch\u1EDD. M\u1EB9 gh\xE9 th\u0103m con cu\u1ED1i tu\u1EA7n
+      nha. C\u1ED1 l\xEAn!"
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "D\u1EA1, con ch\u1EDD m\u1EB9. M\u1EB9 \u0111i \u0111\u01B0\u1EDDng
+      c\u1EA9n th\u1EADn nha."
+    typingSpeedMultiplier: 1

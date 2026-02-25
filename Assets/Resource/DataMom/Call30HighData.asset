@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: Call30HighData
+  m_EditorClassIdentifier: 
+  conversationID: CALL_Mom_Day30_HighCapital
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "Alo con! M\u1EB9 nghe h\xE0ng x\xF3m k\u1EC3 ti\u1EC7m con \u0111\xF4ng
+      kh\xE1ch l\u1EAFm, c\xF3 \u0111\xFAng kh\xF4ng?"
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "D\u1EA1 c\u0169ng \u1ED5n m\u1EB9 \u01A1i, th\xE1ng n\xE0y kh\xE1 h\u01A1n
+      th\xE1ng tr\u01B0\u1EDBc nhi\u1EC1u r\u1ED3i."
+    typingSpeedMultiplier: 1
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "M\u1EB9 vui l\u1EAFm con \u01A1i. B\xE0 ngo\u1EA1i m\xE0 c\xF2n s\u1ED1ng
+      ch\u1EAFc b\xE0 c\u0169ng t\u1EF1 h\xE0o."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "Con c\u0169ng ngh\u0129 v\u1EADy. Con c\u1ED1 g\u1EAFng gi\u1EEF c\xE1ch
+      pha tr\xE0 theo ki\u1EC3u b\xE0 d\u1EA1y m\u1EB9 \u0111\xF3."
+    typingSpeedMultiplier: 1
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "Nh\u1EDB \u0111\u1EEBng c\xF3 ham ti\u1EC1n qu\xE1 m\xE0 qu\xEAn ng\u01B0\u1EDDi
+      xung quanh nha. Gi\xE0u m\xE0 c\xF4 \u0111\u01A1n th\xEC bu\u1ED3n l\u1EAFm."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "D\u1EA1 m\u1EB9. Con hi\u1EC3u r\u1ED3i.Con l\xE0m vi\u1EC7c ti\u1EBFp
+      \u0111\xE2y \u1EA1. Con ch\xE0o m\u1EB9"
+    typingSpeedMultiplier: 1

@@ -9,6 +9,7 @@ TagManager:
   - Vehical
   - Car
   - Vehicle
+  - NV phu
   layers:
   - Default
   - TransparentFX

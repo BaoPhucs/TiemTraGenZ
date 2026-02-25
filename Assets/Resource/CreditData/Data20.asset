@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: Data20
+  m_EditorClassIdentifier: 
+  conversationID: 
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: "Anh T\xE0i"
+    speakerAvatar: {fileID: 0}
+    content: "Alo, T\xE0i \u0111\xE2y. T\xECnh h\xECnh ti\u1EC7m sao r\u1ED3i?"
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "\u0110ang c\u1ED1... kh\xE1ch ch\u01B0a \u0111\xF4ng l\u1EAFm."
+    typingSpeedMultiplier: 1
+  - speakerName: "Anh T\xE0i"
+    speakerAvatar: {fileID: 0}
+    content: "Anh H\xF9ng nh\u1EDD t\xF4i h\u1ECFi th\u0103m. Th\u1EA5y l\xE2u qu\xE1
+      ch\u01B0a th\u1EA5y \u0111\u1ED9ng t\u0129nh g\xEC n\xEAn h\u01A1i lo."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "Cu\u1ED1i th\xE1ng t\xF4i s\u1EBD tr\u1EA3 m\u1ED9t ph\u1EA7n. Anh
+      ch\u1EDD t\xF4i \xEDt b\u1EEFa."
+    typingSpeedMultiplier: 1
+  - speakerName: "Anh T\xE0i"
+    speakerAvatar: {fileID: 0}
+    content: "H\u1EA1n l\xE0 cu\u1ED1i th\xE1ng n\xE0y. Ch\u01B0a \u0111\u1EE7 th\xEC
+      c\u0169ng r\xE1ng cho anh m\u1ED9t ph\u1EA7n, \u0111\u1EC3 anh xem l\u1EA1i
+      \u0111\u01B0\u1EE3c."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "\u0110\u01B0\u1EE3c. T\xF4i s\u1EBD lo."
+    typingSpeedMultiplier: 1
+  - speakerName: "Anh T\xE0i"
+    speakerAvatar: {fileID: 0}
+    content: "\u0110\u1EEBng \u0111\u1EC3 anh H\xF9ng ph\u1EA3i t\u1EF1 g\u1ECDi
+      nha. \u1ED4ng g\u1ECDi l\xE0 kh\xE1c r\u1ED3i \u0111\xF3."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "(im l\u1EB7ng) T\xF4i nghe r\u1ED3i."
+    typingSpeedMultiplier: 1

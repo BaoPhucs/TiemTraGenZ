@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private bool hasIsMovingParam;
 
     // Các biến hỗ trợ xe đẩy (giữ nguyên logic cũ)
-    private bool lockToForward;
+
     private Transform forwardLock;
     private bool hasSpeedOverride;
     private float savedSpeed;
@@ -53,6 +53,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        // Nếu đang gọi điện thoại thì không di chuyển
+        if (animator != null && animator.GetBool("isOnPhone"))
+        {
+            StopMovement();
+            return;
+        }
+        
         // Nếu đang bị chặn (ví dụ đang đẩy xe) thì đứng im
         if (movementBlocked)
         {
@@ -149,7 +156,6 @@ public class PlayerMovement : MonoBehaviour
     // --- CÁC HÀM HỖ TRỢ XE ĐẨY (GIỮ NGUYÊN) ---
     public void SetForwardLock(Transform lockTransform, float speedOverride = -1f)
     {
-        lockToForward = true;
         forwardLock = lockTransform;
         if (speedOverride > 0f)
         {
@@ -164,7 +170,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void ClearForwardLock()
     {
-        lockToForward = false;
         forwardLock = null;
         if (hasSpeedOverride)
         {

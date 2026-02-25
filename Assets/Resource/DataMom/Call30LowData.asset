@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: Call30LowData
+  m_EditorClassIdentifier: 
+  conversationID: 30low
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "Con \u01A1i... m\u1EB9 th\u1EA5y con d\u1EA1o n\xE0y tr\u1EA7m l\u1EAFm,
+      c\xF3 chuy\u1EC7n g\xEC kh\xF4ng?"
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "Kh\xF4ng c\xF3 g\xEC m\u1EB9 \u01A1i... ch\u1EC9 l\xE0 bu\xF4n b\xE1n
+      h\u01A1i ch\u1EADm th\xF4i."
+    typingSpeedMultiplier: 1
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "M\u1EB9 bi\u1EBFt bu\xF4n b\xE1n kh\xF3 l\u1EAFm. H\u1ED3i \u0111\xF3
+      b\xE0 ngo\u1EA1i c\u0169ng v\u1EADy, c\xF3 th\xE1ng \u1EBF \u0111\u1EBFn m\u1EE9c
+      kh\xF4ng \u0111\u1EE7 ti\u1EC1n mua tr\xE0."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "D\u1EA1... con bi\u1EBFt. Con \u0111ang c\u1ED1 t\xECm c\xE1ch c\u1EA3i
+      thi\u1EC7n."
+    typingSpeedMultiplier: 1
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "N\u1EBFu c\u1EA7n th\xEC n\xF3i m\u1EB9 bi\u1EBFt nha. M\u1EB9 \u0111\u1EC3
+      d\xE0nh \xEDt ti\u1EC1n, kh\xF4ng nhi\u1EC1u nh\u01B0ng c\u0169ng \u0111\u1EE1.
+      Con \u0111\u1EEBng ng\u1EA1i."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "Th\xF4i kh\xF4ng c\u1EA7n \u0111\xE2u m\u1EB9. M\u1EB9 gi\u1EEF l\u1EA5y
+      m\xE0 d\xF9ng. Con t\u1EF1 lo \u0111\u01B0\u1EE3c."
+    typingSpeedMultiplier: 1
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "Nh\u01B0ng m\xE0... \u0111\u1EEBng vay ngo\xE0i nha con. M\u1EB9 s\u1EE3
+      l\u1EAFm m\u1EA5y ch\u1ED7 \u0111\xF3."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "(im l\u1EB7ng m\u1ED9t ch\xFAt) D\u1EA1 m\u1EB9. Con nh\u1EDB r\u1ED3i."
+    typingSpeedMultiplier: 1

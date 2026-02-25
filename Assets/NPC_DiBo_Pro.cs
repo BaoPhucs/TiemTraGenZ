@@ -18,7 +18,7 @@ public class NPC_DiBo_Pro : MonoBehaviour
 
     // --- BIẾN XỬ LÝ KẸT ---
     private float stuckTimer = 0f;
-    private bool isRecovering = false;
+
 
     private NavMeshAgent agent;
     private Animator anim;
@@ -72,7 +72,6 @@ public class NPC_DiBo_Pro : MonoBehaviour
         // 3. LOGIC ĐẾN ĐÍCH
         if (!agent.pathPending && agent.remainingDistance < 1.0f)
         {
-            isRecovering = false;
             DiTiep();
         }
     }
@@ -89,7 +88,6 @@ public class NPC_DiBo_Pro : MonoBehaviour
 
     void GoKet()
     {
-        isRecovering = true;
         stuckTimer = 0;
         // Tìm điểm ngẫu nhiên xung quanh để thoát thân
         Vector3 randomPoint = transform.position + Random.insideUnitSphere * 6f;
