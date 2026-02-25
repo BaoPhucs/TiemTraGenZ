@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: DataViral2
+  m_EditorClassIdentifier: 
+  conversationID: 
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: "H\xF9ng"
+    speakerAvatar: {fileID: 0}
+    content: "\xCA Minh, tao v\u1EEBa n\xF3i chuy\u1EC7n v\u1EDBi m\u1ED9t ng\u01B0\u1EDDi
+      quen b\xEAn c\u01A1 quan v\u0103n h\xF3a qu\u1EADn."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "\u1EE6a? Chuy\u1EC7n g\xEC v\u1EADy m\xE0y?"
+    typingSpeedMultiplier: 1
+  - speakerName: "H\xF9ng"
+    speakerAvatar: {fileID: 0}
+    content: "H\u1ECD \u0111ang t\xECm m\u1EA5y c\u01A1 s\u1EDF bu\xF4n b\xE1n truy\u1EC1n
+      th\u1ED1ng \u0111\u1EC3 \u0111\u01B0a v\xE0o danh s\xE1ch b\u1EA3o t\u1ED3n.
+      Tao k\u1EC3 chuy\u1EC7n m\xE0y cho h\u1ECD r\u1ED3i."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "M\xE0y l\xE0m v\u1EADy thi\u1EC7t \xE1... tao kh\xF4ng bi\u1EBFt ph\u1EA3i
+      n\xF3i g\xEC."
+    typingSpeedMultiplier: 1
+  - speakerName: "H\xF9ng"
+    speakerAvatar: {fileID: 0}
+    content: "\u1ED4ng n\xF3i mu\u1ED1n gh\xE9 th\u0103m ti\u1EC7m. M\xE0y d\u1ECDn
+      d\u1EB9p cho \u0111\u1EB9p v\xE0o nha, \u0111\u1EEBng c\xF3 b\u1EA9y nh\xE1."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "\u1EEA \u1EEB, tao d\u1ECDn li\u1EC1n. M\xE0... c\u1EA3m \u01A1n m\xE0y
+      nhi\u1EC1u l\u1EAFm H\xF9ng \u01A1i."
+    typingSpeedMultiplier: 1
+  - speakerName: "H\xF9ng"
+    speakerAvatar: {fileID: 0}
+    content: "Tao ngh\u0129 \u0111\xE2y l\xE0 c\u01A1 h\u1ED9i l\u1EDBn \u0111\xF3
+      m\xE0y. M\xE0y x\u1EE9ng \u0111\xE1ng l\u1EAFm r\u1ED3i."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "x\xFAc \u0111\u1ED9ng) \u1EEA... tao s\u1EBD kh\xF4ng b\u1ECF l\u1EE1
+      \u0111\xE2u."
+    typingSpeedMultiplier: 1

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: Data45
+  m_EditorClassIdentifier: 
+  conversationID: day45
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: "Anh T\xE0i"
+    speakerAvatar: {fileID: 0}
+    content: "Th\xF4i kh\u1ECFi n\xF3i nhi\u1EC1u. Anh H\xF9ng cho ng\u01B0\u1EDDi
+      xu\u1ED1ng xem \u0111\u1ECBa ch\u1EC9 r\u1ED3i."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "Khoan \u0111\xE3\u2014 t\xF4i..."
+    typingSpeedMultiplier: 1
+  - speakerName: "Anh T\xE0i"
+    speakerAvatar: {fileID: 0}
+    content: "Tr\u1EA3 \u0111\u1EE7 trong 48 ti\u1EBFng, kh\xF4ng th\xEC t\u1EE5i
+      t\xF4i t\u1EF1 x\u1EED. \u0110\u01A1n gi\u1EA3n v\u1EADy th\xF4i."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "(gi\u1ECDng run) T\xF4i hi\u1EC3u r\u1ED3i."
+    typingSpeedMultiplier: 1

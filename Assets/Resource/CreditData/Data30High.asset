@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: Data30High
+  m_EditorClassIdentifier: 
+  conversationID: 30High
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: "Anh T\xE0i"
+    speakerAvatar: {fileID: 0}
+    content: "T\xE0i \u0111\xE2y. Anh H\xF9ng th\u1EA5y ti\u1EC7m em l\xE0m \u0103n
+      \u0111\u01B0\u1EE3c, nh\u1EDD t\xF4i g\u1ECDi h\u1ECFi th\u0103m."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "\u1EEA, c\u0169ng \u1ED5n. C\xF3 chuy\u1EC7n g\xEC kh\xF4ng anh?"
+    typingSpeedMultiplier: 1
+  - speakerName: "Anh T\xE0i"
+    speakerAvatar: {fileID: 0}
+    content: "\u1ED4ng c\xF3 ngu\u1ED3n v\u1ED1n mu\u1ED1n \u0111\u1EA7u t\u01B0
+      th\xEAm n\u1EBFu em c\u1EA7n m\u1EDF r\u1ED9ng. L\xE3i su\u1EA5t \u01B0u \u0111\xE3i
+      h\u01A1n l\u1EA7n tr\u01B0\u1EDBc."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "(ng\u1EADp ng\u1EEBng) \u0110\u1EC3 t\xF4i ngh\u0129 th\xEAm. Ch\u01B0a
+      ch\u1EAFc c\u1EA7n."
+    typingSpeedMultiplier: 1
+  - speakerName: "Anh T\xE0i"
+    speakerAvatar: {fileID: 0}
+    content: "Em ngh\u0129 th\u1EED \u0111i, c\u01A1 h\u1ED9i kh\xF4ng ph\u1EA3i
+      l\xFAc n\xE0o c\u0169ng c\xF3. T\xF4i ch\u1EDD tin."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "\u1EEA... t\xF4i s\u1EBD li\xEAn l\u1EA1c l\u1EA1i."
+    typingSpeedMultiplier: 1

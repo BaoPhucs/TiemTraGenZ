@@ -11,8 +11,31 @@ public class GameLoopManager : MonoBehaviour
 
     void Start()
     {
-        // Tắt bảng khi mới vào game
-        if (bangKetToanPanel != null) bangKetToanPanel.SetActive(false);
+        // Tự động tìm Panel nếu chưa gán (để tránh lỗi khi chuyển scene)
+        if (bangKetToanPanel == null)
+            bangKetToanPanel = GameObject.Find("BangKetToan_Panel");
+
+        // Bật bảng khi mới vào game (theo yêu cầu của bạn để tiếp nối Intro)
+        if (bangKetToanPanel != null) 
+        {
+            bangKetToanPanel.SetActive(true);
+            
+            // Hiện chuột để người chơi thao tác (nếu cần)
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
+    void Update()
+    {
+        // Logic bấm Enter để bắt đầu ngày mới (chuyển từ bảng kết toán -> game)
+        if (bangKetToanPanel != null && bangKetToanPanel.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                SangNgayMoi();
+            }
+        }
     }
 
     // --- DÒNG NÀY TẠO NÚT TEST TRONG MENU CHUỘT PHẢI ---

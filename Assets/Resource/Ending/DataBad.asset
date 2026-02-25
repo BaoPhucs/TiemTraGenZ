@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: DataBad
+  m_EditorClassIdentifier: 
+  conversationID: 
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "Con d\u1ECDn \u0111\u1ED3 t\u1EDBi \u0111\xE2u r\u1ED3i? C\xF3 c\u1EA7n
+      m\u1EB9 k\xEAu m\u1EA5y c\u1EADu l\xEAn ph\u1EE5 m\u1ED9t tay kh\xF4ng?"
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "D\u1EA1... s\u1EAFp xong r\u1ED3i m\u1EB9. \u0110\u1ED3 \u0111\u1EA1c
+      thanh l\xFD c\u0169ng g\u1EA7n h\u1EBFt r\u1ED3i."
+    typingSpeedMultiplier: 1
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "Th\xF4i \u0111\u1EEBng bu\u1ED3n n\u1EEFa con. L\xE0m \u0103n th\xEC
+      c\xF3 l\xFAc n\xE0y l\xFAc kia, \u0111\xE2u ph\u1EA3i ai m\u1EDF ti\u1EC7m
+      c\u0169ng th\u1EAFng ngay \u0111\xE2u."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "Con xin l\u1ED7i... con \u0111\xE3 l\xE0m m\u1EA5t s\u1ED1 v\u1ED1n
+      m\u1EB9 cho, m\xE0 c\u0169ng kh\xF4ng gi\u1EEF \u0111\u01B0\u1EE3c ngh\u1EC1
+      c\u1EE7a b\xE0."
+    typingSpeedMultiplier: 1
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "Chuy\u1EC7n qua r\u1ED3i. M\u1EB9 lo cho s\u1EE9c kh\u1ECFe c\u1EE7a
+      con h\u01A1n. V\u1EC1 nh\xE0 ngh\u1EC9 ng\u01A1i v\xE0i h\xF4m, r\u1ED3i xin
+      v\xE0o c\xF4ng ty c\u0169 l\xE0m l\u1EA1i c\u0169ng \u0111\u01B0\u1EE3c, \u0111\xFAng
+      kh\xF4ng?"
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "...D\u1EA1. Ng\xE0y mai con b\u1EAFt xe v\u1EC1."
+    typingSpeedMultiplier: 1
+  - speakerName: "M\u1EB9"
+    speakerAvatar: {fileID: 0}
+    content: "M\u1EB9 n\u1EA5u s\u1EB5n canh d\u01B0a chua th\u1ECBt b\xF2 con th\xEDch.
+      V\u1EC1 l\u1EB9 nha!"
+    typingSpeedMultiplier: 1

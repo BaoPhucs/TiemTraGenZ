@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: DataTrue
+  m_EditorClassIdentifier: 
+  conversationID: 
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: "Ch\xFA T\xE1m"
+    speakerAvatar: {fileID: 0}
+    content: "Alo th\u1EB1ng Minh! M\xE0y \u0111ang \u1EDF \u0111\xE2u, s\u1EAFp
+      t\u1EDBi gi\u1EDD c\u1EAFt b\u0103ng kh\xE1nh th\xE0nh c\xE1i bi\u1EC3n \"\u0110i\u1EC3m
+      \u0110\u1EBFn V\u0103n H\xF3a\" r\u1ED5i k\xECa!"
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "D\u1EA1 d\u1EA1 ch\xFA T\xE1m, con \u0111ang thay c\xE1i \xE1o s\u01A1
+      mi m\u1EDBi, r\u1ED1i qu\xE1! V\u1EE5 n\xE0y l\u1EDBn thi\u1EC7t h\u1EA3 ch\xFA?"
+    typingSpeedMultiplier: 1
+  - speakerName: "Ch\xFA T\xE1m"
+    speakerAvatar: {fileID: 0}
+    content: "L\u1EDBn ch\u1EE9 sao! C\u1EA3 c\xE1i x\xF3m n\xE0y t\u1EF1 h\xE0o
+      v\u1EC1 ti\u1EC7m m\xE0y l\u1EAFm. H\u1ED3i \u0111\u1EA7u tao th\u1EA5y m\xE0y
+      l\xF3c ch\xF3c t\u01B0\u1EDFng d\u1EB9p ti\u1EC7m s\u1EDBm, ai d\xE8 tr\u1EE5
+      dai m\xE0 c\xF2n mang ti\u1EBFng th\u01A1m cho khu n\xE0y."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "(C\u01B0\u1EDDi ng\u01B0\u1EE3ng) L\xE0 nh\u1EDD m\u1EA5y c\xF4 ch\xFA
+      h\xE0ng x\xF3m th\u01B0\u01A1ng, mua \u1EE7ng h\u1ED9 con su\u1ED1t \u0111\xF3
+      ch\xFA \u01A1i."
+    typingSpeedMultiplier: 1
+  - speakerName: "Ch\xFA T\xE1m"
+    speakerAvatar: {fileID: 0}
+    content: "C\xE1i ti\u1EC7m m\xE0y kh\xF4ng ch\u1EC9 b\xE1n n\u01B0\u1EDBc, n\xF3
+      gi\u1EEF c\xE1i t\xECnh ng\u01B0\u1EDDi m\xE0y hi\u1EC3u kh\xF4ng? H\u1ED3i
+      x\u01B0a tao qua u\u1ED1ng tr\xE0 v\u1EDBi ngo\u1EA1i m\xE0y ho\xE0i, gi\u1EDD
+      u\u1ED1ng tr\xE0 m\xE0y pha, v\u1ECB y chang!"
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "C\u1EA3m \u01A1n ch\xFA... con vui \u0111\u1EBFn r\u1EDBt n\u01B0\u1EDBc
+      m\u1EAFt."
+    typingSpeedMultiplier: 1
+  - speakerName: "Ch\xFA T\xE1m"
+    speakerAvatar: {fileID: 0}
+    content: "Nhanh ra ngo\xE0i \u0111i m\u1EADy! \u0110o\xE0n phim c\u1EE7a \u0111\xE0i
+      truy\u1EC1n h\xECnh th\xE0nh ph\u1ED1 d\u1EF1ng xong g\xF3c quay r\u1ED3i,
+      b\xE0 con ch\u1EDD \u0111\xF4ng l\u1EAFm!"
+    typingSpeedMultiplier: 1

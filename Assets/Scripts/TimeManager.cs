@@ -16,6 +16,10 @@ public class TimeManager : MonoBehaviour
     public TextMeshProUGUI dongHoHienThi; // Kéo UI Text vào đây
     public Light matTroi;                 // Kéo Directional Light vào đây (MỚI)
 
+    // Biến để lưu giờ sẽ diễn ra cuộc gọi Ending ở Ngày Cuối
+    private float gioGoiEnding = -1f;
+    private bool daGoiEnding = false;
+
     void Update()
     {
         if (daHetGio) return;
@@ -43,6 +47,17 @@ public class TimeManager : MonoBehaviour
         {
             Debug.Log("Đã 10 giờ tối! Dọn hàng thôi.");
             // Có thể gọi GameManager.Instance.HienCanhBao("Sắp đóng cửa!") tại đây
+        }
+
+        // 5. KIỂM TRA SỰ KIỆN ENDING Ở NGÀY 90
+        if (TiemTraGenZ.Manager.StoryManager.Instance != null && TiemTraGenZ.Manager.StoryManager.Instance.currentDay == TiemTraGenZ.Manager.StoryManager.Instance.maxDays)
+        {
+            if (!daGoiEnding && gioGoiEnding > 0f && gioHienTai >= gioGoiEnding)
+            {
+                daGoiEnding = true;
+                var ending = TiemTraGenZ.Manager.StoryManager.Instance.CheckEnding();
+                TiemTraGenZ.Manager.StoryManager.Instance.TriggerEnding(ending);
+            }
         }
     }
 
@@ -94,5 +109,18 @@ public class TimeManager : MonoBehaviour
     {
         Debug.Log("--- NGÀY MỚI BẮT ĐẦU ---");
         // Chỗ này để reset doanh thu sau này
+        
+        // Gọi StoryManager để tăng currentDay lên 1 và tự động check các logic sự kiện Phone
+        if (TiemTraGenZ.Manager.StoryManager.Instance != null)
+        {
+            TiemTraGenZ.Manager.StoryManager.Instance.AdvanceDay();
+
+            // Nếu ngày mới nhảy sang đúng ngày 90 (ngày cuối), thì Random một giờ để gọi kết thúc
+            if (TiemTraGenZ.Manager.StoryManager.Instance.currentDay == TiemTraGenZ.Manager.StoryManager.Instance.maxDays)
+            {
+                gioGoiEnding = Random.Range(10.0f, 17.0f); // Random từ 10h sáng tới 5h chiều
+                Debug.Log($"[TimeManager] Đã setup cuộc gọi Ending vào lúc {gioGoiEnding:F1}h hôm nay.");
+            }
+        }
     }
 }

@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: DataDay3
+  m_EditorClassIdentifier: 
+  conversationID: 
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: "H\xF9ng"
+    speakerAvatar: {fileID: 0}
+    content: "\xCA Minh! Tao nghe m\xE0y m\u1EDF ti\u1EC7m tr\xE0 r\u1ED3i, sao kh\xF4ng
+      k\xEAu tao qua ph\u1EE5 khai tr\u01B0\u01A1ng?"
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "\u1EE6a m\xE0y bi\u1EBFt r\u1ED3i \xE1? Tao t\u01B0\u1EDFng ch\u01B0a
+      k\xEAu ai."
+    typingSpeedMultiplier: 1
+  - speakerName: "H\xF9ng"
+    speakerAvatar: {fileID: 0}
+    content: "Th\xF4i \u0111\u01B0\u1EE3c, tao b\u1ECF qua l\u1EA7n n\xE0y. Nh\u01B0ng
+      m\xE0 n\xF3i th\u1EADt, tao t\u1EF1 h\xE0o m\xE0y l\u1EAFm. D\xE1m l\xE0m l\xE0
+      ngon r\u1ED3i."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "C\u1EA3m \u01A1n m\xE0y. Tao c\u0169ng ch\u01B0a ch\u1EAFc l\u1EAFm
+      nh\u01B0ng m\xE0... th\u1EED th\xF4i."
+    typingSpeedMultiplier: 1
+  - speakerName: "H\xF9ng"
+    speakerAvatar: {fileID: 0}
+    content: "Cu\u1ED1i tu\u1EA7n tao k\xE9o h\u1ED9i qua \u1EE7ng h\u1ED9 nha. M\xE0y
+      c\xF3 \u0111\u1ED3 \u0103n k\xE8m kh\xF4ng? T\u1EE5i tao \u0111\u1EE9a n\xE0o
+      c\u0169ng \u0111\xF3i."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "\tC\xF3 b\xE1nh \u0111\u1EADu xanh th\xF4i. M\xE0 m\xE0y k\xEAu h\u1ED9i
+      qua th\xEC tao bi\u1EBFt \u01A1n l\u1EAFm \u0111\xF3."
+    typingSpeedMultiplier: 1
+  - speakerName: "H\xF9ng"
+    speakerAvatar: {fileID: 0}
+    content: "Ch\u1ED1t nha. B\u1ECDn tao gh\xE9 \u1EE7ng h\u1ED9"
+    typingSpeedMultiplier: 1

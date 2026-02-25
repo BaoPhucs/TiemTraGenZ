@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: TestBaTu
+  m_EditorClassIdentifier: 
+  conversationID: 
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: BaTu
+    speakerAvatar: {fileID: 0}
+    content: "\u1EE6a con Minh v\u1EC1 qu\xEA \xE0? L\xE2u l\u1EAFm kh\xF4ng g\u1EB7p"
+    typingSpeedMultiplier: 1
+  - speakerName: Ba Tu
+    speakerAvatar: {fileID: 0}
+    content: "Nghe n\xF3i con \u0111\u1ECBnh m\u1EDF qu\xE1n tr\xE0 GenZ ph\u1EA3i
+      kh\xF4ng? Hay \u0111\u1EA5y!\""
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "\u1EA1, ch\xE1u \u0111\u1ECBnh th\u1EED l\xE0m xem sao \u1EA1."
+    typingSpeedMultiplier: 1

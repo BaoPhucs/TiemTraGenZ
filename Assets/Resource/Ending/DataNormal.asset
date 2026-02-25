@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b80edfb24e51e44881bcb2e32cb9a6, type: 3}
+  m_Name: DataNormal
+  m_EditorClassIdentifier: 
+  conversationID: 
+  nextConversation: {fileID: 0}
+  lines:
+  - speakerName: "Ch\u1ECB Qu\u1EF3nh"
+    speakerAvatar: {fileID: 0}
+    content: "Ch\xE0o Minh, ch\u1ECB g\u1ECDi t\u1EEB ph\xF2ng ph\xE1p ch\u1EBF c\u1EE7a
+      t\u1EADp \u0111o\xE0n. H\u1EE3p \u0111\u1ED3ng chuy\u1EC3n nh\u01B0\u1EE3ng
+      th\u01B0\u01A1ng hi\u1EC7u \u0111\xE3 g\u1EEDi qua email em r\u1ED3i nh\xE9."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "D\u1EA1 ch\u1ECB. Em \u0111ang coi l\u1EA1i m\u1EA5y \u0111i\u1EC1u
+      kho\u1EA3n cu\u1ED1i."
+    typingSpeedMultiplier: 1
+  - speakerName: "Ch\u1ECB Qu\u1EF3nh"
+    speakerAvatar: {fileID: 0}
+    content: "B\xEAn ch\u1ECB s\u1EBD chu\u1EA9n h\xF3a l\u1EA1i menu. B\u1ECF b\u1EDBt
+      m\u1EA5y d\xF2ng tr\xE0 l\xE1 th\u1EE7 c\xF4ng \u0111i nh\xE9, thay b\u1EB1ng
+      syrup c\xF4ng nghi\u1EC7p pha s\u1EB5n cho nhanh thu h\u1ED3i v\u1ED1n."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "S\u1EEDa... s\u1EEDa lu\xF4n v\u1ECB tr\xE0 c\u1ED1t l\xF5i c\u1EE7a
+      b\xE0 ngo\u1EA1i em sao ch\u1ECB?"
+    typingSpeedMultiplier: 1
+  - speakerName: "Ch\u1ECB Qu\u1EF3nh"
+    speakerAvatar: {fileID: 0}
+    content: "Em \u01A1i, kinh doanh chu\u1ED7i l\xE0 ph\u1EA3i \u0111\u1ED3ng nh\u1EA5t!
+      Kh\xE1ch h\xE0ng gen Z b\xE2y gi\u1EDD ch\u1EC9 th\xEDch ng\u1ECDt, b\xE9o
+      ch\u1EE9 ai u\u1ED1ng tr\xE0 \u0111\u1EAFng. Em nh\u1EADn kho\u1EA3n ti\u1EC1n
+      c\u1EE5c t\u1EC9 \u0111\u1ED3ng \u0111\xF3 th\xEC nh\u01B0\u1EDDng quy\u1EC1n
+      thi\u1EBFt k\u1EBF menu cho t\u1EE5i ch\u1ECB."
+    typingSpeedMultiplier: 1
+  - speakerName: Minh
+    speakerAvatar: {fileID: 0}
+    content: "(Th\u1EDF d\xE0i)... D\u1EA1 v\xE2ng. Em s\u1EBD k\xFD."
+    typingSpeedMultiplier: 1
+  - speakerName: "Ch\u1ECB Qu\u1EF3nh"
+    speakerAvatar: {fileID: 0}
+    content: "Ch\u1ED1t v\u1EADy nh\xE9. Mai ch\u1ECB cho ng\u01B0\u1EDDi xu\u1ED1ng
+      th\xE1o c\xE1i b\u1EA3ng hi\u1EC7u c\u0169 b\u1EB1ng g\u1ED7 xu\u1ED1ng, thay
+      b\u1EB1ng \u0111\xE8n LED neon cho h\xFAt kh\xE1ch."
+    typingSpeedMultiplier: 1
