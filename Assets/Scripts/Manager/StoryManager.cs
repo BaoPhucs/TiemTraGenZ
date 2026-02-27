@@ -18,7 +18,7 @@ namespace TiemTraGenZ.Manager
 
         [Header("Story Stats")]
         [Tooltip("Vốn")]
-        public float capital = 1000f;
+        public float capital = 50000f;
         
         [Tooltip("Tình Làng Nghĩa Xóm")]
         public float neighborRelation = 50f;
@@ -31,7 +31,7 @@ namespace TiemTraGenZ.Manager
         public int maxDays = 90;
 
         [Header("Ending Configuration")]
-        public float minCapitalForNormal = 5000f;
+        public float minCapitalForNormal = 500000f;
         public float minRelationForTrue = 80f;
         public float minViralForTrue = 1000f;
 
@@ -159,7 +159,7 @@ namespace TiemTraGenZ.Manager
             if (currentDay == 30 && !triggeredMomDay30)
             {
                 triggeredMomDay30 = true;
-                if (capital < 2000f && momDay30LowCapital != null)
+                if (capital < 40000f && momDay30LowCapital != null)
                     TriggerCall(momDay30LowCapital);
                 else if (momDay30HighCapital != null)
                     TriggerCall(momDay30HighCapital);
@@ -199,7 +199,7 @@ namespace TiemTraGenZ.Manager
             if (currentDay == 20 && !triggeredCreditorDay20)
             {
                 triggeredCreditorDay20 = true;
-                if (capital < 1500f && creditorWarning != null)
+                if (capital < 30000f && creditorWarning != null)
                 {
                     TriggerCall(creditorWarning);
                     return;
@@ -209,19 +209,19 @@ namespace TiemTraGenZ.Manager
             if (currentDay == 30 && !triggeredCreditorDay30)
             {
                 triggeredCreditorDay30 = true;
-                if (capital < 1000f && creditorThreat != null)
+                if (capital < 20000f && creditorThreat != null)
                 {
                     TriggerCall(creditorThreat);
                     return;
                 }
-                else if (capital >= 3000f && creditorSweet != null)
+                else if (capital >= 300000f && creditorSweet != null)
                 {
                     TriggerCall(creditorSweet);
                     return;
                 }
             }
 
-            if (currentDay == 45 && !triggeredCreditorDay45 && capital < 500f && creditorAggressive != null)
+            if (currentDay == 45 && !triggeredCreditorDay45 && capital < 10000f && creditorAggressive != null)
             {
                 triggeredCreditorDay45 = true;
                 TriggerCall(creditorAggressive);

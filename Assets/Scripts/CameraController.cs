@@ -31,6 +31,8 @@ public class CameraController : MonoBehaviour
     {
         if (player == null) return;
 
+        if (Time.timeScale == 0f) return;
+
         // 1. Nhận input chuột
         currentX += Input.GetAxis("Mouse X") * mouseSensitivity;
         currentY -= Input.GetAxis("Mouse Y") * mouseSensitivity;

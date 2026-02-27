@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+﻿using TiemTraGenZ.Manager;
 using TMPro;
+using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
@@ -74,24 +75,37 @@ public class ShopManager : MonoBehaviour
     // --- CÁC HÀM MUA HÀNG (ĐÃ CẬP NHẬT GIÁ & SỐ LƯỢNG CHUẨN) ---
     // QuanLyKho sẽ tự tính toán giá thị trường dựa trên giá gốc này
 
+    void CapNhatTienSangStory()
+    {
+        // Lấy số tiền thực tế từ kho và dán vào kịch bản
+        if (khoHang != null && StoryManager.Instance != null)
+        {
+            StoryManager.Instance.capital = khoHang.TienHienCo;
+        }
+    }
+
     public void MuaTra()
     {
         if (khoHang != null) khoHang.MuaHang("Tra", 10, 7000); // 10 gói, gốc 2k
+        CapNhatTienSangStory();
     }
 
     public void MuaTac()
     {
         if (khoHang != null) khoHang.MuaHang("Tac", 10, 10000); // 10 quả, gốc 2k
+        CapNhatTienSangStory();
     }
 
     public void MuaDa()
     {
         if (khoHang != null) khoHang.MuaHang("Da", 20, 5000); // 20 bao, gốc 2k
+        CapNhatTienSangStory();
     }
 
     public void MuaLy()
     {
         if (khoHang != null) khoHang.MuaHang("Ly", 50, 15000); // 50 cái, gốc 10k
+        CapNhatTienSangStory();
     }
 
     // --- CÁC HÀM NÂNG CẤP (MỚI - GẮN VÀO NÚT MUA BÀN/GHẾ) ---
@@ -100,11 +114,13 @@ public class ShopManager : MonoBehaviour
     {
         // Mua thêm 1 cái ghế, giá 15.000đ
         if (khoHang != null) khoHang.NangCapBanGhe("Ghe", 30000);
+        CapNhatTienSangStory();
     }
 
     public void MuaBanMoi()
     {
         // Mua thêm 1 cái bàn, giá 50.000đ
         if (khoHang != null) khoHang.NangCapBanGhe("Ban", 50000);
+        CapNhatTienSangStory();
     }
 }
