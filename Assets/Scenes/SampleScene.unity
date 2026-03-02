@@ -125486,6 +125486,10 @@ PrefabInstance:
       propertyPath: near clip plane
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 7357682493629594769, guid: 142ec3764d0b53343bc1072eeade19e7, type: 3}
+      propertyPath: m_OcclusionCulling
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8345817717809161312, guid: 142ec3764d0b53343bc1072eeade19e7, type: 3}
     m_RemovedGameObjects: []
@@ -129260,6 +129264,14 @@ PrefabInstance:
     - target: {fileID: 183068810156967290, guid: f9bdbf8dfd8ec474f87da2d64bf0a778, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1674890178473651005, guid: f9bdbf8dfd8ec474f87da2d64bf0a778, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2395918896465559532, guid: f9bdbf8dfd8ec474f87da2d64bf0a778, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4483482033105393187, guid: f9bdbf8dfd8ec474f87da2d64bf0a778, type: 3}
       propertyPath: m_Name
