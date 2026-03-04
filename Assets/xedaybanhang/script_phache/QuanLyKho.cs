@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class QuanLyKho : MonoBehaviour
 {
@@ -173,4 +174,5 @@ public class QuanLyKho : MonoBehaviour
         if (loaiDo == "ThungDa" && thungDaDaLay > 0) thungDaDaLay--;
     }
     public bool ConDoBenNgoai() { return soDoBenNgoai > 0; }
+
 }

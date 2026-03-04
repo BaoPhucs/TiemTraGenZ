@@ -114,17 +114,22 @@ public class PhaCheController : MonoBehaviour
     {
         if (currentState == PhaCheState.HoanThanh)
         {
-            // --- LOGIC MỚI: BÁN HÀNG ---
-            // Gọi sang Kho để cộng tiền (Ví dụ bán 15.000đ/ly)
-            if (QuanLyKho.Instance != null)
+            // --- LOGIC MỚI: BƯNG NƯỚC LÊN TAY ---
+            if (PlayerHand.Instance != null)
             {
-                int giaBan = 10000; // Bạn có thể chỉnh giá tùy ý
-                QuanLyKho.Instance.NhanTienBanNuoc(giaBan);
-                Debug.Log($"Đã bán 1 ly nước! +{giaBan}đ");
+                // Ghi nhớ món đang cầm vào tay Minh
+                PlayerHand.Instance.monDangCam = "TraTac";
+                Debug.Log("Minh đang cầm: " + PlayerHand.Instance.monDangCam);
+            }
+            else
+            {
+                Debug.LogWarning("⚠️ Chưa tìm thấy PlayerHand! Hãy nhớ gắn script PlayerHand vào nhân vật Minh nhé.");
             }
 
-            // --- LOGIC CŨ: RESET MÁY ---
+            // --- LOGIC CŨ: RESET BÀN PHA CHẾ ---
+            // Hàm SetState sẽ tự động tắt lyHoanThanh.SetActive(false) giúp bạn
             SetState(PhaCheState.ChuaCoLy);
         }
     }
+
 }

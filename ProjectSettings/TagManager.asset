@@ -10,6 +10,7 @@ TagManager:
   - Car
   - Vehicle
   - NV phu
+  - GheDaLay
   layers:
   - Default
   - TransparentFX
