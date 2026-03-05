@@ -39,16 +39,16 @@ public class CartController : MonoBehaviour
 
     void Update()
     {
-        // Bấm B để Bán Hàng (Bày ra)
-        if (Input.GetKeyDown(KeyCode.B))
+        // SỬA LỖI XUNG ĐỘT PHÍM TẠI ĐÂY
+
+        // Đổi phím B thành phím O (Open - Mở quán) để không trùng với nút Nghe điện thoại
+        if (Input.GetKeyDown(KeyCode.O))
         {
             SetState(CartState.BanHang);
         }
 
-        // --- SỬA LỖI TẠI ĐÂY ---
-        // Đổi KeyCode.M thành KeyCode.C (hoặc phím khác tùy bạn)
-        // Để tránh xung đột với phím M mở Shop
-        if (Input.GetKeyDown(KeyCode.C))
+        // Đổi phím C thành phím P (Pack - Dọn hàng) để không trùng với nút Cúp điện thoại
+        if (Input.GetKeyDown(KeyCode.P))
         {
             SetState(CartState.DiChuyen);
         }
