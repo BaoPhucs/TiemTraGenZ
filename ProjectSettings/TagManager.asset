@@ -11,6 +11,7 @@ TagManager:
   - Vehicle
   - NV phu
   - GheDaLay
+  - XeDay
   layers:
   - Default
   - TransparentFX
