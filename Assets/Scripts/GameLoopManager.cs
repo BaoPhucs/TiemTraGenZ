@@ -98,9 +98,33 @@ public class GameLoopManager : MonoBehaviour
     [ContextMenu("TEST KET THUC")]
     public void KetThucNgay()
     {
-        dangXemThongKe = false; // Đây là kết thúc thật, không phải xem tạm
+        dangXemThongKe = false;
         if (bangKetToanPanel != null) bangKetToanPanel.SetActive(true);
-        if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(true); // HIỆN NÚT LÊN!
+        if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(true);
+
+        // =======================================================
+        // KIỂM ĐIỂM VỆ SINH MÔI TRƯỜNG KHI DỌN HÀNG
+        // =======================================================
+        DonRac[] dongRacConSot = FindObjectsOfType<DonRac>(); // Tìm tất cả rác trên đường
+        if (dongRacConSot.Length > 0 && QuanLyKho.Instance != null)
+        {
+            // Trừ 5 điểm cho MỖI cục rác còn sót lại
+            int diemBiTru = dongRacConSot.Length * 5;
+            QuanLyKho.Instance.DiemTinhLang -= diemBiTru;
+
+            // Đáy xã hội là 0 điểm, không cho âm
+            if (QuanLyKho.Instance.DiemTinhLang < 0) QuanLyKho.Instance.DiemTinhLang = 0;
+
+            QuanLyKho.Instance.SaveGame();
+            Debug.Log($"<color=red>🤬 Hàng xóm: Bán xong xả rác đầy đường hả? Bị trừ {diemBiTru} Tình Làng Nghĩa Xóm!</color>");
+
+            // Tự động xóa rác đi để ngày mai đường phố sạch sẽ lại
+            foreach (DonRac rac in dongRacConSot)
+            {
+                Destroy(rac.gameObject);
+            }
+        }
+        // =======================================================
 
         CapNhatSoLieu();
 

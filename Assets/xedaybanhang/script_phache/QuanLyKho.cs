@@ -36,6 +36,7 @@ public class QuanLyKho : MonoBehaviour
 
     [Header("=== HỆ THỐNG VIRAL & UY TÍN ===")]
     public int DiemViral = 0;
+    public int DiemTinhLang = 10;
 
     void Awake()
     {
@@ -120,12 +121,32 @@ public class QuanLyKho : MonoBehaviour
 
     public void NhanTienBanNuoc(int soTien)
     {
+        Debug.Log($"<color=cyan>[QuanLyKho] Đang nhận số tiền: {soTien}đ</color>");
+
         TienHienCo += soTien;
         DoanhThuNgay += soTien;
 
-        // Hiệu ứng & Âm thanh
-        if (EffectManager.Instance != null) EffectManager.Instance.HienThiTien(soTien);
-        if (amThanhTien != null) amThanhTien.Play();
+        // 1. Theo dõi Hiệu ứng
+        if (EffectManager.Instance != null)
+        {
+            Debug.Log("[QuanLyKho] Đã kết nối EffectManager! Đang gọi hàm HienThiTien...");
+            EffectManager.Instance.HienThiTien(soTien);
+        }
+        else
+        {
+            Debug.LogError("[QuanLyKho] LỖI: EffectManager.Instance đang bị NULL! Hệ thống văng chữ bị mù!");
+        }
+
+        // 2. Theo dõi Âm thanh
+        if (amThanhTien != null)
+        {
+            Debug.Log("[QuanLyKho] Đã thấy AudioSource! Đang phát tiếng Ka-Ching...");
+            amThanhTien.Play();
+        }
+        else
+        {
+            Debug.LogError("[QuanLyKho] LỖI: amThanhTien đang bị NULL! Chưa kéo AudioSource vào Inspector?");
+        }
 
         SaveGame();
     }
@@ -142,6 +163,7 @@ public class QuanLyKho : MonoBehaviour
         PlayerPrefs.SetInt("MaxGhe", maxGhe);
         PlayerPrefs.SetInt("MaxBan", maxBan);
         PlayerPrefs.SetInt("Viral", DiemViral);
+        PlayerPrefs.SetInt("TinhLang", DiemTinhLang);
         PlayerPrefs.Save();
     }
 
@@ -158,6 +180,7 @@ public class QuanLyKho : MonoBehaviour
             maxGhe = PlayerPrefs.GetInt("MaxGhe", 6);
             maxBan = PlayerPrefs.GetInt("MaxBan", 2);
             DiemViral = PlayerPrefs.GetInt("Viral", 0);
+            DiemTinhLang = PlayerPrefs.GetInt("TinhLang", 10);
         }
     }
 

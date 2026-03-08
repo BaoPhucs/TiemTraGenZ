@@ -13,27 +13,33 @@ public class EffectManager : MonoBehaviour
 
     public void HienThiTien(int soTien)
     {
-        // =========================================================
-        // BỘ ĐỊNH VỊ: Tự động tìm lại HUD_Canvas nếu bị đứt kết nối (do Restart)
-        // =========================================================
+        Debug.Log($"<color=yellow>[EffectManager] Đã nhận lệnh văng chữ: {soTien}</color>");
+
         if (viTriXuatHien == null)
         {
-            // Dựa theo các ảnh trước của bạn, Canvas giao diện tên chính xác là "HUD_Canvas"
+            Debug.Log("[EffectManager] viTriXuatHien bị mất, tự động quét tìm lại HUD_Canvas...");
             GameObject canvasObj = GameObject.Find("HUD_Canvas");
             if (canvasObj != null)
             {
                 viTriXuatHien = canvasObj.transform;
+                Debug.Log("[EffectManager] TÌM THẤY HUD_Canvas thành công!");
             }
+            else Debug.LogError("[EffectManager] LỖI CHÍ MẠNG: Không tìm thấy HUD_Canvas trên màn hình!");
         }
 
-        // Kiểm tra chốt chặn: Nếu vẫn không tìm thấy thì chặn lỗi luôn
-        if (prefabTextTien == null || viTriXuatHien == null) return;
+        if (prefabTextTien == null)
+        {
+            Debug.LogError("[EffectManager] LỖI: Chưa kéo PrefabTextTien vào Inspector!");
+            return;
+        }
 
-        // Tạo chữ
+        if (viTriXuatHien == null) return;
+
         GameObject textObj = Instantiate(prefabTextTien, viTriXuatHien);
 
-        // Đặt vị trí xuất hiện (Ví dụ: Giữa màn hình hoặc lệch sang phải xíu)
-        textObj.transform.localPosition = new Vector3(300, 200, 0);
+        // Đưa tọa độ về GIỮA MÀN HÌNH (nhích lên trên một chút) để 100% lọt vào tầm mắt
+        textObj.transform.localPosition = new Vector3(0, 150, 0);
+        Debug.Log("[EffectManager] Đã đẻ ra Prefab chữ ở tọa độ (0, 150)!");
 
         FloatingText script = textObj.GetComponent<FloatingText>();
         if (script != null)
@@ -41,6 +47,8 @@ public class EffectManager : MonoBehaviour
             bool laLoi = soTien >= 0;
             string dau = laLoi ? "+" : "";
             script.KhoiTao(dau + soTien.ToString("n0") + "đ", laLoi);
+            Debug.Log($"<color=green>[EffectManager] KHỞI TẠO CHỮ HOÀN TẤT: {dau}{soTien:n0}đ</color>");
         }
+        else Debug.LogError("[EffectManager] LỖI: PrefabTextTien không chứa script FloatingText!");
     }
 }

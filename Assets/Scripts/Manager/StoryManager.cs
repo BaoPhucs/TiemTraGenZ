@@ -113,6 +113,7 @@ namespace TiemTraGenZ.Manager
                 // Bắt StoryManager luôn luôn lấy điểm thực tế từ Kho
                 capital = QuanLyKho.Instance.TienHienCo;
                 viralScore = QuanLyKho.Instance.DiemViral;
+                neighborRelation = QuanLyKho.Instance.DiemTinhLang;
             }
 
             // Liên tục kiểm tra xem điểm Viral đã đủ mốc để Hùng gọi chưa
@@ -126,6 +127,7 @@ namespace TiemTraGenZ.Manager
             {
                 QuanLyKho.Instance.TienHienCo += (int)money;
                 QuanLyKho.Instance.DiemViral += (int)viral;
+                QuanLyKho.Instance.DiemTinhLang += (int)relation;
                 QuanLyKho.Instance.SaveGame();
             }
             neighborRelation += relation;
