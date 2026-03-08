@@ -12,7 +12,7 @@ public class CustomerAI : MonoBehaviour
 
     [Header("Thông số AI")]
     public CustomerState currentState = CustomerState.Walking;
-    public float patienceMax = 40f;
+    public float patienceMax = 60f;
     private float currentPatience;
 
     [Header("Đơn hàng (Order)")]

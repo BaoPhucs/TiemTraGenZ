@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // Đảm bảo khi vào game thì thời gian chạy bình thường
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
 
         // Ẩn bảng Pause và bảng Báo lỗi lúc đầu
         if (pausePanel != null) pausePanel.SetActive(false);

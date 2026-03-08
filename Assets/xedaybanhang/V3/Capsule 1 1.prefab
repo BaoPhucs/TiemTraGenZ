@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  patienceMax: 40
+  patienceMax: 60
   orderMon: TraTac
   menu:
   - TraTac

@@ -5,22 +5,29 @@ public class GameLoopManager : MonoBehaviour
 {
     [Header("UI Kết Toán")]
     public GameObject bangKetToanPanel;
+    public GameObject btnBatDauNgayMoi;
     public TextMeshProUGUI txtDoanhThu;
     public TextMeshProUGUI txtChiPhi;
     public TextMeshProUGUI txtLoiNhuan;
 
+    // Biến này để chặn người chơi bấm Enter sang ngày mới khi chỉ đang mở ra xem
+    private bool dangXemThongKe = false;
+
     void Start()
     {
-        // Tự động tìm Panel nếu chưa gán (để tránh lỗi khi chuyển scene)
         if (bangKetToanPanel == null)
             bangKetToanPanel = GameObject.Find("BangKetToan_Panel");
 
-        // Bật bảng khi mới vào game (theo yêu cầu của bạn để tiếp nối Intro)
-        if (bangKetToanPanel != null) 
+        // Bật bảng khi mới vào game
+        if (bangKetToanPanel != null)
         {
+            dangXemThongKe = false; // Chế độ chuẩn, cho phép sang ngày
             bangKetToanPanel.SetActive(true);
-            
-            // Hiện chuột để người chơi thao tác (nếu cần)
+
+            if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(true); // Ép HIỆN nút
+
+            CapNhatSoLieu(); // Cập nhật chữ
+
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -28,8 +35,16 @@ public class GameLoopManager : MonoBehaviour
 
     void Update()
     {
-        // Logic bấm Enter để bắt đầu ngày mới (chuyển từ bảng kết toán -> game)
-        if (bangKetToanPanel != null && bangKetToanPanel.activeSelf)
+        // =========================================================
+        // TÍNH NĂNG MỚI: BẤM TAB ĐỂ BẬT/TẮT SỔ KẾ TOÁN GIỮA CHỪNG
+        // =========================================================
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ToggleSoKeToan();
+        }
+
+        // Logic bấm Enter chỉ hoạt động nếu bảng đang mở VÀ KHÔNG PHẢI đang ở chế độ xem tạm
+        if (bangKetToanPanel != null && bangKetToanPanel.activeSelf && !dangXemThongKe)
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
@@ -38,26 +53,57 @@ public class GameLoopManager : MonoBehaviour
         }
     }
 
-    // --- DÒNG NÀY TẠO NÚT TEST TRONG MENU CHUỘT PHẢI ---
-    [ContextMenu("TEST KET THUC")]
-    public void KetThucNgay()
+    // --- HÀM BẬT/TẮT SỔ KẾ TOÁN (DÙNG PHÍM TAB) ---
+    void ToggleSoKeToan()
     {
-        if (bangKetToanPanel != null) bangKetToanPanel.SetActive(true);
+        if (bangKetToanPanel == null) return;
 
-        // Lấy số liệu từ Kho (đảm bảo Kho không null)
+        bool dangMo = !bangKetToanPanel.activeSelf;
+        dangXemThongKe = dangMo; // Đánh dấu là đang mở xem tạm
+        bangKetToanPanel.SetActive(dangMo);
+
+        if (dangMo)
+        {
+            CapNhatSoLieu();
+            if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(false); // ẨN NÚT ĐI!
+
+            Time.timeScale = 0; // Dừng game để xem
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            // Tắt bảng đi thì game chạy tiếp
+            Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    // --- HÀM CẬP NHẬT TEXT CHUNG (Để không phải viết đi viết lại) ---
+    void CapNhatSoLieu()
+    {
         if (QuanLyKho.Instance != null)
         {
             int doanhThu = QuanLyKho.Instance.DoanhThuNgay;
             int chiPhi = QuanLyKho.Instance.ChiPhiNgay;
             int loiNhuan = doanhThu - chiPhi;
 
-            // Cập nhật text
             if (txtDoanhThu) txtDoanhThu.text = "Doanh Thu: " + doanhThu.ToString("n0") + "đ";
             if (txtChiPhi) txtChiPhi.text = "Chi Phí: " + chiPhi.ToString("n0") + "đ";
             if (txtLoiNhuan) txtLoiNhuan.text = "Loi Nhuan: " + loiNhuan.ToString("n0") + "đ";
         }
+    }
 
-        // Dừng game và hiện chuột
+    [ContextMenu("TEST KET THUC")]
+    public void KetThucNgay()
+    {
+        dangXemThongKe = false; // Đây là kết thúc thật, không phải xem tạm
+        if (bangKetToanPanel != null) bangKetToanPanel.SetActive(true);
+        if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(true); // HIỆN NÚT LÊN!
+
+        CapNhatSoLieu();
+
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -69,17 +115,22 @@ public class GameLoopManager : MonoBehaviour
         {
             QuanLyKho.Instance.DoanhThuNgay = 0;
             QuanLyKho.Instance.ChiPhiNgay = 0;
-
             QuanLyKho.Instance.RandomGiaThiTruong();
         }
 
         if (bangKetToanPanel != null) bangKetToanPanel.SetActive(false);
 
+        PoliceAI.ResetCongAnNgayMoi();
+
         Time.timeScale = 1;
 
-        // Khóa chuột lại để chơi tiếp
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (TiemTraGenZ.Manager.StoryManager.Instance != null)
+        {
+            TiemTraGenZ.Manager.StoryManager.Instance.AdvanceDay();
+        }
 
         Debug.Log("Đã sang ngày mới!");
     }

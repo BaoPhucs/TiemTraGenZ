@@ -44,6 +44,19 @@ public class QuanLyKho : MonoBehaviour
     void Update()
     {
         if (boDayXe != null) boDayXe.enabled = (soDoBenNgoai == 0);
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            // 1. Chỉnh số tiền ở đây thành con số bạn muốn (Ví dụ: 5 triệu)
+            TienHienCo = 100000;
+
+            // 2. ÉP LƯU THẲNG VÀO Ổ CỨNG NGAY LẬP TỨC
+            SaveGame();
+
+            Debug.Log("💰 ĐÃ HACK THÀNH CÔNG: " + TienHienCo + "đ VÀ LƯU VÀO MÁY!");
+
+            // Nếu bạn có tham chiếu đến ShopManager ở đây thì gọi cập nhật UI (không bắt buộc)
+            // Nếu không có, cứ mở Shop (phím M) lên là sẽ thấy số tiền mới.
+        }
     }
 
     // --- HỆ THỐNG BIẾN ĐỘNG GIÁ ---
