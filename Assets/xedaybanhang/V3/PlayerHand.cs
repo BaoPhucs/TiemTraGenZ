@@ -6,6 +6,7 @@ public class PlayerHand : MonoBehaviour
 
     [Header("Món đang cầm trên tay")]
     public string monDangCam = ""; // Rỗng là không cầm gì
+    public bool isPerfectDrink = false;
 
     void Awake()
     {

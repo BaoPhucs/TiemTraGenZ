@@ -34,6 +34,10 @@ public class QuanLyKho : MonoBehaviour
     public int thungDaDaLay = 0;
     public PushableCart boDayXe;
 
+    [Header("=== HỆ THỐNG VIRAL & UY TÍN ===")]
+    public int DiemViral = 0;
+    public int DiemTinhLang = 10;
+
     void Awake()
     {
         Instance = this;
@@ -44,6 +48,19 @@ public class QuanLyKho : MonoBehaviour
     void Update()
     {
         if (boDayXe != null) boDayXe.enabled = (soDoBenNgoai == 0);
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            // 1. Chỉnh số tiền ở đây thành con số bạn muốn (Ví dụ: 5 triệu)
+            TienHienCo = 100000;
+
+            // 2. ÉP LƯU THẲNG VÀO Ổ CỨNG NGAY LẬP TỨC
+            SaveGame();
+
+            Debug.Log("💰 ĐÃ HACK THÀNH CÔNG: " + TienHienCo + "đ VÀ LƯU VÀO MÁY!");
+
+            // Nếu bạn có tham chiếu đến ShopManager ở đây thì gọi cập nhật UI (không bắt buộc)
+            // Nếu không có, cứ mở Shop (phím M) lên là sẽ thấy số tiền mới.
+        }
     }
 
     // --- HỆ THỐNG BIẾN ĐỘNG GIÁ ---
@@ -104,12 +121,32 @@ public class QuanLyKho : MonoBehaviour
 
     public void NhanTienBanNuoc(int soTien)
     {
+        Debug.Log($"<color=cyan>[QuanLyKho] Đang nhận số tiền: {soTien}đ</color>");
+
         TienHienCo += soTien;
         DoanhThuNgay += soTien;
 
-        // Hiệu ứng & Âm thanh
-        if (EffectManager.Instance != null) EffectManager.Instance.HienThiTien(soTien);
-        if (amThanhTien != null) amThanhTien.Play();
+        // 1. Theo dõi Hiệu ứng
+        if (EffectManager.Instance != null)
+        {
+            Debug.Log("[QuanLyKho] Đã kết nối EffectManager! Đang gọi hàm HienThiTien...");
+            EffectManager.Instance.HienThiTien(soTien);
+        }
+        else
+        {
+            Debug.LogError("[QuanLyKho] LỖI: EffectManager.Instance đang bị NULL! Hệ thống văng chữ bị mù!");
+        }
+
+        // 2. Theo dõi Âm thanh
+        if (amThanhTien != null)
+        {
+            Debug.Log("[QuanLyKho] Đã thấy AudioSource! Đang phát tiếng Ka-Ching...");
+            amThanhTien.Play();
+        }
+        else
+        {
+            Debug.LogError("[QuanLyKho] LỖI: amThanhTien đang bị NULL! Chưa kéo AudioSource vào Inspector?");
+        }
 
         SaveGame();
     }
@@ -125,6 +162,8 @@ public class QuanLyKho : MonoBehaviour
         // Lưu thêm cấp độ bàn ghế
         PlayerPrefs.SetInt("MaxGhe", maxGhe);
         PlayerPrefs.SetInt("MaxBan", maxBan);
+        PlayerPrefs.SetInt("Viral", DiemViral);
+        PlayerPrefs.SetInt("TinhLang", DiemTinhLang);
         PlayerPrefs.Save();
     }
 
@@ -140,6 +179,8 @@ public class QuanLyKho : MonoBehaviour
             // Tải cấp độ bàn ghế (Nếu chưa có thì lấy số mặc định 6 và 2)
             maxGhe = PlayerPrefs.GetInt("MaxGhe", 6);
             maxBan = PlayerPrefs.GetInt("MaxBan", 2);
+            DiemViral = PlayerPrefs.GetInt("Viral", 0);
+            DiemTinhLang = PlayerPrefs.GetInt("TinhLang", 10);
         }
     }
 

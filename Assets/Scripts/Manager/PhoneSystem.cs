@@ -15,7 +15,7 @@ namespace TiemTraGenZ.Manager
 
         public Animator playerAnimator;             // Dùng cho animation mới
         
-        public event System.Action OnCallEnded;     // Event bắn ra khi cúp máy
+        //public event System.Action OnCallEnded;     // Event bắn ra khi cúp máy
 
         [Header("--- ANIMATION COMPONENT CU --")]
         [SerializeField] private GameObject phonePanel;

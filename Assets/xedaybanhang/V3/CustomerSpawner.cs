@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.AI; // Cần thiết để dùng NavMesh
 
 public class CustomerSpawner : MonoBehaviour
 {
     [Header("Cài đặt Khách hàng")]
-    public GameObject customerPrefab; // Kéo Prefab viên nhộng vào đây
-    public float thoiGianSinhKhach = 30f; // Cứ 10 giây ra 1 khách
+    public GameObject customerPrefab;
+    public float thoiGianSinhKhach = 30f;
 
     [Header("Các điểm xuất hiện (Đầu hẻm)")]
     public Transform[] spawnPoints;
 
     void Start()
     {
-        // Gọi hàm SpawnCustomer lặp đi lặp lại
         InvokeRepeating("SpawnCustomer", 3f, thoiGianSinhKhach);
     }
 
@@ -19,11 +19,21 @@ public class CustomerSpawner : MonoBehaviour
     {
         if (spawnPoints.Length == 0 || customerPrefab == null) return;
 
-        // Bốc ngẫu nhiên 1 trong các điểm Spawn (Ví dụ có 2 điểm ở 2 đầu hẻm)
         Transform diemSpawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
-        // Sinh ra khách
-        Instantiate(customerPrefab, diemSpawn.position, diemSpawn.rotation);
+        // ========================================================
+        // SỬA LỖI ĐI BỘ TẠI CHỖ LÚC MỚI SINH RA
+        // ========================================================
+        // Quét bán kính 5m để tự động bắt dính khách vào mặt đường NavMesh
+        if (NavMesh.SamplePosition(diemSpawn.position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+        {
+            Instantiate(customerPrefab, hit.position, diemSpawn.rotation);
+        }
+        else
+        {
+            // Nếu không tìm thấy, cứ sinh đại ra vị trí cũ
+            Instantiate(customerPrefab, diemSpawn.position, diemSpawn.rotation);
+        }
 
         Debug.Log("🚶 Đã sinh ra 1 khách hàng mới ở: " + diemSpawn.name);
     }

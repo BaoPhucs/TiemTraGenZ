@@ -67,8 +67,17 @@ public class IntroManager : MonoBehaviour
         videoPlayer.Stop();
         if (introPanel != null) introPanel.SetActive(false);
 
-        // 2. Bật lại giao diện game
+        // Bật lại giao diện game
         if (hudCanvas != null) hudCanvas.SetActive(true);
+
+        // --- CODE MỚI THÊM VÀO ĐÂY ---
+        // 1. Đóng băng game để nhân vật không chạy lung tung khi đang hiện bảng
+        Time.timeScale = 0;
+
+        // 2. Ép chuột hiện ra và thả rông để click được vào nút "Bắt đầu ngày mới"
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        // ------------------------------
 
         // 3. Gọi bảng Ngày Mới
         if (gameLoopManager != null)

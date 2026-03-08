@@ -13,14 +13,33 @@ public class EffectManager : MonoBehaviour
 
     public void HienThiTien(int soTien)
     {
-        if (prefabTextTien == null || viTriXuatHien == null) return;
+        Debug.Log($"<color=yellow>[EffectManager] Đã nhận lệnh văng chữ: {soTien}</color>");
 
-        // Tạo chữ
+        if (viTriXuatHien == null)
+        {
+            Debug.Log("[EffectManager] viTriXuatHien bị mất, tự động quét tìm lại HUD_Canvas...");
+            GameObject canvasObj = GameObject.Find("HUD_Canvas");
+            if (canvasObj != null)
+            {
+                viTriXuatHien = canvasObj.transform;
+                Debug.Log("[EffectManager] TÌM THẤY HUD_Canvas thành công!");
+            }
+            else Debug.LogError("[EffectManager] LỖI CHÍ MẠNG: Không tìm thấy HUD_Canvas trên màn hình!");
+        }
+
+        if (prefabTextTien == null)
+        {
+            Debug.LogError("[EffectManager] LỖI: Chưa kéo PrefabTextTien vào Inspector!");
+            return;
+        }
+
+        if (viTriXuatHien == null) return;
+
         GameObject textObj = Instantiate(prefabTextTien, viTriXuatHien);
 
-        // Đặt vị trí xuất hiện (Ví dụ: Giữa màn hình hoặc lệch sang phải xíu)
-        // Bạn có thể chỉnh tọa độ này cho đẹp
-        textObj.transform.localPosition = new Vector3(300, 200, 0);
+        // Đưa tọa độ về GIỮA MÀN HÌNH (nhích lên trên một chút) để 100% lọt vào tầm mắt
+        textObj.transform.localPosition = new Vector3(0, 150, 0);
+        Debug.Log("[EffectManager] Đã đẻ ra Prefab chữ ở tọa độ (0, 150)!");
 
         FloatingText script = textObj.GetComponent<FloatingText>();
         if (script != null)
@@ -28,6 +47,8 @@ public class EffectManager : MonoBehaviour
             bool laLoi = soTien >= 0;
             string dau = laLoi ? "+" : "";
             script.KhoiTao(dau + soTien.ToString("n0") + "đ", laLoi);
+            Debug.Log($"<color=green>[EffectManager] KHỞI TẠO CHỮ HOÀN TẤT: {dau}{soTien:n0}đ</color>");
         }
+        else Debug.LogError("[EffectManager] LỖI: PrefabTextTien không chứa script FloatingText!");
     }
 }

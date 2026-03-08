@@ -43,11 +43,13 @@ public class PoliceAI : MonoBehaviour
     public Button btnNopPhat;
     public Button btnBoChay;
     public GameObject videoBadEnding;
+    public GameObject videoPhaSan;
 
     [Header("--- ÂM THANH ---")]
     public AudioSource audioSource;
     public AudioClip nhacPhatHienVaKiemTra;
     public AudioClip nhacTruyDuoi;
+    public AudioClip nhacTruTien;
 
     void Awake() { danhSachCongAn.Add(this); }
     void OnDestroy() { danhSachCongAn.Remove(this); }
@@ -60,10 +62,18 @@ public class PoliceAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         diemXuatPhat = transform.position;
 
-        if (btnNopPhat != null) btnNopPhat.onClick.AddListener(ChonNopPhat);
-        if (btnBoChay != null) btnBoChay.onClick.AddListener(ChonBoChay);
+        if (btnNopPhat != null)
+        {
+            btnNopPhat.onClick.RemoveListener(ChonNopPhat); 
+            btnNopPhat.onClick.AddListener(ChonNopPhat);    
+        }
+        if (btnBoChay != null)
+        {
+            btnBoChay.onClick.RemoveListener(ChonBoChay);
+            btnBoChay.onClick.AddListener(ChonBoChay);
+        }
         if (videoBadEnding != null) videoBadEnding.SetActive(false);
-
+        if (videoPhaSan != null) videoPhaSan.SetActive(false);
         if (imgBaoDongUI_Main != null) imgBaoDongUI_Main.gameObject.SetActive(false);
 
         HienChuot(false);
@@ -226,11 +236,59 @@ public class PoliceAI : MonoBehaviour
         HienChuot(true);
     }
 
+    //public void ChonNopPhat()
+    //{
+    //    if (panelHoiThoai != null) panelHoiThoai.SetActive(false);
+    //    HienChuot(false);
+    //    KetThucNgay_AnToan();
+    //}
     public void ChonNopPhat()
     {
+        if (currentState != PoliceState.Talk) return;
+
         if (panelHoiThoai != null) panelHoiThoai.SetActive(false);
         HienChuot(false);
-        KetThucNgay_AnToan();
+
+        if (QuanLyKho.Instance != null)
+        {
+            QuanLyKho.Instance.TienHienCo -= 50000;
+            QuanLyKho.Instance.ChiPhiNgay += 50000;
+            QuanLyKho.Instance.SaveGame();
+
+            // ==========================================
+            // 1. KIỂM TRA PHÁ SẢN ĐẦU TIÊN!
+            // ==========================================
+            if (QuanLyKho.Instance.TienHienCo <= 0)
+            {
+                Debug.Log("Hết tiền nộp phạt -> PHÁ SẢN!");
+                PhaSan_GameOver();
+                return; // Dừng code ngay lập tức, bỏ qua việc văng chữ đỏ!
+            }
+
+            // ==========================================
+            // 2. NẾU SỐNG SÓT -> MỚI HIỆN CHỮ ĐỎ VÀ ÂM THANH
+            // ==========================================
+            if (EffectManager.Instance != null) EffectManager.Instance.HienThiTien(-50000);
+            if (audioSource != null && nhacTruTien != null) audioSource.PlayOneShot(nhacTruTien);
+        }
+
+        // 3. CÔNG AN QUAY LẠI ĐI TUẦN
+        dangTruyNa = false;
+        foreach (var ca in danhSachCongAn)
+        {
+            if (ca != null && ca.gameObject.activeInHierarchy)
+            {
+                ca.mucDoCanhBao = 0f;
+                ca.currentState = PoliceState.Patrol;
+                ca.gameObject.SetActive(false);
+            }
+        }
+
+        if (imgBaoDongUI_Main != null)
+        {
+            imgBaoDongUI_Main.color = Color.green;
+            imgBaoDongUI_Main.gameObject.SetActive(false);
+        }
     }
 
     public void ChonBoChay()
@@ -269,7 +327,27 @@ public class PoliceAI : MonoBehaviour
         agent.isStopped = true;
         Time.timeScale = 0f;
         HienChuot(true);
+
+        GameObject dongHo = GameObject.Find("ClockText");
+        if (dongHo != null) dongHo.SetActive(false);
+        if (imgBaoDongUI_Main != null) imgBaoDongUI_Main.gameObject.SetActive(false);
+
         if (videoBadEnding != null) videoBadEnding.SetActive(true);
+    }
+
+    void PhaSan_GameOver()
+    {
+        StopBGM();
+        agent.isStopped = true;
+        Time.timeScale = 0f;
+        HienChuot(true);
+
+        GameObject dongHo = GameObject.Find("ClockText");
+        if (dongHo != null) dongHo.SetActive(false);
+
+        if (imgBaoDongUI_Main != null) imgBaoDongUI_Main.gameObject.SetActive(false);
+
+        if (videoPhaSan != null) videoPhaSan.SetActive(true); // Bật riêng Video Phá Sản
     }
 
     void KetThucNgay_AnToan()
@@ -364,4 +442,26 @@ public class PoliceAI : MonoBehaviour
 
     void HienChuot(bool hien) { Cursor.visible = hien; Cursor.lockState = hien ? CursorLockMode.None : CursorLockMode.Locked; }
     void SetAnimation(int i) { if (anim != null) anim.SetInteger("AnimState", i); }
+
+    // --- HÀM NÀY SẼ ĐƯỢC GỌI TỪ GAMELOOPMANAGER KHI SANG NGÀY MỚI ---
+    public static void ResetCongAnNgayMoi()
+    {
+        dangTruyNa = false;
+        foreach (var ca in danhSachCongAn)
+        {
+            if (ca != null)
+            {
+                ca.gameObject.SetActive(true); // Bật lại công an
+                ca.mucDoCanhBao = 0f;
+                ca.currentState = PoliceState.Patrol;
+
+                // Ép đi tuần tra chỗ mới luôn
+                if (ca.agent != null && ca.agent.isOnNavMesh)
+                {
+                    ca.agent.isStopped = false;
+                    ca.TimDiemTuanTraMoi();
+                }
+            }
+        }
+    }
 }

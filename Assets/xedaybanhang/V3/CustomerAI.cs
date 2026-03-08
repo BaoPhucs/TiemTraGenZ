@@ -12,7 +12,7 @@ public class CustomerAI : MonoBehaviour
 
     [Header("Thông số AI")]
     public CustomerState currentState = CustomerState.Walking;
-    public float patienceMax = 40f;
+    public float patienceMax = 60f;
     private float currentPatience;
 
     [Header("Đơn hàng (Order)")]
@@ -49,6 +49,18 @@ public class CustomerAI : MonoBehaviour
         switch (currentState)
         {
             case CustomerState.MovingToSeat:
+                if (targetSeat == null)
+                {
+                    Debug.Log("<color=red>😡 Khách: Ủa ghế của tui đâu? Làm ăn kì cục! Bỏ về!</color>");
+                    if (QuanLyKho.Instance != null)
+                    {
+                        QuanLyKho.Instance.DiemViral -= 2;
+                        QuanLyKho.Instance.SaveGame();
+                    }
+                    GetMadAndLeave();
+                    return;
+                }
+
                 if (agent.remainingDistance <= 0.2f && !agent.pathPending)
                 {
                     SitDownAndOrder();
@@ -58,13 +70,16 @@ public class CustomerAI : MonoBehaviour
             case CustomerState.Waiting:
                 currentPatience -= Time.deltaTime;
 
-                if (imgPatience != null)
-                {
-                    imgPatience.fillAmount = currentPatience / patienceMax;
-                }
+                if (imgPatience != null) imgPatience.fillAmount = currentPatience / patienceMax;
 
                 if (currentPatience <= 0)
                 {
+                    Debug.Log("<color=red>🤬 Khách: Đợi mỏi cổ luôn! Quán phục vụ quá chậm! Đi về!</color>");
+                    if (QuanLyKho.Instance != null)
+                    {
+                        QuanLyKho.Instance.DiemViral -= 5;
+                        QuanLyKho.Instance.SaveGame();
+                    }
                     GetMadAndLeave();
                 }
 
@@ -72,8 +87,9 @@ public class CustomerAI : MonoBehaviour
                 {
                     if (PlayerHand.Instance != null && PlayerHand.Instance.monDangCam != "")
                     {
-                        ReceiveDrink(PlayerHand.Instance.monDangCam);
+                        ReceiveDrink(PlayerHand.Instance.monDangCam, PlayerHand.Instance.isPerfectDrink);
                         PlayerHand.Instance.monDangCam = "";
+                        PlayerHand.Instance.isPerfectDrink = false;
                     }
                 }
                 break;
@@ -94,7 +110,6 @@ public class CustomerAI : MonoBehaviour
                 targetSeat = ghe;
                 currentState = CustomerState.MovingToSeat;
 
-                // --- KÍCH HOẠT ANIMATION ĐI BỘ ---
                 if (anim != null) anim.SetBool("isWalking", true);
 
                 agent.SetDestination(ghe.sitPosition.position);
@@ -112,7 +127,6 @@ public class CustomerAI : MonoBehaviour
         transform.rotation = targetSeat.sitPosition.rotation;
         agent.enabled = false;
 
-        // --- KÍCH HOẠT ANIMATION NGỒI & UỐNG ---
         if (anim != null)
         {
             anim.SetBool("isWalking", false);
@@ -125,27 +139,40 @@ public class CustomerAI : MonoBehaviour
         if (txtOrder != null) txtOrder.text = "Cho 1\n" + orderMon;
     }
 
-    public void ReceiveDrink(string monPhaChe)
+    public void ReceiveDrink(string monPhaChe, bool isPerfect)
     {
         if (currentState != CustomerState.Waiting) return;
 
         if (monPhaChe == orderMon)
         {
-            Debug.Log($"<color=green>🎉 Khách: Ngon quá! Trả tiền nè! (Đã nhận đúng món {monPhaChe})</color>");
-
             if (chatBubble != null) chatBubble.SetActive(false);
             currentState = CustomerState.Drinking;
 
             if (QuanLyKho.Instance != null)
             {
-                QuanLyKho.Instance.NhanTienBanNuoc(15000);
+                if (isPerfect)
+                {
+                    Debug.Log($"<color=green>🎉 Khách: Ngon Tuyệt Vời! Đánh giá 5 sao!</color>");
+                    QuanLyKho.Instance.DiemViral += 10;
+                    QuanLyKho.Instance.NhanTienBanNuoc(15000);
+                }
+                else
+                {
+                    Debug.Log($"<color=orange>😒 Khách: Uống cũng tạm, hơi nhạt.</color>");
+                    QuanLyKho.Instance.DiemViral -= 5;
+                    QuanLyKho.Instance.NhanTienBanNuoc(10000);
+                }
             }
-
             Invoke("LeaveHappily", 3f);
         }
         else
         {
-            Debug.Log($"<color=red>😡 Khách: Pha sai rồi! Trả {orderMon} mà đưa {monPhaChe} à? Bo xì!</color>");
+            Debug.Log($"<color=red>😡 Khách: Pha sai món rồi! Bo xì!</color>");
+            if (QuanLyKho.Instance != null)
+            {
+                QuanLyKho.Instance.DiemViral -= 15;
+                QuanLyKho.Instance.SaveGame();
+            }
             GetMadAndLeave();
         }
     }
@@ -155,50 +182,78 @@ public class CustomerAI : MonoBehaviour
         if (chatBubble != null) chatBubble.SetActive(false);
         currentState = CustomerState.Leaving;
 
+        // Khách giận bỏ đi không uống -> không có rác -> Trả ghế bình thường
         if (targetSeat != null) targetSeat.isOccupied = false;
 
         agent.enabled = true;
 
-        // --- KÍCH HOẠT ANIMATION ĐỨNG DẬY BỎ ĐI ---
         if (anim != null)
         {
             anim.SetBool("isSitting", false);
             anim.SetBool("isWalking", true);
         }
 
-        Destroy(gameObject, 1f);
-        Debug.Log("📉 Khách giận! Đã bị trừ điểm Viral/Uy tín quán!");
+        DiLangThangRoiBienMat();
     }
 
     void LeaveHappily()
     {
-        Debug.Log("<color=yellow>👋 Khách: Uống xong rồi, đi về đây!</color>");
+        currentState = CustomerState.Leaving;
+        bool coDeLaiRac = false; // Cờ theo dõi xem có để rác lại không
 
         if (lyRongPrefab != null && targetSeat != null)
         {
             GameObject rac = Instantiate(lyRongPrefab, targetSeat.sitPosition.position, targetSeat.sitPosition.rotation);
 
-            DonRac scriptDonRac = rac.GetComponentInChildren<DonRac>();
+            // Tìm script DonRac trên cả Object gốc lẫn Object con
+            DonRac scriptDonRac = rac.GetComponent<DonRac>();
+            if (scriptDonRac == null) scriptDonRac = rac.GetComponentInChildren<DonRac>();
+
             if (scriptDonRac != null)
             {
                 scriptDonRac.gheDangNgoi = targetSeat;
-                Debug.Log("Đã truyền dữ liệu ghế cho rác thành công!");
-            }
-            else
-            {
-                Debug.LogError("Cảnh báo: Không tìm thấy script DonRac trên Prefab Ly rỗng!");
+                coDeLaiRac = true; // Xác nhận là có rác nằm trên ghế!
             }
         }
 
-        // --- KÍCH HOẠT ANIMATION ĐỨNG DẬY ĐI VỀ ---
+        // ========================================================
+        // SỬA LỖI TẠI ĐÂY: NẾU TRÊN GHẾ CÓ RÁC THÌ TUYỆT ĐỐI KHÔNG TRẢ GHẾ!
+        // Ghế sẽ bị "phong ấn" cho đến khi bạn bấm dọn rác bên file DonRac.cs
+        // ========================================================
+        if (!coDeLaiRac && targetSeat != null)
+        {
+            targetSeat.isOccupied = false;
+        }
+
+        agent.enabled = true;
+
         if (anim != null)
         {
             anim.SetBool("isSitting", false);
             anim.SetBool("isWalking", true);
         }
 
-        // Kéo dài thời gian bốc hơi để khách kịp diễn animation đứng dậy
-        Destroy(gameObject, 1.5f);
+        DiLangThangRoiBienMat();
+    }
+
+    void DiLangThangRoiBienMat()
+    {
+        Vector3 randomDest = transform.position + new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f));
+        if (NavMesh.SamplePosition(randomDest, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        }
+
+        Destroy(gameObject, 2.5f);
+    }
+
+    void OnDestroy()
+    {
+        // Vá thêm logic: Chỉ nhả ghế khi Game xóa Object mà không phải do đi về
+        if (targetSeat != null && targetSeat.isOccupied && currentState != CustomerState.Leaving)
+        {
+            targetSeat.isOccupied = false;
+        }
     }
 
     void OnTriggerEnter(Collider other)

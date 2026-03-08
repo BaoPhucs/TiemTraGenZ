@@ -16,14 +16,14 @@ namespace TiemTraGenZ.Manager
 
         public GameEnding CurrentEnding { get; private set; } = GameEnding.None;
 
-        [Header("Story Stats")]
-        [Tooltip("Vốn")]
-        public float capital = 50000f;
-        
+        [Header("Story Stats (TỰ ĐỘNG ĐỒNG BỘ TỪ KHO)")]
+        [Tooltip("Vốn (Tự động lấy từ QuanLyKho)")]
+        public float capital = 0f;
+
         [Tooltip("Tình Làng Nghĩa Xóm")]
         public float neighborRelation = 50f;
-        
-        [Tooltip("Độ Viral")]
+
+        [Tooltip("Độ Viral (Tự động lấy từ QuanLyKho)")]
         public float viralScore = 0f;
 
         [Header("Game Progress")]
@@ -86,7 +86,6 @@ namespace TiemTraGenZ.Manager
         private bool triggeredViralMilestone = false;
         private bool triggeredMomLowRelation = false;
 
-        // Random friend call cooldown (avoid spamming)
         private int lastFriendRandomDay = -99;
         private const int FriendRandomCooldownDays = 3;
         private const float FriendRandomChance = 0.10f;
@@ -104,14 +103,34 @@ namespace TiemTraGenZ.Manager
             }
         }
 
+        // =======================================================
+        // ĐÂY LÀ TRÁI TIM CỦA VIỆC ĐỒNG BỘ: CẬP NHẬT MỖI FRAME
+        // =======================================================
+        private void Update()
+        {
+            if (QuanLyKho.Instance != null)
+            {
+                // Bắt StoryManager luôn luôn lấy điểm thực tế từ Kho
+                capital = QuanLyKho.Instance.TienHienCo;
+                viralScore = QuanLyKho.Instance.DiemViral;
+                neighborRelation = QuanLyKho.Instance.DiemTinhLang;
+            }
+
+            // Liên tục kiểm tra xem điểm Viral đã đủ mốc để Hùng gọi chưa
+            CheckStatMilestoneTriggers();
+        }
+
         public void AddStat(float money, float relation, float viral)
         {
-            capital += money;
+            // Nếu có hàm nào lỡ gọi AddStat, nó sẽ đẩy ngược tiền và viral vào Kho để lưu lại
+            if (QuanLyKho.Instance != null)
+            {
+                QuanLyKho.Instance.TienHienCo += (int)money;
+                QuanLyKho.Instance.DiemViral += (int)viral;
+                QuanLyKho.Instance.DiemTinhLang += (int)relation;
+                QuanLyKho.Instance.SaveGame();
+            }
             neighborRelation += relation;
-            viralScore += viral;
-
-            // Check stat-based triggers after any stat change
-            CheckStatMilestoneTriggers();
         }
 
         public GameEnding CheckEnding()
@@ -130,39 +149,25 @@ namespace TiemTraGenZ.Manager
 
         public void AdvanceDay()
         {
-            if (currentDay >= maxDays) return; // Không cho phép vượt quá ngày Max (90)
+            if (currentDay >= maxDays) return;
 
             currentDay++;
             TriggerDailyEvents();
         }
 
-        // ──────────────────────────────────────────────────────
-        // Daily Event Logic
-        // ──────────────────────────────────────────────────────
         private void TriggerDailyEvents()
         {
             Debug.Log($"[StoryManager] Day {currentDay} — checking phone events...");
 
-            // ─── Mẹ ───────────────────────────────────────────
-            if (currentDay == 1 && momDay1Call != null)
-            {
-                TriggerCall(momDay1Call);
-                return;
-            }
-
-            if (currentDay == 7 && momDay7Call != null)
-            {
-                TriggerCall(momDay7Call);
-                return;
-            }
+            // (Các logic TriggerCall của bạn được giữ nguyên không thay đổi)
+            if (currentDay == 1 && momDay1Call != null) { TriggerCall(momDay1Call); return; }
+            if (currentDay == 7 && momDay7Call != null) { TriggerCall(momDay7Call); return; }
 
             if (currentDay == 30 && !triggeredMomDay30)
             {
                 triggeredMomDay30 = true;
-                if (capital < 40000f && momDay30LowCapital != null)
-                    TriggerCall(momDay30LowCapital);
-                else if (momDay30HighCapital != null)
-                    TriggerCall(momDay30HighCapital);
+                if (capital < 40000f && momDay30LowCapital != null) TriggerCall(momDay30LowCapital);
+                else if (momDay30HighCapital != null) TriggerCall(momDay30HighCapital);
                 return;
             }
 
@@ -175,50 +180,23 @@ namespace TiemTraGenZ.Manager
 
             if (currentDay == 89)
             {
-                // True Ending hint from friend takes priority over mom's final call
-                if (viralScore >= 1000f && friendTrueEnding != null)
-                {
-                    TriggerCall(friendTrueEnding);
-                    return;
-                }
-                if (momFinalCall != null)
-                {
-                    TriggerCall(momFinalCall);
-                    return;
-                }
+                if (viralScore >= 1000f && friendTrueEnding != null) { TriggerCall(friendTrueEnding); return; }
+                if (momFinalCall != null) { TriggerCall(momFinalCall); return; }
             }
 
-            // ─── Chủ Nợ ──────────────────────────────────────
-            if (currentDay == 10 && !triggeredCreditorWarn1 && creditorWarn1 != null)
-            {
-                triggeredCreditorWarn1 = true;
-                TriggerCall(creditorWarn1);
-                return;
-            }
+            if (currentDay == 10 && !triggeredCreditorWarn1 && creditorWarn1 != null) { triggeredCreditorWarn1 = true; TriggerCall(creditorWarn1); return; }
 
             if (currentDay == 20 && !triggeredCreditorDay20)
             {
                 triggeredCreditorDay20 = true;
-                if (capital < 30000f && creditorWarning != null)
-                {
-                    TriggerCall(creditorWarning);
-                    return;
-                }
+                if (capital < 30000f && creditorWarning != null) { TriggerCall(creditorWarning); return; }
             }
 
             if (currentDay == 30 && !triggeredCreditorDay30)
             {
                 triggeredCreditorDay30 = true;
-                if (capital < 20000f && creditorThreat != null)
-                {
-                    TriggerCall(creditorThreat);
-                    return;
-                }
-                else if (capital >= 300000f && creditorSweet != null)
-                {
-                    TriggerCall(creditorSweet);
-                    return;
-                }
+                if (capital < 20000f && creditorThreat != null) { TriggerCall(creditorThreat); return; }
+                else if (capital >= 300000f && creditorSweet != null) { TriggerCall(creditorSweet); return; }
             }
 
             if (currentDay == 45 && !triggeredCreditorDay45 && capital < 10000f && creditorAggressive != null)
@@ -228,39 +206,22 @@ namespace TiemTraGenZ.Manager
                 return;
             }
 
-            // ─── Bạn Bè (Hùng) ────────────────────────────────
-            if (currentDay == 3 && !triggeredFriendOpening && friendOpening != null)
-            {
-                triggeredFriendOpening = true;
-                TriggerCall(friendOpening);
-                return;
-            }
+            if (currentDay == 3 && !triggeredFriendOpening && friendOpening != null) { triggeredFriendOpening = true; TriggerCall(friendOpening); return; }
 
-            // Random friend calls — pool A (ngày 5–50)
-            if (currentDay >= 5 && currentDay <= 50 && TryRandomFriendCall(friendRandomCallsA))
-                return;
-
-            // Random friend calls — pool B (ngày 20–70)
-            if (currentDay >= 20 && currentDay <= 70 && TryRandomFriendCall(friendRandomCallsB))
-                return;
+            if (currentDay >= 5 && currentDay <= 50 && TryRandomFriendCall(friendRandomCallsA)) return;
+            if (currentDay >= 20 && currentDay <= 70 && TryRandomFriendCall(friendRandomCallsB)) return;
         }
 
-        // ────────────────────────────────────────────────────
-        // Stat-based Milestone Triggers (called on AddStat)
-        // ────────────────────────────────────────────────────
         private void CheckStatMilestoneTriggers()
         {
             if (!triggeredViralMilestone && viralScore >= 100f && friendViralMilestone != null)
             {
                 triggeredViralMilestone = true;
-                Debug.Log("[StoryManager] Viral milestone reached — triggering friend call");
+                Debug.Log("[StoryManager] Đã đạt mốc 100 Viral — Kích hoạt cuộc gọi của bạn thân!");
                 TriggerCall(friendViralMilestone);
             }
         }
 
-        // ────────────────────────────────────────────────────
-        // Helpers
-        // ────────────────────────────────────────────────────
         private bool TryRandomFriendCall(Data.CallDialogueData[] pool)
         {
             if (pool == null || pool.Length == 0) return false;
@@ -277,36 +238,19 @@ namespace TiemTraGenZ.Manager
 
         private void TriggerCall(Data.CallDialogueData callData)
         {
-            if (PhoneSystem.Instance == null)
-            {
-                Debug.LogWarning("[StoryManager] PhoneSystem.Instance is null — cannot trigger call.");
-                return;
-            }
-            if (PhoneSystem.Instance.IsOnCall())
-            {
-                Debug.LogWarning("[StoryManager] Already on a call — skipping.");
-                return;
-            }
-            Debug.Log($"[StoryManager] Triggering call: {callData.name}");
+            if (PhoneSystem.Instance == null) return;
+            if (PhoneSystem.Instance.IsOnCall()) return;
             PhoneSystem.Instance.TriggerCall(callData);
         }
 
         public void TriggerEnding(GameEnding ending)
         {
-            Debug.Log($"[StoryManager] Game Over! Triggering Ending: {ending}");
             CurrentEnding = ending;
-            
             switch (ending)
             {
-                case GameEnding.BadEnding_OfficeWorker:
-                    if (badEndingCall != null) TriggerCall(badEndingCall);
-                    break;
-                case GameEnding.NormalEnding_Franchise:
-                    if (normalEndingCall != null) TriggerCall(normalEndingCall);
-                    break;
-                case GameEnding.TrueEnding_CulturalHeritage:
-                    if (trueEndingCall != null) TriggerCall(trueEndingCall);
-                    break;
+                case GameEnding.BadEnding_OfficeWorker: if (badEndingCall != null) TriggerCall(badEndingCall); break;
+                case GameEnding.NormalEnding_Franchise: if (normalEndingCall != null) TriggerCall(normalEndingCall); break;
+                case GameEnding.TrueEnding_CulturalHeritage: if (trueEndingCall != null) TriggerCall(trueEndingCall); break;
             }
         }
     }
