@@ -110,24 +110,52 @@ public class PhaCheController : MonoBehaviour
         }
     }
 
+    //public void ThuHoiLy()
+    //{
+    //    if (currentState == PhaCheState.HoanThanh)
+    //    {
+    //        // --- LOGIC MỚI: BƯNG NƯỚC LÊN TAY ---
+    //        if (PlayerHand.Instance != null)
+    //        {
+    //            // Ghi nhớ món đang cầm vào tay Minh
+    //            PlayerHand.Instance.monDangCam = "TraTac";
+    //            Debug.Log("Minh đang cầm: " + PlayerHand.Instance.monDangCam);
+    //        }
+    //        else
+    //        {
+    //            Debug.LogWarning("⚠️ Chưa tìm thấy PlayerHand! Hãy nhớ gắn script PlayerHand vào nhân vật Minh nhé.");
+    //        }
+
+    //        // --- LOGIC CŨ: RESET BÀN PHA CHẾ ---
+    //        // Hàm SetState sẽ tự động tắt lyHoanThanh.SetActive(false) giúp bạn
+    //        SetState(PhaCheState.ChuaCoLy);
+    //    }
+    //}
     public void ThuHoiLy()
     {
         if (currentState == PhaCheState.HoanThanh)
         {
-            // --- LOGIC MỚI: BƯNG NƯỚC LÊN TAY ---
-            if (PlayerHand.Instance != null)
+            // =========================================================
+            // BƯỚC 1: KÍCH HOẠT MINIGAME ĐỂ QUYẾT ĐỊNH CHẤT LƯỢNG
+            // =========================================================
+            if (MinigamePhaChe.Instance != null)
             {
-                // Ghi nhớ món đang cầm vào tay Minh
-                PlayerHand.Instance.monDangCam = "TraTac";
-                Debug.Log("Minh đang cầm: " + PlayerHand.Instance.monDangCam);
+                // Gọi bảng Minigame lên. 
+                // Truyền chữ "TraTac" để lát hệ thống biết đường giao cho khách.
+                // Truyền 'null' ở vế sau vì chúng ta không muốn lệnh Destroy của Minigame làm mất luôn cái ly gốc trên bàn.
+                MinigamePhaChe.Instance.BatDauMinigame("TraTac", null);
             }
             else
             {
-                Debug.LogWarning("⚠️ Chưa tìm thấy PlayerHand! Hãy nhớ gắn script PlayerHand vào nhân vật Minh nhé.");
+                Debug.LogWarning("⚠️ Chưa tìm thấy MinigamePhaChe trên Scene! Trả về ly trà mặc định.");
+                if (PlayerHand.Instance != null) PlayerHand.Instance.monDangCam = "TraTac";
             }
 
-            // --- LOGIC CŨ: RESET BÀN PHA CHẾ ---
-            // Hàm SetState sẽ tự động tắt lyHoanThanh.SetActive(false) giúp bạn
+            // =========================================================
+            // BƯỚC 2: RESET BÀN PHA CHẾ ĐỂ LÀM LY MỚI
+            // =========================================================
+            // Ngay khi Minigame hiện lên, ly trên bàn sẽ được ẩn đi (SetState về rỗng) 
+            // tạo cảm giác nhân vật đã "cầm cái ly lên tay" để lắc/pha chế.
             SetState(PhaCheState.ChuaCoLy);
         }
     }

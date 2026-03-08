@@ -34,6 +34,9 @@ public class QuanLyKho : MonoBehaviour
     public int thungDaDaLay = 0;
     public PushableCart boDayXe;
 
+    [Header("=== HỆ THỐNG VIRAL & UY TÍN ===")]
+    public int DiemViral = 0;
+
     void Awake()
     {
         Instance = this;
@@ -138,6 +141,7 @@ public class QuanLyKho : MonoBehaviour
         // Lưu thêm cấp độ bàn ghế
         PlayerPrefs.SetInt("MaxGhe", maxGhe);
         PlayerPrefs.SetInt("MaxBan", maxBan);
+        PlayerPrefs.SetInt("Viral", DiemViral);
         PlayerPrefs.Save();
     }
 
@@ -153,6 +157,7 @@ public class QuanLyKho : MonoBehaviour
             // Tải cấp độ bàn ghế (Nếu chưa có thì lấy số mặc định 6 và 2)
             maxGhe = PlayerPrefs.GetInt("MaxGhe", 6);
             maxBan = PlayerPrefs.GetInt("MaxBan", 2);
+            DiemViral = PlayerPrefs.GetInt("Viral", 0);
         }
     }
 

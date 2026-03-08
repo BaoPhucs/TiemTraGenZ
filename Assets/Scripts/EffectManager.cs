@@ -13,13 +13,26 @@ public class EffectManager : MonoBehaviour
 
     public void HienThiTien(int soTien)
     {
+        // =========================================================
+        // BỘ ĐỊNH VỊ: Tự động tìm lại HUD_Canvas nếu bị đứt kết nối (do Restart)
+        // =========================================================
+        if (viTriXuatHien == null)
+        {
+            // Dựa theo các ảnh trước của bạn, Canvas giao diện tên chính xác là "HUD_Canvas"
+            GameObject canvasObj = GameObject.Find("HUD_Canvas");
+            if (canvasObj != null)
+            {
+                viTriXuatHien = canvasObj.transform;
+            }
+        }
+
+        // Kiểm tra chốt chặn: Nếu vẫn không tìm thấy thì chặn lỗi luôn
         if (prefabTextTien == null || viTriXuatHien == null) return;
 
         // Tạo chữ
         GameObject textObj = Instantiate(prefabTextTien, viTriXuatHien);
 
         // Đặt vị trí xuất hiện (Ví dụ: Giữa màn hình hoặc lệch sang phải xíu)
-        // Bạn có thể chỉnh tọa độ này cho đẹp
         textObj.transform.localPosition = new Vector3(300, 200, 0);
 
         FloatingText script = textObj.GetComponent<FloatingText>();
