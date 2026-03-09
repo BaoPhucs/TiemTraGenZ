@@ -7,6 +7,7 @@ public class QuanLyKho : MonoBehaviour
 
     [Header("=== TÀI CHÍNH & AUDIO ===")]
     public int TienHienCo = 50000;
+    public int TienNo = 200000;
     public AudioSource amThanhTien; // Kéo AudioSource vào đây
 
     [Header("=== THỐNG KÊ NGÀY ===")]
@@ -51,12 +52,25 @@ public class QuanLyKho : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F9))
         {
             // 1. Chỉnh số tiền ở đây thành con số bạn muốn (Ví dụ: 5 triệu)
-            TienHienCo = 100000;
+            TienHienCo = 300000;
 
             // 2. ÉP LƯU THẲNG VÀO Ổ CỨNG NGAY LẬP TỨC
             SaveGame();
 
             Debug.Log("💰 ĐÃ HACK THÀNH CÔNG: " + TienHienCo + "đ VÀ LƯU VÀO MÁY!");
+
+            // Nếu bạn có tham chiếu đến ShopManager ở đây thì gọi cập nhật UI (không bắt buộc)
+            // Nếu không có, cứ mở Shop (phím M) lên là sẽ thấy số tiền mới.
+        }
+        if (Input.GetKeyDown(KeyCode.F8))
+        {
+            // 1. Chỉnh số tiền ở đây thành con số bạn muốn (Ví dụ: 5 triệu)
+            TienNo = 200000;
+
+            // 2. ÉP LƯU THẲNG VÀO Ổ CỨNG NGAY LẬP TỨC
+            SaveGame();
+
+            Debug.Log("💰 ĐÃ HACK NỢ THÀNH CÔNG: " + TienNo + "đ VÀ LƯU VÀO MÁY!");
 
             // Nếu bạn có tham chiếu đến ShopManager ở đây thì gọi cập nhật UI (không bắt buộc)
             // Nếu không có, cứ mở Shop (phím M) lên là sẽ thấy số tiền mới.
@@ -155,6 +169,7 @@ public class QuanLyKho : MonoBehaviour
     public void SaveGame()
     {
         PlayerPrefs.SetInt("Tien", TienHienCo);
+        PlayerPrefs.SetInt("TienNo", TienNo);
         PlayerPrefs.SetInt("Tra", Tra);
         PlayerPrefs.SetInt("Tac", Tac);
         PlayerPrefs.SetInt("Da", Da);
@@ -172,6 +187,7 @@ public class QuanLyKho : MonoBehaviour
         if (PlayerPrefs.HasKey("Tien"))
         {
             TienHienCo = PlayerPrefs.GetInt("Tien");
+            TienNo = PlayerPrefs.GetInt("TienNo", 200000);
             Tra = PlayerPrefs.GetInt("Tra");
             Tac = PlayerPrefs.GetInt("Tac");
             Da = PlayerPrefs.GetInt("Da");
