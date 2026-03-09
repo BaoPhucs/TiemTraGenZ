@@ -35,7 +35,7 @@ public class VutRacTrigger : MonoBehaviour
 
     void Update()
     {
-        if (dungGanThungRac && Input.GetKeyDown(KeyCode.E))
+        if (dungGanThungRac && Input.GetKeyDown(KeyCode.Q))
         {
             ThucHienVutRac();
         }
