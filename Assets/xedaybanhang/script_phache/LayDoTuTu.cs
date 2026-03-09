@@ -121,8 +121,8 @@ public class LayDoTuTu : MonoBehaviour, IInteractable
 
     public string GetActionName()
     {
-        if (loaiVatPham == LoaiDo.ThungDa && thungDaDangHienHuu != null) return "Cất Thùng Đá";
+        if (loaiVatPham == LoaiDo.ThungDa && thungDaDangHienHuu != null) return "E - Cất Thùng Đá";
         if (dangCamDo) return "Đang cầm... (Chuột Trái: Đặt)";
-        return "Lấy " + loaiVatPham.ToString();
+        return "E - Lấy " + loaiVatPham.ToString();
     }
 }

@@ -18,6 +18,6 @@ public class ThuHoiDo : MonoBehaviour, IInteractable
 
     public string GetActionName()
     {
-        return "Cất " + loaiDo;
+        return "E - Cất " + loaiDo;
     }
 }

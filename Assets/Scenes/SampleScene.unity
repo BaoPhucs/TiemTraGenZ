@@ -135909,7 +135909,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 183068810156967290, guid: f9bdbf8dfd8ec474f87da2d64bf0a778, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 26.784
+      value: 37.154
       objectReference: {fileID: 0}
     - target: {fileID: 183068810156967290, guid: f9bdbf8dfd8ec474f87da2d64bf0a778, type: 3}
       propertyPath: m_LocalPosition.y
@@ -135917,7 +135917,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 183068810156967290, guid: f9bdbf8dfd8ec474f87da2d64bf0a778, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.744
+      value: 1.527
       objectReference: {fileID: 0}
     - target: {fileID: 183068810156967290, guid: f9bdbf8dfd8ec474f87da2d64bf0a778, type: 3}
       propertyPath: m_LocalRotation.w
@@ -136047,7 +136047,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 611143600421320168, guid: c086d7de7a5324942927588d5cd593b4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 27.325
+      value: 37.496
       objectReference: {fileID: 0}
     - target: {fileID: 611143600421320168, guid: c086d7de7a5324942927588d5cd593b4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -136055,7 +136055,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 611143600421320168, guid: c086d7de7a5324942927588d5cd593b4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.274
+      value: 2.71
       objectReference: {fileID: 0}
     - target: {fileID: 611143600421320168, guid: c086d7de7a5324942927588d5cd593b4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -136087,7 +136087,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3958888749564049550, guid: c086d7de7a5324942927588d5cd593b4, type: 3}
       propertyPath: pushSpeed
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4925636941561981694, guid: c086d7de7a5324942927588d5cd593b4, type: 3}
       propertyPath: m_Enabled

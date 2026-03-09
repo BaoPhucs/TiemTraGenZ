@@ -27,7 +27,7 @@ public class PlayerInteract : MonoBehaviour
                 // Hiện thông báo (nếu có UI)
                 if (interactText != null)
                 {
-                    interactText.text = "[E] " + item.GetActionName();
+                    interactText.text = item.GetActionName();
                     interactText.gameObject.SetActive(true);
                 }
 
