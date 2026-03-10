@@ -1,5 +1,106 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &555559149267842480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7547643870455656147}
+  - component: {fileID: 7598407035082553877}
+  - component: {fileID: 4214008583001065181}
+  - component: {fileID: 6925013148030665204}
+  - component: {fileID: 1718064334917867318}
+  m_Layer: 10
+  m_Name: Tram_Caphe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7547643870455656147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555559149267842480}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0024993033, y: 0.20960002, z: 0.7150001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3662452547548849609}
+  m_Father: {fileID: 6232686031743297156}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7598407035082553877
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555559149267842480}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.10025429, y: 0.0849245, z: 0.07307982}
+  m_Center: {x: 0.0031308306, y: -0.0015609331, z: -0.0033134997}
+--- !u!114 &4214008583001065181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555559149267842480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6841d3f8144e1bb4bba0bc2e1571481d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactText: '[E] Them caphe'
+  spawner: {fileID: 0}
+  interactType: 10
+  phaChe: {fileID: 1342626704364833068}
+--- !u!114 &6925013148030665204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555559149267842480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c810a10dc4bde7d40a7d6660cc4d6762, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: 9
+  phaChe: {fileID: 0}
+--- !u!114 &1718064334917867318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555559149267842480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce7b4730c38037d47b6c22b5c3c6772b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loaiTramCuaToi: 4
+  modelThucTe: {fileID: 3908449934033055834}
 --- !u!1 &650931806025082699
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,10 +130,10 @@ Transform:
   m_LocalScale: {x: 0.024999995, y: 0.025, z: 0.024999995}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4814003278958060962}
   - {fileID: 7095790676931666187}
-  - {fileID: 3662452547548849609}
   - {fileID: 8013833893683495566}
+  - {fileID: 5108164031559385676}
+  - {fileID: 7547643870455656147}
   m_Father: {fileID: 5652325472790318429}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1373637419932700025
@@ -701,6 +802,107 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3022831996567643788
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5108164031559385676}
+  - component: {fileID: 3052756771918598492}
+  - component: {fileID: 2972252134592818982}
+  - component: {fileID: 7416076706821305838}
+  - component: {fileID: 5710063057588413601}
+  m_Layer: 10
+  m_Name: Tram_Tac
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5108164031559385676
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3022831996567643788}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0174, y: 0.2713, z: 0.6714}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4814003278958060962}
+  m_Father: {fileID: 6232686031743297156}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3052756771918598492
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3022831996567643788}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.079826616, y: 0.05873059, z: 0.050295115}
+  m_Center: {x: 0.0019459135, y: 0.014560126, z: -1.3698334e-11}
+--- !u!114 &2972252134592818982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3022831996567643788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce7b4730c38037d47b6c22b5c3c6772b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loaiTramCuaToi: 0
+  modelThucTe: {fileID: 4306589116248007031}
+--- !u!114 &7416076706821305838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3022831996567643788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6841d3f8144e1bb4bba0bc2e1571481d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactText: "[E] Th\xEAm T\u1EAFc"
+  spawner: {fileID: 0}
+  interactType: 2
+  phaChe: {fileID: 1342626704364833068}
+--- !u!114 &5710063057588413601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3022831996567643788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c810a10dc4bde7d40a7d6660cc4d6762, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: 2
+  phaChe: {fileID: 0}
 --- !u!1 &3086586809896892255
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,13 +1164,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3908449934033055834}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.0025, y: 0.2096, z: 0.715}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 8, y: 8, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2074346194527963143}
-  m_Father: {fileID: 6232686031743297156}
+  m_Father: {fileID: 7547643870455656147}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!65 &2732771494169511798
 BoxCollider:
@@ -987,7 +1189,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.01, y: 0.01, z: 0.01}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1083,9 +1285,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4814003278958060962}
-  - component: {fileID: 7358013355988578948}
-  - component: {fileID: 328366929727259581}
-  - component: {fileID: 1994531111878098393}
   m_Layer: 10
   m_Name: "T\u1EAFc"
   m_TagString: Untagged
@@ -1102,64 +1301,13 @@ Transform:
   m_GameObject: {fileID: 4306589116248007031}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0174, y: 0.2713, z: 0.6714}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0068}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 502412139166192542}
-  m_Father: {fileID: 6232686031743297156}
+  m_Father: {fileID: 5108164031559385676}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7358013355988578948
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4306589116248007031}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.017540138, y: 0.011167544, z: 0.010000001}
-  m_Center: {x: 0.003939897, y: 0.0030837695, z: -2.773509e-11}
---- !u!114 &328366929727259581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4306589116248007031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c810a10dc4bde7d40a7d6660cc4d6762, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  action: 2
-  phaChe: {fileID: 1342626704364833068}
---- !u!114 &1994531111878098393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4306589116248007031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6841d3f8144e1bb4bba0bc2e1571481d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactText: "[E] Th\xEAm T\u1EAFc"
-  spawner: {fileID: 0}
-  interactType: 2
-  phaChe: {fileID: 1342626704364833068}
 --- !u!1 &4433578133542330126
 GameObject:
   m_ObjectHideFlags: 0
@@ -1334,7 +1482,19 @@ MonoBehaviour:
   lyTrong: {fileID: 834000769521481966}
   lyCoTra: {fileID: 5780783816532310900}
   lyCoTraTac: {fileID: 3086586809896892255}
-  lyHoanThanh: {fileID: 1674890178473651005}
+  lyCoTraChanh: {fileID: 0}
+  lyCoTraSua: {fileID: 0}
+  lyCoMatcha: {fileID: 0}
+  lyCoMatchaSua: {fileID: 0}
+  lyCoCaPhe: {fileID: 0}
+  lyCoCaPheSua: {fileID: 0}
+  hoanThanh_TraDa: {fileID: 0}
+  hoanThanh_TraTac: {fileID: 0}
+  hoanThanh_TraChanh: {fileID: 0}
+  hoanThanh_TraSua: {fileID: 0}
+  hoanThanh_MatchaLatte: {fileID: 0}
+  hoanThanh_CaPheDen: {fileID: 0}
+  hoanThanh_CaPheSua: {fileID: 0}
 --- !u!114 &8185991780912126451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1348,6 +1508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TienHienCo: 50000
+  TienNo: 200000
   amThanhTien: {fileID: 0}
   DoanhThuNgay: 0
   ChiPhiNgay: 0
@@ -1356,6 +1517,18 @@ MonoBehaviour:
   Tac: 10
   Da: 20
   LyNhua: 20
+  Chanh: 10
+  TraSua: 10
+  Matcha: 10
+  Sua: 10
+  CaPhe: 10
+  unlockTraDa: 1
+  unlockTraTac: 0
+  unlockTraChanh: 0
+  unlockTraSua: 0
+  unlockMatcha: 0
+  unlockCaPheDen: 0
+  unlockCaPheSua: 0
   maxGhe: 6
   maxBan: 2
   maxThungDa: 1
@@ -1364,6 +1537,8 @@ MonoBehaviour:
   banDaLay: 0
   thungDaDaLay: 0
   boDayXe: {fileID: 4656360525158890037}
+  DiemViral: 0
+  DiemTinhLang: 10
 --- !u!208 &6236008094102123590
 NavMeshObstacle:
   m_ObjectHideFlags: 0

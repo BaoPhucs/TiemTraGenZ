@@ -8,34 +8,48 @@ public class QuanLyKho : MonoBehaviour
     [Header("=== TÀI CHÍNH & AUDIO ===")]
     public int TienHienCo = 50000;
     public int TienNo = 200000;
-    public AudioSource amThanhTien; // Kéo AudioSource vào đây
+    public AudioSource amThanhTien;
 
     [Header("=== THỐNG KÊ NGÀY ===")]
     public int DoanhThuNgay = 0;
     public int ChiPhiNgay = 0;
 
-    [Header("=== BIẾN ĐỘNG THỊ TRƯỜNG (TASK 3) ===")]
-    public float tiLeGiaHomNay = 1.0f; // 1.0 là bình thường, 1.2 là đắt, 0.8 là rẻ
+    [Header("=== BIẾN ĐỘNG THỊ TRƯỜNG ===")]
+    public float tiLeGiaHomNay = 1.0f;
 
     [Header("=== KHO NGUYÊN LIỆU ===")]
     public int Tra = 10;
     public int Tac = 10;
     public int Da = 20;
     public int LyNhua = 20;
+    public int Chanh = 10;
+    public int TraSua = 10;
+    public int Matcha = 10;
+    public int Sua = 10;
+    public int CaPhe = 10;
 
-    [Header("=== NÂNG CẤP (TASK 1) ===")]
-    public int maxGhe = 6;     // Số ghế tối đa
-    public int maxBan = 2;     // Số bàn tối đa
+    [Header("=== MENU ĐỒ UỐNG (MỞ KHÓA) ===")]
+    public bool unlockTraDa = true;   // Mặc định cho không
+    public bool unlockTraTac = false;
+    public bool unlockTraChanh = false;
+    public bool unlockTraSua = false;
+    public bool unlockMatcha = false;
+    public bool unlockCaPheDen = false;
+    public bool unlockCaPheSua = false;
+
+    [Header("=== NÂNG CẤP BÀN GHẾ ===")]
+    public int maxGhe = 6;
+    public int maxBan = 2;
     public int maxThungDa = 1;
 
-    [Header("=== QUẢN LÝ VẬT LÝ (Giữ nguyên) ===")]
+    [Header("=== QUẢN LÝ VẬT LÝ ===")]
     public int soDoBenNgoai = 0;
     public int gheDaLay = 0;
     public int banDaLay = 0;
     public int thungDaDaLay = 0;
     public PushableCart boDayXe;
 
-    [Header("=== HỆ THỐNG VIRAL & UY TÍN ===")]
+    [Header("=== HỆ THỐNG VIRAL ===")]
     public int DiemViral = 0;
     public int DiemTinhLang = 10;
 
@@ -43,81 +57,40 @@ public class QuanLyKho : MonoBehaviour
     {
         Instance = this;
         LoadGame();
-        RandomGiaThiTruong(); // Đầu ngày random giá luôn
+        RandomGiaThiTruong();
     }
 
     void Update()
     {
         if (boDayXe != null) boDayXe.enabled = (soDoBenNgoai == 0);
-        if (Input.GetKeyDown(KeyCode.F9))
-        {
-            // 1. Chỉnh số tiền ở đây thành con số bạn muốn (Ví dụ: 5 triệu)
-            TienHienCo = 300000;
-
-            // 2. ÉP LƯU THẲNG VÀO Ổ CỨNG NGAY LẬP TỨC
-            SaveGame();
-
-            Debug.Log("💰 ĐÃ HACK THÀNH CÔNG: " + TienHienCo + "đ VÀ LƯU VÀO MÁY!");
-
-            // Nếu bạn có tham chiếu đến ShopManager ở đây thì gọi cập nhật UI (không bắt buộc)
-            // Nếu không có, cứ mở Shop (phím M) lên là sẽ thấy số tiền mới.
-        }
-        if (Input.GetKeyDown(KeyCode.F8))
-        {
-            // 1. Chỉnh số tiền ở đây thành con số bạn muốn (Ví dụ: 5 triệu)
-            TienNo = 200000;
-
-            // 2. ÉP LƯU THẲNG VÀO Ổ CỨNG NGAY LẬP TỨC
-            SaveGame();
-
-            Debug.Log("💰 ĐÃ HACK NỢ THÀNH CÔNG: " + TienNo + "đ VÀ LƯU VÀO MÁY!");
-
-            // Nếu bạn có tham chiếu đến ShopManager ở đây thì gọi cập nhật UI (không bắt buộc)
-            // Nếu không có, cứ mở Shop (phím M) lên là sẽ thấy số tiền mới.
-        }
+        if (Input.GetKeyDown(KeyCode.F9)) { TienHienCo =500000; SaveGame(); Debug.Log("HACK TIỀN!"); }
+        if (Input.GetKeyDown(KeyCode.F8)) { TienNo = 200000; SaveGame(); Debug.Log("HACK NỢ!"); }
+        if (Input.GetKeyDown(KeyCode.F12)) { ResetGameToZero(); }
     }
 
-    // --- HỆ THỐNG BIẾN ĐỘNG GIÁ ---
-    public void RandomGiaThiTruong()
-    {
-        // Random từ 80% đến 120% giá gốc
-        tiLeGiaHomNay = Random.Range(0.8f, 1.2f);
-        Debug.Log($"Thị trường hôm nay: {tiLeGiaHomNay * 100}% giá gốc");
-    }
+    public void RandomGiaThiTruong() { tiLeGiaHomNay = Random.Range(0.8f, 1.2f); }
 
-    // --- HỆ THỐNG NÂNG CẤP BÀN GHẾ ---
     public void NangCapBanGhe(string loai, int giaTien)
     {
         if (TienHienCo >= giaTien)
         {
             TienHienCo -= giaTien;
             ChiPhiNgay += giaTien;
-
-            // Hiệu ứng trừ tiền
             if (EffectManager.Instance != null) EffectManager.Instance.HienThiTien(-giaTien);
             if (amThanhTien != null) amThanhTien.Play();
-
             if (loai == "Ghe") maxGhe++;
             if (loai == "Ban") maxBan++;
-
-            Debug.Log($"Đã nâng cấp {loai}. Giới hạn mới: Bàn {maxBan} - Ghế {maxGhe}");
             SaveGame();
         }
-        else Debug.Log("Không đủ tiền nâng cấp!");
     }
 
-    // --- HỆ THỐNG MUA HÀNG (Đã cập nhật Biến Động Giá) ---
     public void MuaHang(string tenMon, int soLuong, int giaGoc)
     {
-        // Tính giá thực tế theo thị trường
         int giaThucTe = Mathf.RoundToInt(giaGoc * tiLeGiaHomNay);
-
         if (TienHienCo >= giaThucTe)
         {
             TienHienCo -= giaThucTe;
             ChiPhiNgay += giaThucTe;
-
-            // Hiệu ứng & Âm thanh
             if (EffectManager.Instance != null) EffectManager.Instance.HienThiTien(-giaThucTe);
             if (amThanhTien != null) amThanhTien.Play();
 
@@ -127,45 +100,47 @@ public class QuanLyKho : MonoBehaviour
                 case "Tac": Tac += soLuong; break;
                 case "Da": Da += soLuong; break;
                 case "Ly": LyNhua += soLuong; break;
+                case "Chanh": Chanh += soLuong; break;
+                case "TraSua": TraSua += soLuong; break;
+                case "Matcha": Matcha += soLuong; break;
+                case "Sua": Sua += soLuong; break;
+                case "CaPhe": CaPhe += soLuong; break;
             }
             SaveGame();
         }
-        else Debug.Log("Không đủ tiền (Giá hôm nay cao quá)!");
+    }
+
+    public bool MuaCongThuc(string tenMon, int giaTien)
+    {
+        if (TienHienCo >= giaTien)
+        {
+            TienHienCo -= giaTien;
+            ChiPhiNgay += giaTien;
+            if (EffectManager.Instance != null) EffectManager.Instance.HienThiTien(-giaTien);
+            if (amThanhTien != null) amThanhTien.Play();
+
+            if (tenMon == "TraTac") unlockTraTac = true;
+            if (tenMon == "TraChanh") unlockTraChanh = true;
+            if (tenMon == "TraSua") unlockTraSua = true;
+            if (tenMon == "MatchaLatte") unlockMatcha = true;
+            if (tenMon == "CaPheDen") unlockCaPheDen = true;
+            if (tenMon == "CaPheSua") unlockCaPheSua = true;
+
+            SaveGame();
+            return true;
+        }
+        return false;
     }
 
     public void NhanTienBanNuoc(int soTien)
     {
-        Debug.Log($"<color=cyan>[QuanLyKho] Đang nhận số tiền: {soTien}đ</color>");
-
         TienHienCo += soTien;
         DoanhThuNgay += soTien;
-
-        // 1. Theo dõi Hiệu ứng
-        if (EffectManager.Instance != null)
-        {
-            Debug.Log("[QuanLyKho] Đã kết nối EffectManager! Đang gọi hàm HienThiTien...");
-            EffectManager.Instance.HienThiTien(soTien);
-        }
-        else
-        {
-            Debug.LogError("[QuanLyKho] LỖI: EffectManager.Instance đang bị NULL! Hệ thống văng chữ bị mù!");
-        }
-
-        // 2. Theo dõi Âm thanh
-        if (amThanhTien != null)
-        {
-            Debug.Log("[QuanLyKho] Đã thấy AudioSource! Đang phát tiếng Ka-Ching...");
-            amThanhTien.Play();
-        }
-        else
-        {
-            Debug.LogError("[QuanLyKho] LỖI: amThanhTien đang bị NULL! Chưa kéo AudioSource vào Inspector?");
-        }
-
+        if (EffectManager.Instance != null) EffectManager.Instance.HienThiTien(soTien);
+        if (amThanhTien != null) amThanhTien.Play();
         SaveGame();
     }
 
-    // --- SAVE / LOAD (Cập nhật lưu maxBan, maxGhe) ---
     public void SaveGame()
     {
         PlayerPrefs.SetInt("Tien", TienHienCo);
@@ -174,11 +149,24 @@ public class QuanLyKho : MonoBehaviour
         PlayerPrefs.SetInt("Tac", Tac);
         PlayerPrefs.SetInt("Da", Da);
         PlayerPrefs.SetInt("Ly", LyNhua);
-        // Lưu thêm cấp độ bàn ghế
+        PlayerPrefs.SetInt("Chanh", Chanh);
+        PlayerPrefs.SetInt("TraSua", TraSua);
+        PlayerPrefs.SetInt("Matcha", Matcha);
+        PlayerPrefs.SetInt("Sua", Sua);
+        PlayerPrefs.SetInt("CaPhe", CaPhe);
+
         PlayerPrefs.SetInt("MaxGhe", maxGhe);
         PlayerPrefs.SetInt("MaxBan", maxBan);
         PlayerPrefs.SetInt("Viral", DiemViral);
         PlayerPrefs.SetInt("TinhLang", DiemTinhLang);
+
+        PlayerPrefs.SetInt("UnlockTraTac", unlockTraTac ? 1 : 0);
+        PlayerPrefs.SetInt("UnlockTraChanh", unlockTraChanh ? 1 : 0);
+        PlayerPrefs.SetInt("UnlockTraSua", unlockTraSua ? 1 : 0);
+        PlayerPrefs.SetInt("UnlockMatcha", unlockMatcha ? 1 : 0);
+        PlayerPrefs.SetInt("UnlockCaPheDen", unlockCaPheDen ? 1 : 0);
+        PlayerPrefs.SetInt("UnlockCaPheSua", unlockCaPheSua ? 1 : 0);
+
         PlayerPrefs.Save();
     }
 
@@ -192,15 +180,26 @@ public class QuanLyKho : MonoBehaviour
             Tac = PlayerPrefs.GetInt("Tac");
             Da = PlayerPrefs.GetInt("Da");
             LyNhua = PlayerPrefs.GetInt("Ly");
-            // Tải cấp độ bàn ghế (Nếu chưa có thì lấy số mặc định 6 và 2)
+            Chanh = PlayerPrefs.GetInt("Chanh", 0);
+            TraSua = PlayerPrefs.GetInt("TraSua", 0);
+            Matcha = PlayerPrefs.GetInt("Matcha", 0);
+            Sua = PlayerPrefs.GetInt("Sua", 0);
+            CaPhe = PlayerPrefs.GetInt("CaPhe", 0);
+
             maxGhe = PlayerPrefs.GetInt("MaxGhe", 6);
             maxBan = PlayerPrefs.GetInt("MaxBan", 2);
             DiemViral = PlayerPrefs.GetInt("Viral", 0);
             DiemTinhLang = PlayerPrefs.GetInt("TinhLang", 10);
+
+            unlockTraTac = PlayerPrefs.GetInt("UnlockTraTac", 0) == 1;
+            unlockTraChanh = PlayerPrefs.GetInt("UnlockTraChanh", 0) == 1;
+            unlockTraSua = PlayerPrefs.GetInt("UnlockTraSua", 0) == 1;
+            unlockMatcha = PlayerPrefs.GetInt("UnlockMatcha", 0) == 1;
+            unlockCaPheDen = PlayerPrefs.GetInt("UnlockCaPheDen", 0) == 1;
+            unlockCaPheSua = PlayerPrefs.GetInt("UnlockCaPheSua", 0) == 1;
         }
     }
 
-    // ... (Giữ nguyên các hàm SuDungNguyenLieu, LayDoRa, ThuDoVe, KiemTraNguyenLieu, TieuThuNguyenLieu cũ) ...
     public bool SuDungNguyenLieu(string tenMon)
     {
         bool ck = false;
@@ -210,9 +209,27 @@ public class QuanLyKho : MonoBehaviour
             case "Tra": if (Tra > 0) { Tra--; ck = true; } break;
             case "Tac": if (Tac > 0) { Tac--; ck = true; } break;
             case "Da": if (Da > 0) { Da--; ck = true; } break;
+            case "Chanh": if (Chanh > 0) { Chanh--; ck = true; } break;
+            case "TraSua": if (TraSua > 0) { TraSua--; ck = true; } break;
+            case "Matcha": if (Matcha > 0) { Matcha--; ck = true; } break;
+            case "Sua": if (Sua > 0) { Sua--; ck = true; } break;
+            case "CaPhe": if (CaPhe > 0) { CaPhe--; ck = true; } break;
         }
         if (ck) SaveGame();
         return ck;
+    }
+
+    public System.Collections.Generic.List<string> LayMenuHienTai()
+    {
+        System.Collections.Generic.List<string> menu = new System.Collections.Generic.List<string>();
+        if (unlockTraDa) menu.Add("TraDa");
+        if (unlockTraTac) menu.Add("TraTac");
+        if (unlockTraChanh) menu.Add("TraChanh");
+        if (unlockTraSua) menu.Add("TraSua");
+        if (unlockMatcha) menu.Add("MatchaLatte");
+        if (unlockCaPheDen) menu.Add("CaPheDen");
+        if (unlockCaPheSua) menu.Add("CaPheSua");
+        return menu;
     }
 
     public bool LayDoRa(string loaiDo)
@@ -230,6 +247,37 @@ public class QuanLyKho : MonoBehaviour
         if (loaiDo == "Ban" && banDaLay > 0) banDaLay--;
         if (loaiDo == "ThungDa" && thungDaDaLay > 0) thungDaDaLay--;
     }
-    public bool ConDoBenNgoai() { return soDoBenNgoai > 0; }
+    public bool ConDoBenNgoai()
+    {
+        return soDoBenNgoai > 0;
+    }
 
+
+    // --- THÊM NGUYÊN HÀM NÀY XUỐNG DƯỚI CÙNG (Trước dấu ngoặc } chốt file) ---
+    public void ResetGameToZero()
+    {
+        // 1. Xóa sạch sẽ bộ nhớ lưu trữ của Unity trên máy tính
+        PlayerPrefs.DeleteAll();
+
+        // 2. Trả các con số về lại lúc nghèo khó
+        TienHienCo = 50000;
+        TienNo = 200000;
+        Tra = 10; Tac = 10; Da = 20; LyNhua = 20;
+        Chanh = 10; TraSua = 10; Matcha = 10; Sua = 10; CaPhe = 10;
+
+        maxGhe = 6; maxBan = 2; DiemViral = 0; DiemTinhLang = 10;
+
+        // 3. Khóa toàn bộ Bí Kíp, chỉ chừa lại Trà Đá
+        unlockTraDa = true;
+        unlockTraTac = false;
+        unlockTraChanh = false;
+        unlockTraSua = false;
+        unlockMatcha = false;
+        unlockCaPheDen = false;
+        unlockCaPheSua = false;
+
+        // 4. Lưu lại trạng thái trắng tay này
+        SaveGame();
+        Debug.Log("⚠️ ĐÃ RESET GAME VỀ SỐ 0! TẤT CẢ CÔNG THỨC ĐÃ BỊ KHÓA!");
+    }
 }

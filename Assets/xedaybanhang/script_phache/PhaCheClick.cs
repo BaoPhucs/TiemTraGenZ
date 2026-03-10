@@ -8,7 +8,13 @@ public class PhaCheClick : MonoBehaviour, IInteractable
         DoTra,
         ThemTac,
         ThemDa,
-        ThuHoi
+        ThuHoi,
+        // --- CÁC MÓN MỚI BỔ SUNG ---
+        ThemChanh,
+        DoTraSua,
+        DoMatcha,
+        ThemSua,
+        DoCaPhe
     }
 
     public ActionType action;
@@ -38,6 +44,13 @@ public class PhaCheClick : MonoBehaviour, IInteractable
                 case ActionType.ThemTac: phaChe.ThemTac(); break;
                 case ActionType.ThemDa: phaChe.ThemDa(); break;
                 case ActionType.ThuHoi: phaChe.ThuHoiLy(); break;
+
+                // --- GỌI HÀM CỦA CÁC MÓN MỚI ---
+                case ActionType.ThemChanh: phaChe.ThemChanh(); break;
+                case ActionType.DoTraSua: phaChe.DoTraSua(); break;
+                case ActionType.DoMatcha: phaChe.DoMatcha(); break;
+                case ActionType.ThemSua: phaChe.ThemSua(); break;
+                case ActionType.DoCaPhe: phaChe.DoCaPhe(); break;
             }
         }
         else
@@ -48,14 +61,22 @@ public class PhaCheClick : MonoBehaviour, IInteractable
 
     public string GetActionName()
     {
-        // Hiển thị tên hành động kèm phím tắt
+        // Hiển thị tên hành động kèm phím tắt (UI Text hiển thị trên màn hình)
         switch (action)
         {
             case ActionType.LayLy: return "Lấy Ly (E)";
             case ActionType.DoTra: return "Đổ Trà (E)";
             case ActionType.ThemTac: return "Thêm Tắc (E)";
             case ActionType.ThemDa: return "Thêm Đá (E)";
-            case ActionType.ThuHoi: return "Thu Hồi (E)";
+            case ActionType.ThuHoi: return "Giao Nước / Dọn Ly (E)";
+
+            // --- TÊN HIỂN THỊ CỦA CÁC MÓN MỚI ---
+            case ActionType.ThemChanh: return "Thêm Chanh (E)";
+            case ActionType.DoTraSua: return "Đổ Trà Sữa (E)";
+            case ActionType.DoMatcha: return "Múc Matcha (E)";
+            case ActionType.ThemSua: return "Đổ Sữa (E)";
+            case ActionType.DoCaPhe: return "Rót Cà Phê (E)";
+
             default: return "...";
         }
     }
