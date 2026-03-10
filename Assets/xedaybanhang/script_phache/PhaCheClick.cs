@@ -72,9 +72,9 @@ public class PhaCheClick : MonoBehaviour, IInteractable
 
             // --- TÊN HIỂN THỊ CỦA CÁC MÓN MỚI ---
             case ActionType.ThemChanh: return "Thêm Chanh (E)";
-            case ActionType.DoTraSua: return "Đổ Trà Sữa (E)";
+            case ActionType.DoTraSua: return "Đổ Trà Sua (E)";
             case ActionType.DoMatcha: return "Múc Matcha (E)";
-            case ActionType.ThemSua: return "Đổ Sữa (E)";
+            case ActionType.ThemSua: return "Đổ Sua (E)";
             case ActionType.DoCaPhe: return "Rót Cà Phê (E)";
 
             default: return "...";
