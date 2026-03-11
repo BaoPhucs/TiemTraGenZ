@@ -63,9 +63,11 @@ public class QuanLyKho : MonoBehaviour
     void Update()
     {
         if (boDayXe != null) boDayXe.enabled = (soDoBenNgoai == 0);
-        if (Input.GetKeyDown(KeyCode.F9)) { TienHienCo =500000; SaveGame(); Debug.Log("HACK TIỀN!"); }
-        if (Input.GetKeyDown(KeyCode.F8)) { TienNo = 200000; SaveGame(); Debug.Log("HACK NỢ!"); }
-        if (Input.GetKeyDown(KeyCode.F12)) { ResetGameToZero(); }
+
+        // --- CÁC PHÍM HACK TEST GAME ---
+        if (Input.GetKeyDown(KeyCode.F12)) { TienHienCo += 500000; SaveGame(); Debug.Log("HACK TIỀN!"); }
+        if (Input.GetKeyDown(KeyCode.F8)) { TienNo += 200000; SaveGame(); Debug.Log("HACK NỢ!"); }
+        if (Input.GetKeyDown(KeyCode.F1)) { ResetGameToZero(); } // Đã chuyển thành F1
     }
 
     public void RandomGiaThiTruong() { tiLeGiaHomNay = Random.Range(0.8f, 1.2f); }
@@ -252,14 +254,48 @@ public class QuanLyKho : MonoBehaviour
         return soDoBenNgoai > 0;
     }
 
+    // ==========================================
+    // CÁC HÀM MỚI THÊM CHO LOGIC MUA VÉ SỐ
+    // ==========================================
+    public bool MuaVeSo(int giaVe)
+    {
+        if (TienHienCo >= giaVe)
+        {
+            TienHienCo -= giaVe;
+            ChiPhiNgay += giaVe;
+            if (EffectManager.Instance != null) EffectManager.Instance.HienThiTien(-giaVe);
+            if (amThanhTien != null) amThanhTien.Play();
+            SaveGame();
+            return true; // Mua thành công
+        }
+        return false; // Nghèo quá không mua được
+    }
 
-    // --- THÊM NGUYÊN HÀM NÀY XUỐNG DƯỚI CÙNG (Trước dấu ngoặc } chốt file) ---
+    public void TrungDocDac(int tienThuong)
+    {
+        // ÉP KIỂU SANG LONG ĐỂ KIỂM TRA CHỐNG TRÀN BỘ NHỚ
+        long kiemTraTien = (long)TienHienCo + (long)tienThuong;
+
+        if (kiemTraTien > 2000000000)
+        {
+            TienHienCo = 2000000000; // Khóa trần ở mức 2 Tỷ
+        }
+        else
+        {
+            TienHienCo += tienThuong;
+        }
+
+        DoanhThuNgay += tienThuong; // Tính luôn vào doanh thu ngày
+        if (EffectManager.Instance != null) EffectManager.Instance.HienThiTien(tienThuong);
+        if (amThanhTien != null) amThanhTien.Play();
+        SaveGame();
+    }
+    // ==========================================
+
     public void ResetGameToZero()
     {
-        // 1. Xóa sạch sẽ bộ nhớ lưu trữ của Unity trên máy tính
         PlayerPrefs.DeleteAll();
 
-        // 2. Trả các con số về lại lúc nghèo khó
         TienHienCo = 50000;
         TienNo = 200000;
         Tra = 10; Tac = 10; Da = 20; LyNhua = 20;
@@ -267,7 +303,6 @@ public class QuanLyKho : MonoBehaviour
 
         maxGhe = 6; maxBan = 2; DiemViral = 0; DiemTinhLang = 10;
 
-        // 3. Khóa toàn bộ Bí Kíp, chỉ chừa lại Trà Đá
         unlockTraDa = true;
         unlockTraTac = false;
         unlockTraChanh = false;
@@ -276,7 +311,6 @@ public class QuanLyKho : MonoBehaviour
         unlockCaPheDen = false;
         unlockCaPheSua = false;
 
-        // 4. Lưu lại trạng thái trắng tay này
         SaveGame();
         Debug.Log("⚠️ ĐÃ RESET GAME VỀ SỐ 0! TẤT CẢ CÔNG THỨC ĐÃ BỊ KHÓA!");
     }
