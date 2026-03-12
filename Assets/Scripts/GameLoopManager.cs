@@ -10,40 +10,50 @@ public class GameLoopManager : MonoBehaviour
     public TextMeshProUGUI txtChiPhi;
     public TextMeshProUGUI txtLoiNhuan;
 
-    // Biến này để chặn người chơi bấm Enter sang ngày mới khi chỉ đang mở ra xem
     private bool dangXemThongKe = false;
 
     void Start()
     {
-        if (bangKetToanPanel == null)
-            bangKetToanPanel = GameObject.Find("BangKetToan_Panel");
+        TimBangKetToan();
 
         // Bật bảng khi mới vào game
         if (bangKetToanPanel != null)
         {
-            dangXemThongKe = false; // Chế độ chuẩn, cho phép sang ngày
+            dangXemThongKe = false;
             bangKetToanPanel.SetActive(true);
 
-            if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(true); // Ép HIỆN nút
+            if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(true);
 
-            CapNhatSoLieu(); // Cập nhật chữ
+            CapNhatSoLieu();
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
     }
 
+    // ========================================================
+    // HÀM BẤT TỬ: Tìm bảng kết toán xuyên qua cả trạng thái TẮT
+    // ========================================================
+    void TimBangKetToan()
+    {
+        if (bangKetToanPanel == null)
+        {
+            GameObject canvas = GameObject.Find("HUD_Canvas");
+            if (canvas != null)
+            {
+                Transform panel = canvas.transform.Find("BangKetToan_Panel");
+                if (panel != null) bangKetToanPanel = panel.gameObject;
+            }
+        }
+    }
+
     void Update()
     {
-        // =========================================================
-        // TÍNH NĂNG MỚI: BẤM TAB ĐỂ BẬT/TẮT SỔ KẾ TOÁN GIỮA CHỪNG
-        // =========================================================
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             ToggleSoKeToan();
         }
 
-        // Logic bấm Enter chỉ hoạt động nếu bảng đang mở VÀ KHÔNG PHẢI đang ở chế độ xem tạm
         if (bangKetToanPanel != null && bangKetToanPanel.activeSelf && !dangXemThongKe)
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
@@ -53,34 +63,38 @@ public class GameLoopManager : MonoBehaviour
         }
     }
 
-    // --- HÀM BẬT/TẮT SỔ KẾ TOÁN (DÙNG PHÍM TAB) ---
     void ToggleSoKeToan()
     {
+        TimBangKetToan(); // Khóa mục tiêu, không bao giờ lo mất kết nối
         if (bangKetToanPanel == null) return;
 
+        // ========================================================
+        // BẢO VỆ GAME: Nếu game đang bị dừng (do Phá sản, Bị bắt...) 
+        // thì KHÔNG CHO BẤM TAB ĐỂ TRÁNH XUNG ĐỘT THỜI GIAN
+        // ========================================================
+        if (!bangKetToanPanel.activeSelf && Time.timeScale == 0) return;
+
         bool dangMo = !bangKetToanPanel.activeSelf;
-        dangXemThongKe = dangMo; // Đánh dấu là đang mở xem tạm
+        dangXemThongKe = dangMo;
         bangKetToanPanel.SetActive(dangMo);
 
         if (dangMo)
         {
             CapNhatSoLieu();
-            if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(false); // ẨN NÚT ĐI!
+            if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(false);
 
-            Time.timeScale = 0; // Dừng game để xem
+            Time.timeScale = 0;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
         else
         {
-            // Tắt bảng đi thì game chạy tiếp
             Time.timeScale = 1;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
     }
 
-    // --- HÀM CẬP NHẬT TEXT CHUNG (Để không phải viết đi viết lại) ---
     void CapNhatSoLieu()
     {
         if (QuanLyKho.Instance != null)
@@ -98,33 +112,27 @@ public class GameLoopManager : MonoBehaviour
     [ContextMenu("TEST KET THUC")]
     public void KetThucNgay()
     {
+        TimBangKetToan();
         dangXemThongKe = false;
         if (bangKetToanPanel != null) bangKetToanPanel.SetActive(true);
         if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(true);
 
-        // =======================================================
-        // KIỂM ĐIỂM VỆ SINH MÔI TRƯỜNG KHI DỌN HÀNG
-        // =======================================================
-        DonRac[] dongRacConSot = FindObjectsOfType<DonRac>(); // Tìm tất cả rác trên đường
+        DonRac[] dongRacConSot = FindObjectsOfType<DonRac>();
         if (dongRacConSot.Length > 0 && QuanLyKho.Instance != null)
         {
-            // Trừ 5 điểm cho MỖI cục rác còn sót lại
             int diemBiTru = dongRacConSot.Length * 5;
             QuanLyKho.Instance.DiemTinhLang -= diemBiTru;
 
-            // Đáy xã hội là 0 điểm, không cho âm
             if (QuanLyKho.Instance.DiemTinhLang < 0) QuanLyKho.Instance.DiemTinhLang = 0;
 
             QuanLyKho.Instance.SaveGame();
             Debug.Log($"<color=red>🤬 Hàng xóm: Bán xong xả rác đầy đường hả? Bị trừ {diemBiTru} Tình Làng Nghĩa Xóm!</color>");
 
-            // Tự động xóa rác đi để ngày mai đường phố sạch sẽ lại
             foreach (DonRac rac in dongRacConSot)
             {
                 Destroy(rac.gameObject);
             }
         }
-        // =======================================================
 
         CapNhatSoLieu();
 
