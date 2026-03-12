@@ -78,6 +78,7 @@ public class TraNoManager : MonoBehaviour
         Time.timeScale = 1f;
 
         // DÙNG CÁCH CỦA BẠN: Load thẳng Scene số 0 (Khỏi sợ sai tên)
-        SceneManager.LoadScene(0);
+        //SceneManager.LoadScene(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
