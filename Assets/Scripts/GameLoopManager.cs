@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameLoopManager : MonoBehaviour
@@ -14,26 +15,50 @@ public class GameLoopManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("🚀 [GameLoopManager] Khởi động...");
+        DonDepGiaoDienRac();
         TimBangKetToan();
+        TimNutBam();
 
-        // Bật bảng khi mới vào game
         if (bangKetToanPanel != null)
         {
             dangXemThongKe = false;
             bangKetToanPanel.SetActive(true);
 
-            if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(true);
+            if (btnBatDauNgayMoi != null)
+            {
+                btnBatDauNgayMoi.SetActive(true);
+
+                // LỚP BẢO VỆ 1: Ép cái nút phải nhớ chức năng của nó (Chống liệt nút)
+                Button nutBam = btnBatDauNgayMoi.GetComponent<Button>();
+                if (nutBam != null)
+                {
+                    nutBam.onClick.RemoveAllListeners(); // Xóa sạch bộ nhớ cũ bị lỗi
+                    nutBam.onClick.AddListener(SangNgayMoi); // Gắn chặt lệnh mới vào
+                }
+            }
 
             CapNhatSoLieu();
-
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            Time.timeScale = 0;
+            MoKhoaChuot();
         }
     }
 
-    // ========================================================
-    // HÀM BẤT TỬ: Tìm bảng kết toán xuyên qua cả trạng thái TẮT
-    // ========================================================
+    void DonDepGiaoDienRac()
+    {
+        string[] danhSachRac = { "Intro_Panel", "PanelEnding", "Video_HappyEnding", "Video_PhaSan", "Video_BadEnding", "Video_VeSoEnding" };
+        GameObject canvas = GameObject.Find("HUD_Canvas");
+
+        if (canvas != null)
+        {
+            foreach (string ten in danhSachRac)
+            {
+                Transform panelRac = canvas.transform.Find(ten);
+                if (panelRac != null) panelRac.gameObject.SetActive(false);
+            }
+        }
+    }
+
     void TimBangKetToan()
     {
         if (bangKetToanPanel == null)
@@ -47,11 +72,27 @@ public class GameLoopManager : MonoBehaviour
         }
     }
 
+    void TimNutBam()
+    {
+        if (btnBatDauNgayMoi == null && bangKetToanPanel != null)
+        {
+            Button nut = bangKetToanPanel.GetComponentInChildren<Button>(true);
+            if (nut != null) btnBatDauNgayMoi = nut.gameObject;
+        }
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            ToggleSoKeToan();
+            if (bangKetToanPanel != null && bangKetToanPanel.activeSelf && !dangXemThongKe)
+            {
+                // Cấm dùng Tab để tắt bảng nếu đây là màn hình Bắt buộc
+            }
+            else
+            {
+                ToggleSoKeToan();
+            }
         }
 
         if (bangKetToanPanel != null && bangKetToanPanel.activeSelf && !dangXemThongKe)
@@ -63,15 +104,20 @@ public class GameLoopManager : MonoBehaviour
         }
     }
 
+    void LateUpdate()
+    {
+        if (bangKetToanPanel != null && bangKetToanPanel.activeSelf)
+        {
+            MoKhoaChuot();
+        }
+    }
+
     void ToggleSoKeToan()
     {
-        TimBangKetToan(); // Khóa mục tiêu, không bao giờ lo mất kết nối
+        TimBangKetToan();
+        TimNutBam();
         if (bangKetToanPanel == null) return;
 
-        // ========================================================
-        // BẢO VỆ GAME: Nếu game đang bị dừng (do Phá sản, Bị bắt...) 
-        // thì KHÔNG CHO BẤM TAB ĐỂ TRÁNH XUNG ĐỘT THỜI GIAN
-        // ========================================================
         if (!bangKetToanPanel.activeSelf && Time.timeScale == 0) return;
 
         bool dangMo = !bangKetToanPanel.activeSelf;
@@ -84,14 +130,12 @@ public class GameLoopManager : MonoBehaviour
             if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(false);
 
             Time.timeScale = 0;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            MoKhoaChuot();
         }
         else
         {
             Time.timeScale = 1;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            KhoaChuot();
         }
     }
 
@@ -113,7 +157,9 @@ public class GameLoopManager : MonoBehaviour
     public void KetThucNgay()
     {
         TimBangKetToan();
+        TimNutBam();
         dangXemThongKe = false;
+
         if (bangKetToanPanel != null) bangKetToanPanel.SetActive(true);
         if (btnBatDauNgayMoi != null) btnBatDauNgayMoi.SetActive(true);
 
@@ -122,48 +168,65 @@ public class GameLoopManager : MonoBehaviour
         {
             int diemBiTru = dongRacConSot.Length * 5;
             QuanLyKho.Instance.DiemTinhLang -= diemBiTru;
-
             if (QuanLyKho.Instance.DiemTinhLang < 0) QuanLyKho.Instance.DiemTinhLang = 0;
-
             QuanLyKho.Instance.SaveGame();
-            Debug.Log($"<color=red>🤬 Hàng xóm: Bán xong xả rác đầy đường hả? Bị trừ {diemBiTru} Tình Làng Nghĩa Xóm!</color>");
 
-            foreach (DonRac rac in dongRacConSot)
-            {
-                Destroy(rac.gameObject);
-            }
+            foreach (DonRac rac in dongRacConSot) Destroy(rac.gameObject);
         }
 
         CapNhatSoLieu();
-
         Time.timeScale = 0;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        MoKhoaChuot();
     }
 
     public void SangNgayMoi()
     {
-        if (QuanLyKho.Instance != null)
+        Debug.Log("🎯 [GameLoopManager] ĐÃ KÍCH HOẠT LỆNH SANG NGÀY MỚI!");
+
+        // LỚP BẢO VỆ 2: Bọc Try-Catch để chống game bị kẹt nếu có lỗi ngầm
+        try
         {
-            QuanLyKho.Instance.DoanhThuNgay = 0;
-            QuanLyKho.Instance.ChiPhiNgay = 0;
-            QuanLyKho.Instance.RandomGiaThiTruong();
+            if (QuanLyKho.Instance != null)
+            {
+                QuanLyKho.Instance.DoanhThuNgay = 0;
+                QuanLyKho.Instance.ChiPhiNgay = 0;
+                QuanLyKho.Instance.RandomGiaThiTruong();
+            }
+
+            // Tắt bảng đi ngay lập tức
+            if (bangKetToanPanel != null) bangKetToanPanel.SetActive(false);
+
+            PoliceAI.ResetCongAnNgayMoi();
+
+            if (TiemTraGenZ.Manager.StoryManager.Instance != null)
+            {
+                TiemTraGenZ.Manager.StoryManager.Instance.AdvanceDay();
+            }
+
+            Time.timeScale = 1;
+            KhoaChuot();
+
+            Debug.Log("✅ [GameLoopManager] Sang ngày mới HOÀN TẤT!");
         }
+        catch (System.Exception e)
+        {
+            Debug.LogError("❌ [GameLoopManager] Có lỗi ngầm khi sang ngày, nhưng game đã được cứu! Lỗi: " + e.Message);
+            // Dù có lỗi thì vẫn ép tắt bảng và mở thời gian để người chơi không bị kẹt
+            if (bangKetToanPanel != null) bangKetToanPanel.SetActive(false);
+            Time.timeScale = 1;
+            KhoaChuot();
+        }
+    }
 
-        if (bangKetToanPanel != null) bangKetToanPanel.SetActive(false);
+    void MoKhoaChuot()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 
-        PoliceAI.ResetCongAnNgayMoi();
-
-        Time.timeScale = 1;
-
+    void KhoaChuot()
+    {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        if (TiemTraGenZ.Manager.StoryManager.Instance != null)
-        {
-            TiemTraGenZ.Manager.StoryManager.Instance.AdvanceDay();
-        }
-
-        Debug.Log("Đã sang ngày mới!");
     }
 }

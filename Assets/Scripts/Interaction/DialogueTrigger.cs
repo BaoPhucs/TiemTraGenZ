@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TiemTraGenZ.Data;
 using TiemTraGenZ.Manager;
 
@@ -10,15 +10,24 @@ namespace TiemTraGenZ.Interaction
         public DialogueData dialogue;
 
         [Header("Trigger Settings")]
+        public float interactDistance = 2.5f; // Bán kính đo khoảng cách (mét)
         public bool triggerOnEnter = false;
         public bool triggerOnInteract = true;
-        public bool triggerOnStart = false; // Add this for testing!
+        public bool triggerOnStart = false;
         public string playerTag = "Player";
 
-        private bool isPlayerInRange = false;
+        private Transform playerTransform;
+        private bool wasInRange = false; // Ghi nhớ trạng thái để không spam
 
         private void Start()
         {
+            // Tự động radar dò tìm Minh ngay khi vào game
+            GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
+            if (playerObj != null)
+            {
+                playerTransform = playerObj.transform;
+            }
+
             if (triggerOnStart)
             {
                 TriggerDialogue();
@@ -27,34 +36,41 @@ namespace TiemTraGenZ.Interaction
 
         private void Update()
         {
-            if (isPlayerInRange && triggerOnInteract && Input.GetKeyDown(KeyCode.E))
-            {
-                Debug.Log("[DialogueTrigger] Player pressed E, triggering dialogue...");
-                TriggerDialogue();
-            }
-        }
+            if (playerTransform == null) return;
 
-        private void OnTriggerEnter(Collider other)
-        {
-            Debug.Log($"[DialogueTrigger] OnTriggerEnter: {other.name} (Tag: {other.tag})");
-            if (other.CompareTag(playerTag))
+            // Đo khoảng cách tuyệt đối từ NPC đến người chơi
+            float distance = Vector3.Distance(transform.position, playerTransform.position);
+            bool isCurrentlyInRange = distance <= interactDistance;
+
+            // XỬ LÝ KHI NGƯỜI CHƠI ĐỨNG GẦN NPC
+            if (isCurrentlyInRange)
             {
-                Debug.Log("[DialogueTrigger] Player entered trigger zone!");
-                isPlayerInRange = true;
-                if (triggerOnEnter)
+                // NẾU LÀ BƯỚC VÀO LẦN ĐẦU TIÊN
+                if (!wasInRange)
                 {
-                    Debug.Log("[DialogueTrigger] Auto-triggering dialogue on enter...");
+                    wasInRange = true;
+                    if (triggerOnEnter)
+                    {
+                        Debug.Log("[DialogueTrigger] Auto-triggering dialogue on enter...");
+                        TriggerDialogue();
+                    }
+                }
+
+                // NẾU BẤM PHÍM E
+                if (triggerOnInteract && Input.GetKeyDown(KeyCode.E))
+                {
+                    Debug.Log("[DialogueTrigger] Player pressed E, triggering dialogue...");
                     TriggerDialogue();
                 }
             }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.CompareTag(playerTag))
+            // XỬ LÝ KHI NGƯỜI CHƠI ĐI RA XA
+            else
             {
-                Debug.Log("[DialogueTrigger] Player exited trigger zone.");
-                isPlayerInRange = false;
+                if (wasInRange)
+                {
+                    wasInRange = false;
+                    Debug.Log("[DialogueTrigger] Player exited trigger zone.");
+                }
             }
         }
 
