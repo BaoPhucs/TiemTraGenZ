@@ -22,6 +22,7 @@ public class IntroManager : MonoBehaviour
 
     void Start()
     {
+        AudioListener.pause = true;
         // 1. Tạm tắt giao diện game (Đồng hồ, tiền, chữ...)
         if (hudCanvas != null) hudCanvas.SetActive(false);
 
@@ -65,24 +66,21 @@ public class IntroManager : MonoBehaviour
         hasSkipped = true;
 
         videoPlayer.Stop();
+        AudioListener.pause = false;
         if (introPanel != null) introPanel.SetActive(false);
 
         // Bật lại giao diện game
         if (hudCanvas != null) hudCanvas.SetActive(true);
 
-        // --- CODE MỚI THÊM VÀO ĐÂY ---
-        // 1. Đóng băng game để nhân vật không chạy lung tung khi đang hiện bảng
-        Time.timeScale = 0;
+        // THAY ĐỔI: Chạy thẳng vào game (Ép thời gian chạy, khóa chuột)
+        Time.timeScale = 1;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
-        // 2. Ép chuột hiện ra và thả rông để click được vào nút "Bắt đầu ngày mới"
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        // ------------------------------
-
-        // 3. Gọi bảng Ngày Mới
+        // Gọi thẳng SangNgayMoi để tăng ngày (đáp ứng yêu cầu khi chơi lại thì tăng ngày lên)
         if (gameLoopManager != null)
         {
-            gameLoopManager.KetThucNgay();
+            gameLoopManager.SangNgayMoi();
         }
     }
 }

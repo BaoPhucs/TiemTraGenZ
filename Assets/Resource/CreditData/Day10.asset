@@ -17,3 +17,4 @@ MonoBehaviour:
   callType: 1
   dialogue: {fileID: 11400000, guid: aafe44ebe10daec4a8f7c39bf66090b9, type: 2}
   ringtone: {fileID: 8300000, guid: 999a4e67d37f10a489fe859e529aca02, type: 3}
+  voiceAudio: {fileID: 8300000, guid: a81e999603d852042aa16e59e44fbb97, type: 3}

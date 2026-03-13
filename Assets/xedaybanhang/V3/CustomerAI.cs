@@ -2,6 +2,14 @@
 using UnityEngine.AI;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
+[System.Serializable]
+public struct OrderVoice
+{
+    public string tenMon;
+    public AudioClip fileAmThanh;
+}
 
 public class CustomerAI : MonoBehaviour
 {
@@ -19,9 +27,16 @@ public class CustomerAI : MonoBehaviour
     public TextMeshProUGUI txtOrder;
     public Image imgPatience;
 
+    [Header("Âm thanh Order")]
+    public AudioSource mouthAudioSource;
+    public List<OrderVoice> danhSachGiongNoi;
+
     private NavMeshAgent agent;
     private SeatPoint targetSeat;
     private bool isPlayerNear = false;
+
+    // --- THÊM MỚI: Biến lưu trữ quê hương bản quán của AI ---
+    private Vector3 diemXuatPhat;
 
     public GameObject lyRongPrefab;
     public Animator anim;
@@ -29,8 +44,15 @@ public class CustomerAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        // GHI NHỚ NGAY VỊ TRÍ LÚC VỪA ĐƯỢC SINH RA
+        diemXuatPhat = transform.position;
+
         currentPatience = patienceMax;
         if (chatBubble != null) chatBubble.SetActive(false);
+
+        if (mouthAudioSource == null) mouthAudioSource = GetComponent<AudioSource>();
+
         InvokeRepeating("CheckForEmptySeat", 1f, 2f);
     }
 
@@ -66,6 +88,15 @@ public class CustomerAI : MonoBehaviour
                         PlayerHand.Instance.monDangCam = "";
                         PlayerHand.Instance.isPerfectDrink = false;
                     }
+                }
+                break;
+
+            // --- THÊM MỚI: THEO DÕI LÚC KHÁCH ĐANG ĐI VỀ ---
+            case CustomerState.Leaving:
+                // Nếu khách đã lết về gần tới điểm xuất phát (cách 0.5 mét) thì mới biến mất
+                if (!agent.pathPending && agent.remainingDistance <= 0.5f)
+                {
+                    Destroy(gameObject);
                 }
                 break;
         }
@@ -109,6 +140,19 @@ public class CustomerAI : MonoBehaviour
 
         if (chatBubble != null) chatBubble.SetActive(true);
         if (txtOrder != null) txtOrder.text = "Cho 1\n" + orderMon;
+
+        if (mouthAudioSource != null && danhSachGiongNoi != null)
+        {
+            foreach (OrderVoice ov in danhSachGiongNoi)
+            {
+                if (ov.tenMon == orderMon && ov.fileAmThanh != null)
+                {
+                    mouthAudioSource.clip = ov.fileAmThanh;
+                    mouthAudioSource.Play();
+                    break;
+                }
+            }
+        }
     }
 
     public void ReceiveDrink(string monPhaChe, bool isPerfect)
@@ -163,7 +207,8 @@ public class CustomerAI : MonoBehaviour
         if (targetSeat != null) targetSeat.isOccupied = false;
         agent.enabled = true;
         if (anim != null) { anim.SetBool("isSitting", false); anim.SetBool("isWalking", true); }
-        DiLangThangRoiBienMat();
+
+        QuayVeDiemXuatPhat(); // THAY ĐỔI TÊN HÀM
     }
 
     void LeaveHappily()
@@ -187,17 +232,18 @@ public class CustomerAI : MonoBehaviour
         if (!coDeLaiRac && targetSeat != null) targetSeat.isOccupied = false;
         agent.enabled = true;
         if (anim != null) { anim.SetBool("isSitting", false); anim.SetBool("isWalking", true); }
-        DiLangThangRoiBienMat();
+
+        QuayVeDiemXuatPhat(); // THAY ĐỔI TÊN HÀM
     }
 
-    void DiLangThangRoiBienMat()
+    // --- THAY VÌ ĐI LANG THANG, BÂY GIỜ ÉP ĐI VỀ NHÀ ---
+    void QuayVeDiemXuatPhat()
     {
-        Vector3 randomDest = transform.position + new Vector3(Random.Range(-10f, 10f), 0, Random.Range(-10f, 10f));
-        if (NavMesh.SamplePosition(randomDest, out NavMeshHit hit, 10f, NavMesh.AllAreas))
-        {
-            agent.SetDestination(hit.position);
-        }
-        Destroy(gameObject, 2.5f);
+        // Cài đặt mục tiêu là điểm xuất phát đã lưu ở Start()
+        agent.SetDestination(diemXuatPhat);
+
+        // Không dùng Destroy(gameObject, 2.5f) nữa. 
+        // Lệnh Destroy đã được chuyển lên hàm Update() để canh chuẩn xác lúc tới nơi.
     }
 
     void OnDestroy()

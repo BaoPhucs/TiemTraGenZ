@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 926631013046337001}
   - component: {fileID: 3405027386005628553}
   - component: {fileID: 2092202032110541588}
+  - component: {fileID: -1061652112864222783}
   m_Layer: 0
   m_Name: Capsule 1 1
   m_TagString: Untagged
@@ -149,11 +150,25 @@ MonoBehaviour:
   currentState: 0
   patienceMax: 60
   orderMon: TraTac
-  menu:
-  - TraTac
   chatBubble: {fileID: 8261212200154334365}
   txtOrder: {fileID: 4173500010531796592}
   imgPatience: {fileID: 5338784678254031311}
+  mouthAudioSource: {fileID: -1061652112864222783}
+  danhSachGiongNoi:
+  - tenMon: TraDa
+    fileAmThanh: {fileID: 8300000, guid: 02e1dbd9a71a5ca48a51c61627f4d0dd, type: 3}
+  - tenMon: CaPheDen
+    fileAmThanh: {fileID: 8300000, guid: 28dd6ca722cfc2c4ba66314690c51b86, type: 3}
+  - tenMon: TraTac
+    fileAmThanh: {fileID: 8300000, guid: cf6c811be42a9324381a61c5b5bdd7e2, type: 3}
+  - tenMon: CaPheSua
+    fileAmThanh: {fileID: 8300000, guid: 54d57d9d007d61b4f84de201c8267ddd, type: 3}
+  - tenMon: TraChanh
+    fileAmThanh: {fileID: 8300000, guid: 8b89ab5937ffe7c439af2b8062bd8366, type: 3}
+  - tenMon: TraSua
+    fileAmThanh: {fileID: 8300000, guid: 122a019bef6c5bc45b739d83123bc9a0, type: 3}
+  - tenMon: MatchaLatte
+    fileAmThanh: {fileID: 8300000, guid: ccd26970a07017d48add31a3122319f7, type: 3}
   lyRongPrefab: {fileID: 3770506778862521131, guid: bad857ba3aeeecb4486847c3962918b7, type: 3}
   anim: {fileID: 6594101214153459776}
 --- !u!135 &2092202032110541588
@@ -177,6 +192,102 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.491529
   m_Center: {x: 0, y: -0.008470714, z: 0}
+--- !u!82 &-1061652112864222783
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330268278967029473}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.695
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1605887324230570632
 GameObject:
   m_ObjectHideFlags: 0
