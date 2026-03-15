@@ -89,9 +89,9 @@ public class GameLoopManager : MonoBehaviour
             int chiPhi = QuanLyKho.Instance.ChiPhiNgay;
             int loiNhuan = doanhThu - chiPhi;
 
-            if (txtDoanhThu) txtDoanhThu.text = "Doanh Thu: " + doanhThu.ToString("n0") + "đ";
-            if (txtChiPhi) txtChiPhi.text = "Chi Phí: " + chiPhi.ToString("n0") + "đ";
-            if (txtLoiNhuan) txtLoiNhuan.text = "Loi Nhuan: " + loiNhuan.ToString("n0") + "đ";
+            if (txtDoanhThu) txtDoanhThu.text = doanhThu.ToString("n0") + "đ";
+            if (txtChiPhi) txtChiPhi.text = chiPhi.ToString("n0") + "đ";
+            if (txtLoiNhuan) txtLoiNhuan.text = loiNhuan.ToString("n0") + "đ";
         }
     }
 

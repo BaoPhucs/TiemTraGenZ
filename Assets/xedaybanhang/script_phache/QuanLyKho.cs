@@ -183,6 +183,7 @@ public class QuanLyKho : MonoBehaviour
         PlayerPrefs.SetInt("UnlockMatcha", unlockMatcha ? 1 : 0);
         PlayerPrefs.SetInt("UnlockCaPheDen", unlockCaPheDen ? 1 : 0);
         PlayerPrefs.SetInt("UnlockCaPheSua", unlockCaPheSua ? 1 : 0);
+        PlayerPrefs.SetInt("Save_UnlockDrone", unlockDrone ? 1 : 0);
 
         PlayerPrefs.Save();
     }
@@ -214,6 +215,7 @@ public class QuanLyKho : MonoBehaviour
             unlockMatcha = PlayerPrefs.GetInt("UnlockMatcha", 0) == 1;
             unlockCaPheDen = PlayerPrefs.GetInt("UnlockCaPheDen", 0) == 1;
             unlockCaPheSua = PlayerPrefs.GetInt("UnlockCaPheSua", 0) == 1;
+            unlockDrone = PlayerPrefs.GetInt("Save_UnlockDrone", 0) == 1;
         }
     }
 

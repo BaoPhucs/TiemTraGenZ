@@ -33,7 +33,7 @@ public class TraNoManager : MonoBehaviour
 
         if (txtTienNo != null)
         {
-            txtTienNo.text = "So tien con no: " + QuanLyKho.Instance.TienNo.ToString("n0") + "đ";
+            txtTienNo.text = QuanLyKho.Instance.TienNo.ToString("n0") + "đ";
         }
 
         if (btnTraNo != null)
