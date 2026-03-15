@@ -35,6 +35,7 @@ public class QuanLyKho : MonoBehaviour
     public bool unlockTraSua = false;
     public bool unlockMatcha = false;
     public bool unlockCaPheDen = false;
+    public bool unlockDrone = false; // Mặc định chưa mua là false
     public bool unlockCaPheSua = false;
 
     [Header("=== NÂNG CẤP BÀN GHẾ ===")]
@@ -132,6 +133,20 @@ public class QuanLyKho : MonoBehaviour
             return true;
         }
         return false;
+    }
+    public void MuaDrone(int giaTien)
+    {
+        if (TienHienCo >= giaTien && !unlockDrone)
+        {
+            TienHienCo -= giaTien;
+            unlockDrone = true;
+
+            // ĐÂY NÈ SẾP ƠI, HIỆU ỨNG NẰM Ở 2 DÒNG NÀY NÈ:
+            if (EffectManager.Instance != null) EffectManager.Instance.HienThiTien(-giaTien);
+            if (amThanhTien != null) amThanhTien.Play();
+
+            SaveGame(); // Quên gọi hàm Save là thoát game bị mất Drone đó sếp!
+        }
     }
 
     public void NhanTienBanNuoc(int soTien)
@@ -310,6 +325,7 @@ public class QuanLyKho : MonoBehaviour
         unlockMatcha = false;
         unlockCaPheDen = false;
         unlockCaPheSua = false;
+        unlockDrone = false;
 
         SaveGame();
         Debug.Log("⚠️ ĐÃ RESET GAME VỀ SỐ 0! TẤT CẢ CÔNG THỨC ĐÃ BỊ KHÓA!");

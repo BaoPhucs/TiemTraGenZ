@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using TMPro;
-using System.Collections; // Cần thiết để dùng Coroutine nếu cần sau này
 
 public class DroneGiaoHang : MonoBehaviour
 {
@@ -10,11 +9,15 @@ public class DroneGiaoHang : MonoBehaviour
     public DroneState currentState = DroneState.NghiNgoi;
     public string donHangHienTai = "";
 
+    [Header("=== Mở Khóa Drone (MỚI) ===")]
+    public GameObject moHinhDroneGoc; // Kéo toàn bộ mô hình 3D con Drone vào đây
+    private bool daBatDongHo = false; // Ngăn nó nổ đơn khi chưa mua
+
     [Header("=== Cài đặt Đơn hàng App ===")]
     public float thoiGianChoDonMoi = 20f;
     private float demNguocDon;
 
-    [Header("=== Giao diện UI (Gắn trên Drone) ===")]
+    [Header("=== Giao diện UI ===")]
     public GameObject bangThongBao;
     public TextMeshProUGUI txtDonHang;
 
@@ -22,13 +25,10 @@ public class DroneGiaoHang : MonoBehaviour
     public Transform diemDap;
     public Transform diemBayDi;
     public float tocDoBay = 5f;
-    // --- CẢI TIẾN 3: Tốc độ xoay ---
     public float tocDoXoay = 5f;
 
-    [Header("=== Hiệu ứng Visual/Audio (MỚI THÊM) ===")]
-    // --- CẢI TIẾN 1: Kéo cái ly nước/hộp hàng con dưới bụng Drone vào đây ---
+    [Header("=== Hiệu ứng Visual/Audio ===")]
     public GameObject moHinhLyNuocTrenDrone;
-    // --- CẢI TIẾN 2: Gắn 1 AudioSource vào Drone, kéo tiếng TingTing và tiếng Bay vào ---
     public AudioSource audioSource;
     public AudioClip soundTingTing;
     public AudioClip soundLoopFlying;
@@ -41,15 +41,41 @@ public class DroneGiaoHang : MonoBehaviour
         if (bangThongBao != null) bangThongBao.SetActive(false);
         transform.position = diemDap.position; // Đậu sẵn ở trạm
 
-        // --- CẢI TIẾN 1: Mới vào game, Drone không chở gì ---
+        // Mới vào game, Drone không chở gì
         if (moHinhLyNuocTrenDrone != null) moHinhLyNuocTrenDrone.SetActive(false);
+
+        // Mới vào game -> Ẩn Drone đi nếu chưa mua
+        if (moHinhDroneGoc != null) moHinhDroneGoc.SetActive(false);
     }
 
-    // ========================================================
-    // --- CẢI TIẾN 4: THÊM HÀM UPDATE ĐỂ DI CHUYỂN + XOAY + NHẬN INPUT ---
-    // ========================================================
     void Update()
     {
+        // ========================================================
+        // 1. KIỂM TRA ĐÃ MUA DRONE CHƯA?
+        // ========================================================
+        if (QuanLyKho.Instance == null || !QuanLyKho.Instance.unlockDrone)
+        {
+            if (moHinhDroneGoc != null && moHinhDroneGoc.activeSelf) moHinhDroneGoc.SetActive(false);
+            return; // Chưa mua thì KHÔNG chạy code bên dưới
+        }
+
+        // ========================================================
+        // 2. NẾU ĐÃ MUA -> HIỆN HÌNH LÊN
+        // ========================================================
+        if (moHinhDroneGoc != null && !moHinhDroneGoc.activeSelf)
+        {
+            moHinhDroneGoc.SetActive(true);
+            // Vừa mua xong là bắt đầu cho đồng hồ chạy
+            if (!daBatDongHo)
+            {
+                demNguocDon = thoiGianChoDonMoi;
+                daBatDongHo = true;
+            }
+        }
+
+        // ========================================================
+        // 3. VẬN HÀNH BÌNH THƯỜNG
+        // ========================================================
         switch (currentState)
         {
             case DroneState.NghiNgoi:
@@ -58,7 +84,6 @@ public class DroneGiaoHang : MonoBehaviour
                 break;
 
             case DroneState.ChoGiaoNuoc:
-                // --- CẢI TIẾN 4: Kiểm tra người chơi lại gần bấm phím E để giao nước ---
                 if (isPlayerNear && Input.GetKeyDown(KeyCode.E))
                 {
                     if (PlayerHand.Instance != null && PlayerHand.Instance.monDangCam != "")
@@ -69,10 +94,7 @@ public class DroneGiaoHang : MonoBehaviour
                 break;
 
             case DroneState.DangBayDi:
-                // 1. Di chuyển tới điểm bay đi
                 DiChuyenToiMucTieu(diemBayDi.position);
-
-                // 2. Kiểm tra đã đến nơi chưa
                 if (Vector3.Distance(transform.position, diemBayDi.position) < 0.2f)
                 {
                     HoanThanhDon();
@@ -80,32 +102,26 @@ public class DroneGiaoHang : MonoBehaviour
                 break;
 
             case DroneState.DangBayVe:
-                // 1. Di chuyển về bãi đáp
                 DiChuyenToiMucTieu(diemDap.position);
-
-                // 2. Kiểm tra đã đến nơi chưa
                 if (Vector3.Distance(transform.position, diemDap.position) < 0.2f)
                 {
                     currentState = DroneState.NghiNgoi;
                     demNguocDon = thoiGianChoDonMoi;
-                    // --- CẢI TIẾN 2: Tắt tiếng bay rè rè ---
                     if (audioSource != null) audioSource.Stop();
                 }
                 break;
         }
     }
 
-    // Hàm phụ trợ để xử lý Di chuyển + Xoay (CẢI TIẾN 3)
     void DiChuyenToiMucTieu(Vector3 viTriMucTieu)
     {
         // 1. Tịnh tiến bay đi
         transform.position = Vector3.MoveTowards(transform.position, viTriMucTieu, tocDoBay * Time.deltaTime);
 
-        // 2. Xoay mặt (Đã sửa lỗi đứng hình)
+        // 2. Xoay mặt
         Vector3 direction = (viTriMucTieu - transform.position).normalized;
         direction.y = 0; // Ép trục Y = 0 để Drone không chúi nhủi
 
-        // KIỂM TRA: Nếu vector hướng đi đủ lớn (không phải bay thẳng đứng 90 độ) thì mới xoay
         if (direction.sqrMagnitude > 0.001f)
         {
             Quaternion lookRotation = Quaternion.LookRotation(direction);
@@ -113,12 +129,10 @@ public class DroneGiaoHang : MonoBehaviour
         }
     }
 
-    // --- CODE CỦA BẠN (ẢNH 1 + ẢNH 2) CÓ SỬA LỖI orderMon -> donHangHienTai ---
     void NhanDonHangMoi()
     {
         currentState = DroneState.ChoGiaoNuoc;
 
-        // Random 1 món trong Menu đã mở khóa
         if (QuanLyKho.Instance != null)
         {
             var menuHienTai = QuanLyKho.Instance.LayMenuHienTai();
@@ -132,7 +146,6 @@ public class DroneGiaoHang : MonoBehaviour
             txtDonHang.text = "<color=#00FF00>[App GrapTrà]</color>\nGiao đi:\n" + donHangHienTai;
         }
 
-        // --- CẢI TIẾN 2: Kêu Ting Ting báo đơn hàng mới ---
         if (audioSource != null && soundTingTing != null) audioSource.PlayOneShot(soundTingTing);
 
         Debug.Log("🚁 TING TING! Có đơn online mới: " + donHangHienTai);
@@ -142,17 +155,14 @@ public class DroneGiaoHang : MonoBehaviour
     {
         if (monPhaChe == donHangHienTai)
         {
-            // 1. Nhận nước thành công
             PlayerHand.Instance.monDangCam = "";
             PlayerHand.Instance.isPerfectDrink = false;
 
             if (bangThongBao != null) bangThongBao.SetActive(false);
             currentState = DroneState.DangBayDi;
 
-            // --- CẢI TIẾN 1: Hiện mô hình ly nước dưới bụng Drone ---
             if (moHinhLyNuocTrenDrone != null) moHinhLyNuocTrenDrone.SetActive(true);
 
-            // --- CẢI TIẾN 2: Bật tiếng quạt bay rè rè (Loop) ---
             if (audioSource != null && soundLoopFlying != null)
             {
                 audioSource.clip = soundLoopFlying;
@@ -160,11 +170,9 @@ public class DroneGiaoHang : MonoBehaviour
                 audioSource.Play();
             }
 
-            // 2. Tính tiền (Tiền gốc + 15k phí Ship Online)
             if (QuanLyKho.Instance != null)
             {
                 int tienCoBan = 10000;
-                // === LỖI SỐNG CÒN: Copy-paste bị nhầm tên biến orderMon, đã sửa thành donHangHienTai ===
                 switch (donHangHienTai)
                 {
                     case "TraDa": tienCoBan = 10000; break;
@@ -178,7 +186,7 @@ public class DroneGiaoHang : MonoBehaviour
 
                 // Trả tiền liền tay + Tiền Ship
                 QuanLyKho.Instance.NhanTienBanNuoc(tienCoBan + 15000);
-                QuanLyKho.Instance.DiemViral += 10; // App đánh giá 5 sao
+                QuanLyKho.Instance.DiemViral += 10;
             }
             Debug.Log("🚁 Drone cất cánh đi giao hàng: " + donHangHienTai);
         }
@@ -188,14 +196,10 @@ public class DroneGiaoHang : MonoBehaviour
         }
     }
 
-    // --- CODE CỦA BẠN (ẢNH 3) ---
     void HoanThanhDon()
     {
         currentState = DroneState.DangBayVe;
-
-        // --- CẢI TIẾN 1: Ẩn mô hình ly nước khi giao xong (Drone trống rỗng) ---
         if (moHinhLyNuocTrenDrone != null) moHinhLyNuocTrenDrone.SetActive(false);
-
         Debug.Log("🚁 Đã giao xong tới tay khách, Drone đang quay về trạm!");
     }
 

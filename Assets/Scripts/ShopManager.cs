@@ -185,4 +185,5 @@ public class ShopManager : MonoBehaviour
     public void MuaCongThucCaPheSua() { if (khoHang != null && !khoHang.unlockCaPheSua) khoHang.MuaCongThuc("CaPheSua", 200000); CapNhatTienSangStory(); }
     public void MuaGheMoi() { if (khoHang != null) khoHang.NangCapBanGhe("Ghe", 30000); CapNhatTienSangStory(); }
     public void MuaBanMoi() { if (khoHang != null) khoHang.NangCapBanGhe("Ban", 50000); CapNhatTienSangStory(); }
+    public void Btn_MuaDrone() { if (khoHang != null && !khoHang.unlockDrone) khoHang.MuaDrone(500000); CapNhatTienSangStory(); }
 }
