@@ -7,7 +7,6 @@ public class PoliceAI : MonoBehaviour
 {
     public static List<PoliceAI> danhSachCongAn = new List<PoliceAI>();
 
-    // THÊM TRẠNG THÁI MỚI: ReturnToBase (Quay về điểm xuất phát)
     public enum PoliceState { Patrol, CheckCart, FindPlayer, Talk, Chase, Search, ReturnToBase }
     public PoliceState currentState = PoliceState.Patrol;
 
@@ -61,7 +60,7 @@ public class PoliceAI : MonoBehaviour
         dangTruyNa = false;
         thoiGianAnToanHT = 0f;
         agent = GetComponent<NavMeshAgent>();
-        diemXuatPhat = transform.position; // LƯU LẠI ĐIỂM SINH RA LÀM "BỐT CÔNG AN"
+        diemXuatPhat = transform.position;
 
         if (btnNopPhat != null)
         {
@@ -102,7 +101,13 @@ public class PoliceAI : MonoBehaviour
 
         float khoangCachVoiMinh = Vector3.Distance(transform.position, player.position);
 
-        if (!dangTruyNa && currentState == PoliceState.Patrol && KiemTraThayXeDay())
+        // ====================================================================
+        // PHÉP MÀU NẰM Ở ĐÂY: Kiểm tra xem hôm nay Minh đã bán được ly nào chưa?
+        // Nếu DoanhThuNgay > 0 thì công an mới tính là đang buôn bán trái phép!
+        // ====================================================================
+        bool daBuonBan = (QuanLyKho.Instance != null && QuanLyKho.Instance.DoanhThuNgay > 0);
+
+        if (daBuonBan && !dangTruyNa && currentState == PoliceState.Patrol && KiemTraThayXeDay())
         {
             currentState = PoliceState.CheckCart;
             thoiGianKhamXe = 2.0f;
@@ -203,18 +208,14 @@ public class PoliceAI : MonoBehaviour
                 if (thoiGianBoCuocHT <= 0f) KetThucNgay_AnToan();
                 break;
 
-            // ==========================================
-            // LOGIC MỚI: ĐI BỘ VỀ BỐT
-            // ==========================================
             case PoliceState.ReturnToBase:
-                StopBGM(); // Tắt nhạc truy đuổi
+                StopBGM();
                 agent.isStopped = false;
-                agent.speed = tocDoDiTuan; // Đi thong thả
-                SetAnimation(1); // Hoạt ảnh đi bộ
-                agent.SetDestination(diemXuatPhat); // Hướng về điểm sinh ra ban đầu
+                agent.speed = tocDoDiTuan;
+                SetAnimation(1);
+                agent.SetDestination(diemXuatPhat);
                 mucDoCanhBao = 0f;
 
-                // Nếu đã đi về đến nơi (khoảng cách < 1m) thì mới cho tàng hình
                 if (!agent.pathPending && agent.remainingDistance < 1f)
                 {
                     gameObject.SetActive(false);
@@ -288,7 +289,6 @@ public class PoliceAI : MonoBehaviour
             if (ca != null && ca.gameObject.activeInHierarchy)
             {
                 ca.mucDoCanhBao = 0f;
-                // THAY VÌ SETACTIVE(FALSE), CHUYỂN SANG TRẠNG THÁI ĐI VỀ
                 ca.currentState = PoliceState.ReturnToBase;
             }
         }
@@ -367,7 +367,6 @@ public class PoliceAI : MonoBehaviour
             if (ca.gameObject.activeInHierarchy)
             {
                 ca.mucDoCanhBao = 0f;
-                // KHI BỎ CUỘC KHÔNG BẮT NỮA -> CŨNG LỮNG THỮNG ĐI VỀ BỐT RỒI MỚI BIẾN MẤT
                 ca.currentState = PoliceState.ReturnToBase;
             }
         }
@@ -404,7 +403,6 @@ public class PoliceAI : MonoBehaviour
 
         if (imgBaoDongUI_Main != null)
         {
-            // BỔ SUNG ĐIỀU KIỆN: Khi đang "Đi về" thì không bật bảng báo động nữa
             if (mucDoCanhBao > 0 || dangTruyNa || (currentState != PoliceState.Patrol && currentState != PoliceState.ReturnToBase))
             {
                 imgBaoDongUI_Main.gameObject.SetActive(true);
