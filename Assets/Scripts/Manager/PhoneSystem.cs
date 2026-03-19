@@ -25,26 +25,19 @@ namespace TiemTraGenZ.Manager
         [SerializeField] private Button acceptButton;
         [SerializeField] private Button rejectButton;
 
-        [Header("In Call UI")]
-        [SerializeField] private Image callerAvatarSmall;
-        [SerializeField] private TextMeshProUGUI callerNameInCall;
-        [SerializeField] private TextMeshProUGUI callDurationText;
-        [SerializeField] private TextMeshProUGUI dialogueContentText;
-        [SerializeField] private Button nextButton;
+        [Header("In Call UI (Chỉ cần nút Cúp)")]
         [SerializeField] private Button hangUpButton;
 
         [Header("Audio")]
         [SerializeField] private AudioSource ringtoneAudio;
-        [SerializeField] private AudioSource voiceAudioSource; // THÊM MỚI: Loa phát giọng nói
+        [SerializeField] private AudioSource voiceAudioSource;
 
         [Header("References")]
         [SerializeField] private PlayerAnimationController playerAnimationController;
 
         private CallDialogueData currentCall;
         private bool isCallActive = false;
-        private float callDuration = 0f;
 
-        private Coroutine callTimerCoroutine;
         private Coroutine autoHangUpCoroutine;
 
         private void Awake()
@@ -81,23 +74,13 @@ namespace TiemTraGenZ.Manager
         {
             if (incomingCallView != null && incomingCallView.activeSelf)
             {
-                if (Input.GetKeyDown(KeyCode.B))
-                {
-                    AcceptCall();
-                    return;
-                }
-                if (Input.GetKeyDown(KeyCode.C))
-                {
-                    RejectCall();
-                    return;
-                }
+                if (Input.GetKeyDown(KeyCode.B)) { AcceptCall(); return; }
+                if (Input.GetKeyDown(KeyCode.C)) { RejectCall(); return; }
             }
 
-            // Đang trong cuộc gọi thì chỉ cho phép bấm C để cúp máy ngang
             if (isCallActive)
             {
-                if (Input.GetKeyDown(KeyCode.C))
-                    HangUpCall();
+                if (Input.GetKeyDown(KeyCode.C)) HangUpCall();
             }
         }
 
@@ -110,7 +93,14 @@ namespace TiemTraGenZ.Manager
 
         private void ShowIncomingCall()
         {
-            if (phonePanel) phonePanel.SetActive(true);
+            if (phonePanel)
+            {
+                phonePanel.SetActive(true);
+                // BẬT LẠI NỀN ĐEN KHI CÓ CUỘC GỌI ĐẾN
+                Image bg = phonePanel.GetComponent<Image>();
+                if (bg != null) bg.enabled = true;
+            }
+
             if (incomingCallView) incomingCallView.SetActive(true);
             if (inCallView) inCallView.SetActive(false);
 
@@ -130,31 +120,26 @@ namespace TiemTraGenZ.Manager
         {
             if (ringtoneAudio) ringtoneAudio.Stop();
 
+            // PHÉP MÀU: TẮT NỀN ĐEN CỦA PANEL ĐỂ TRONG SUỐT KHI ĐANG NGHE
+            if (phonePanel)
+            {
+                Image bg = phonePanel.GetComponent<Image>();
+                if (bg != null) bg.enabled = false;
+            }
+
             if (incomingCallView) incomingCallView.SetActive(false);
             if (inCallView) inCallView.SetActive(true);
 
-            if (callerAvatarSmall) callerAvatarSmall.sprite = currentCall.callerAvatar;
-            if (callerNameInCall) callerNameInCall.text = currentCall.callerName;
-
-            // ẨN GIAO DIỆN TEXT CŨ (Chữ và nút Tiếp tục)
-            if (dialogueContentText != null) dialogueContentText.gameObject.SetActive(false);
-            if (nextButton != null) nextButton.gameObject.SetActive(false);
-
             isCallActive = true;
-            callDuration = 0f;
-            if (callTimerCoroutine != null) StopCoroutine(callTimerCoroutine);
-            callTimerCoroutine = StartCoroutine(UpdateCallTimer());
 
             if (playerAnimationController)
                 playerAnimationController.StartPhoneAnimation();
 
-            // PHÉP MÀU: PHÁT GIỌNG NÓI
             if (voiceAudioSource != null && currentCall.voiceAudio != null)
             {
                 voiceAudioSource.clip = currentCall.voiceAudio;
                 voiceAudioSource.Play();
 
-                // Hẹn giờ tự động cúp máy khi audio chạy xong
                 if (autoHangUpCoroutine != null) StopCoroutine(autoHangUpCoroutine);
                 autoHangUpCoroutine = StartCoroutine(AutoHangUpAfterVoice(currentCall.voiceAudio.length));
             }
@@ -163,7 +148,7 @@ namespace TiemTraGenZ.Manager
         private IEnumerator AutoHangUpAfterVoice(float duration)
         {
             yield return new WaitForSeconds(duration);
-            if (isCallActive) // Nếu sếp chưa bấm C cúp ngang thì hệ thống tự cúp
+            if (isCallActive)
             {
                 HangUpCall();
             }
@@ -176,21 +161,15 @@ namespace TiemTraGenZ.Manager
             if (incomingCallView) incomingCallView.SetActive(false);
             currentCall = null;
 
-            // --- THÊM MỚI Ở ĐÂY: BẤM C TỪ CHỐI VẪN HIỆN HƯỚNG DẪN ---
             if (TutorialManager.DaHuongDanBaTu == false)
             {
-                if (TutorialManager.Instance != null)
-                {
-                    TutorialManager.Instance.ShowTutorial();
-                }
+                if (TutorialManager.Instance != null) TutorialManager.Instance.ShowTutorial();
             }
         }
 
         public void HangUpCall()
         {
-            if (callTimerCoroutine != null) StopCoroutine(callTimerCoroutine);
             if (autoHangUpCoroutine != null) StopCoroutine(autoHangUpCoroutine);
-
             if (voiceAudioSource != null) voiceAudioSource.Stop();
 
             isCallActive = false;
@@ -200,10 +179,7 @@ namespace TiemTraGenZ.Manager
             if (incomingCallView) incomingCallView.SetActive(false);
             if (inCallView) inCallView.SetActive(false);
 
-            if (playerAnimationController)
-            {
-                playerAnimationController.StopPhoneAnimation();
-            }
+            if (playerAnimationController) playerAnimationController.StopPhoneAnimation();
 
             if (StoryManager.Instance != null && StoryManager.Instance.CurrentEnding != GameEnding.None)
             {
@@ -213,22 +189,7 @@ namespace TiemTraGenZ.Manager
 
             if (TutorialManager.DaHuongDanBaTu == false)
             {
-                if (TutorialManager.Instance != null)
-                {
-                    TutorialManager.Instance.ShowTutorial();
-                }
-            }
-        }
-
-        private IEnumerator UpdateCallTimer()
-        {
-            while (isCallActive)
-            {
-                callDuration += Time.deltaTime;
-                int minutes = Mathf.FloorToInt(callDuration / 60f);
-                int seconds = Mathf.FloorToInt(callDuration % 60f);
-                if (callDurationText) callDurationText.text = $"{minutes:00}:{seconds:00}";
-                yield return null;
+                if (TutorialManager.Instance != null) TutorialManager.Instance.ShowTutorial();
             }
         }
 
