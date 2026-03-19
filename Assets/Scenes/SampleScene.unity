@@ -53675,7 +53675,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -453, y: 235}
+  m_AnchoredPosition: {x: -698, y: 332}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &873850395
@@ -77880,7 +77880,6 @@ MonoBehaviour:
   customerPrefabs:
   - {fileID: 1330268278967029473, guid: 389d216efdd50044fb383ae061ccf62f, type: 3}
   - {fileID: 1330268278967029473, guid: b5eab272ef06d1347825dbc479a0608c, type: 3}
-  - {fileID: 1330268278967029473, guid: ae7ed42c413109740925d3fcee5fe51f, type: 3}
   - {fileID: 1330268278967029473, guid: d4849842f9cf9f444b9a3fcecb8fe72f, type: 3}
   - {fileID: 1330268278967029473, guid: 8bdb8a75139984e4bac752def134b2d2, type: 3}
   thoiGianSinhKhach: 30
